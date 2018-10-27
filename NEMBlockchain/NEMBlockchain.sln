@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEMBlockchain", "NEMBlockchain\NEMBlockchain.csproj", "{8493F713-CDF0-4DB8-A070-26AEE750E8AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEMBlockchain.Data", "NEMBlockchain.Data\NEMBlockchain.Data.csproj", "{AB00862C-B784-49BA-91A2-83EA12D1746C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEMBlockchain.Service", "NEMBlockchain.Service\NEMBlockchain.Service.csproj", "{702E82C0-4FDF-474B-B427-999FAACC7093}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEMBlockchain.Common", "NEMBlockchain.Common\NEMBlockchain.Common.csproj", "{9DB82CC5-FF84-4481-A200-262E1B2F7E12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8493F713-CDF0-4DB8-A070-26AEE750E8AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8493F713-CDF0-4DB8-A070-26AEE750E8AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8493F713-CDF0-4DB8-A070-26AEE750E8AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8493F713-CDF0-4DB8-A070-26AEE750E8AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB00862C-B784-49BA-91A2-83EA12D1746C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB00862C-B784-49BA-91A2-83EA12D1746C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB00862C-B784-49BA-91A2-83EA12D1746C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB00862C-B784-49BA-91A2-83EA12D1746C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702E82C0-4FDF-474B-B427-999FAACC7093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702E82C0-4FDF-474B-B427-999FAACC7093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702E82C0-4FDF-474B-B427-999FAACC7093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702E82C0-4FDF-474B-B427-999FAACC7093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DB82CC5-FF84-4481-A200-262E1B2F7E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB82CC5-FF84-4481-A200-262E1B2F7E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB82CC5-FF84-4481-A200-262E1B2F7E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB82CC5-FF84-4481-A200-262E1B2F7E12}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13CAA4F1-51F1-4A33-BB59-036DE483A8C8}
+	EndGlobalSection
+EndGlobal

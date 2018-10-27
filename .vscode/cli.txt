@@ -1,0 +1,3 @@
+dotnet ef dbcontext scaffold "Server=BIN-PC;Database=AutoFlowDB_Electricity;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o AutoFlowDB_Electricity_DataContext --project ../NEMBlockchain.Data
+dotnet ef dbcontext scaffold "Server=BIN-PC;Database=AutoFlowDB_Membership;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o AutoFlowDB_Membership_DataContext --project ../NEMBlockchain.Data
+dotnet ef dbcontext scaffold "Server=BIN-PC;Database=AutoFlowDB_Water;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o AutoFlowDB_Water_DataContext --project ../NEMBlockchain.Data

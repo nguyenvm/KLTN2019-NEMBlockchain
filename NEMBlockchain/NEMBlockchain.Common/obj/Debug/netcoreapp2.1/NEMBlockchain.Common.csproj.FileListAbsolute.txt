@@ -1,0 +1,9 @@
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\bin\Debug\netcoreapp2.1\NEMBlockchain.Common.deps.json
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\bin\Debug\netcoreapp2.1\NEMBlockchain.Common.dll
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\bin\Debug\netcoreapp2.1\NEMBlockchain.Common.pdb
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\obj\Debug\netcoreapp2.1\NEMBlockchain.Common.csprojAssemblyReference.cache
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\obj\Debug\netcoreapp2.1\NEMBlockchain.Common.csproj.CoreCompileInputs.cache
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\obj\Debug\netcoreapp2.1\NEMBlockchain.Common.AssemblyInfoInputs.cache
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\obj\Debug\netcoreapp2.1\NEMBlockchain.Common.AssemblyInfo.cs
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\obj\Debug\netcoreapp2.1\NEMBlockchain.Common.dll
+D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Common\obj\Debug\netcoreapp2.1\NEMBlockchain.Common.pdb
