@@ -1,0 +1,14 @@
+.container-fluid {
+  margin-top: 37px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.container-fluid .tab-content .card-block .table td {
+  vertical-align: middle;
+}
+
+.container-fluid .tab-content .card-block .table td:first-child {
+  font-weight: bold;
+}
+/*# sourceMappingURL=style.css.map */

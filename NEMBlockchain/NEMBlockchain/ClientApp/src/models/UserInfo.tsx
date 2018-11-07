@@ -1,48 +1,49 @@
-export class UserInfo {
-    Id: string;
-    Address: string;
-    FullName: string;
-    PhoneNumber: string;
-    Gender: number;
-    WaterSupplierId: number;
-    CreateDate: Date;
-    PendingStatus: number;
-    Coin: number;
-    Latitude: string;
-    Longitude: string;
-    IsActive: boolean;
-    AccountType: number;
-    SerialNumber: string;
+export default class UserInfo {
+    [key: string]: any;
+    id: string;
+    address: string;
+    fullName: string;
+    phoneNumber: string;
+    gender: number;
+    waterSupplierId: number;
+    createDate: Date;
+    pendingStatus: number;
+    coin: number;
+    latitude: string;
+    longitude: string;
+    isActive: boolean;
+    accountType: number;
+    serialNumber: string;
 
     constructor(
-        Id: string,
-        Address: string,
-        FullName: string,
-        PhoneNumber: string,
-        Gender: number,
-        WaterSupplierId: number,
-        CreateDate: Date,
-        PendingStatus: number,
-        Coin: number,
-        Latitude: string,
-        Longitude: string,
-        IsActive: boolean,
-        AccountType: number,
-        SerialNumber: string
+        id: string,
+        address: string,
+        fullName: string,
+        phoneNumber: string,
+        gender: number,
+        waterSupplierId: number,
+        createDate: Date,
+        pendingStatus: number,
+        coin: number,
+        latitude: string,
+        longitude: string,
+        isActive: boolean,
+        accountType: number,
+        serialNumber: string
     ) {
-        this.Id = Id || '';
-        this.Address = Address || '';
-        this.FullName = FullName || '';
-        this.PhoneNumber = PhoneNumber || '';
-        this.Gender = Gender;
-        this.WaterSupplierId = WaterSupplierId;
-        this.CreateDate = CreateDate || '';
-        this.PendingStatus = PendingStatus;
-        this.Coin = Coin;
-        this.Latitude = Latitude || '';
-        this.Longitude = Longitude || '';
-        this.IsActive = IsActive || false;
-        this.AccountType = AccountType;
-        this.SerialNumber = SerialNumber || '';
+        this.id = id || '';
+        this.address = address || '';
+        this.fullName = fullName || '';
+        this.phoneNumber = phoneNumber || '';
+        this.gender = gender;
+        this.waterSupplierId = waterSupplierId;
+        this.createDate = createDate || '';
+        this.pendingStatus = pendingStatus;
+        this.coin = coin;
+        this.latitude = latitude || '';
+        this.longitude = longitude || '';
+        this.isActive = isActive || false;
+        this.accountType = accountType;
+        this.serialNumber = serialNumber || '';
     }
 }

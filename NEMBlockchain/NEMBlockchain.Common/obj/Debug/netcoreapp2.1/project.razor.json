@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "d:\\Bin.UIT\\GitHub\\KLTN2018-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\NEMBlockchain.Common.csproj",
+  "TargetFramework": "netcoreapp2.1",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}
