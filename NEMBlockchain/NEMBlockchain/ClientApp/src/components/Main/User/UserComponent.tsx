@@ -20,11 +20,11 @@ class UserComponent extends Component<any, any> {
                                         <tr>
                                             <th>#</th>
                                             <th>Full Name</th>
+                                            <th>User Name</th>
+                                            <th>Email</th>
                                             <th>Address</th>
-                                            <th>Water SupplierId</th>
-                                            <th>Create Date</th>
-                                            <th>Latitude</th>
                                             <th>Longitude</th>
+                                            <th>Latitude</th>
                                             <th>#</th>
                                         </tr>
                                     </thead>

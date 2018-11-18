@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NEMBlockchain.Common\NEMBlockchain.Common.csproj" />
     <ProjectReference Include="..\NEMBlockchain.Data\NEMBlockchain.Data.csproj" />

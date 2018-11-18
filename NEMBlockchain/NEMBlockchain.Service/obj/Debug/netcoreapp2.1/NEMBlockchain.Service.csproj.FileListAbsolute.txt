@@ -12,3 +12,17 @@ D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin
 D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Common.pdb
 D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Data.pdb
 D:\Bin.UIT\GitHub\KLTN2018-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.csproj.CopyComplete
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Service.deps.json
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Service.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Service.pdb
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Common.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Data.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Common.pdb
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\bin\Debug\netcoreapp2.1\NEMBlockchain.Data.pdb
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.csprojAssemblyReference.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.csproj.CoreCompileInputs.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.AssemblyInfoInputs.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.AssemblyInfo.cs
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.csproj.CopyComplete
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Service\obj\Debug\netcoreapp2.1\NEMBlockchain.Service.pdb

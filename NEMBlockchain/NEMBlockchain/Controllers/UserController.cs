@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NEMBlockchain.Common;
-using NEMBlockchain.Data.AutoFlowDB_Membership_DataContext;
 using NEMBlockchain.Models;
 using NEMBlockchain.Service;
 
@@ -24,10 +18,10 @@ namespace NEMBlockchain.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetAllUser()
+        public async Task<IActionResult> GetAllUsers()
         {
-            var listUser = await membershipService.GetAllUser();
-            return new OkObjectResult(new ResponseAsObject(mapper.Map<IEnumerable<UserInfoViewModel>>(listUser)));
+            var userDtos = await membershipService.GetAllUsers();
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<UserViewModel[]>(userDtos)));
         }
     }
 }

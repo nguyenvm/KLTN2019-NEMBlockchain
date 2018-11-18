@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NEMBlockchain.Common;
-using NEMBlockchain.Data.AutoFlowDB_Membership_DataContext;
 
 namespace NEMBlockchain.Controllers
 {

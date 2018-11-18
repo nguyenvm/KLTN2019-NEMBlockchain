@@ -11,6 +11,9 @@ const users = (state = {}, action: any) => {
                     return obj;
                 }, {})
             }
+        case Types.ADD_USERS:
+            return action.message;
+        
         default:
             return state;
     }

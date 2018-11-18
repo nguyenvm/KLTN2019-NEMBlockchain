@@ -31,7 +31,7 @@ namespace NEMBlockchain.Data.AutoFlowDB_Electricity_DataContext
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=BIN-PC;Database=AutoFlowDB_Electricity;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=BIN;Database=AutoFlowDB_Electricity;Trusted_Connection=True;");
             }
         }
 

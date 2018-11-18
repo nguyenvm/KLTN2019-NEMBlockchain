@@ -14,24 +14,24 @@ export function decodePayloadTransation(payload: string): string {
     }
 }
 
-export function hashData(data: any): void {
+export function hashData(data: any): string {
+    console.log(data);
     const hash: string = SHA256(JSON.stringify(data)).toString().toUpperCase();
-    console.log(hash);
+    console.log('Hashed: ', hash);
+    return hash;
 }
 
 export function decodeHexMessageTransaction(hex: string): string {
     if (hex) {
-        console.log(hex.substring(2));
         return hex.substring(2);
     } else {
         console.log('HexMessage is required');
         return hex;
-    } 
+    }
 }
 
-// getLastAccount = () => {
+// export function getLastAccount(): any{
 //     callApi('api/user/list', 'GET', null).then((res: any) => {
-//         console.log(res);
 //         const data: Array<Object> = [...res.data.data];
 //         const lastUserInfo: any = data.slice(-1)[0];
 
@@ -51,6 +51,8 @@ export function decodeHexMessageTransaction(hex: string): string {
 //             lastUserInfo.accountType,
 //             lastUserInfo.serialNumber
 //         );
+//         console.log(userInfo);
+        
 //     });
 // }
 
