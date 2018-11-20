@@ -9,8 +9,19 @@ import Modal from '../models/Modal';
 import UserInfo from '../models/UserInfo';
 import * as Commons from '../utils/commons/index';
 import * as nemTransaction from '../utils/NEM-infrastructure/TransactionHttp';
-import { TransactionHttp, Account, Transaction, TransferTransaction, TimeWindow, Address, XEM, HexMessage } from "nem-library";
+import * as Messages from '../contants/Messages';
+import { TransactionHttp } from "nem-library";
+import UserBlockchain from "../models/UserBlockchain";
+
 class UserContainer extends Component<any, any> {
+
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            isValid: false
+        }
+    }
+
 
     componentDidMount() {
         this.props.fetchAllUsers();
@@ -53,6 +64,10 @@ class UserContainer extends Component<any, any> {
         let modal = new Modal(true);
         modal.data = data;
         this.props.setDataModal(modal);
+
+        this.props.checkExistUserBlockchain(data.id);
+        this.props.findUserBlockchainById(data.id);
+
         this.props.openModal(modal);
     }
 
@@ -105,24 +120,51 @@ class UserContainer extends Component<any, any> {
         let { data } = this.props.modal;
         return (
             <>
-                <button className="btn btn-primary waves-effect waves-light" onClick={() => this.checkDataHasChanged('847e37504b89ea3e9cfee70b1d3ab795b1c0550c1fd054a1fe0110d612a33160', Commons.hashData(data))}>
-                    Check Data
-                </button>
-                <button className="btn btn-primary waves-effect waves-light" onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), data.id, this.props.addUserBlockchain)}>
-                    Send To Block
-                </button>
+                {this.props.nemBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESSUL &&
+                    <p className="text-success">Data has send to block</p>
+                }
+                {/* {this.state.isValid && this.props.nemBlockchain.message === Messages.MSG_FIND_USER_SUCCESSFUL &&
+                    <p className="text-primary">Data valid</p>
+                }
+                {!this.state.isValid && this.props.nemBlockchain.message === Messages.MSG_FIND_USER_SUCCESSFUL &&
+                    <p className="text-warning">Data has changed</p>
+                } */}
+                {this.props.nemBlockchain.message === Messages.MSG_FIND_USER_SUCCESSFUL &&
+                    <button className="btn btn-primary waves-effect waves-light"
+                        onClick={() => this.checkDataHasChanged(this.props.nemBlockchain.data.transactionHash, Commons.hashData(data))}
+                    >
+                        Check Data
+                    </button>
+                }
+                {this.props.nemBlockchain.message === Messages.MSG_NOT_FOUND_ANY_USER &&
+                    <button className="btn btn-primary waves-effect waves-light"
+                        onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), data.id, this.callBackSubmitTransactionSuccess)}
+                    >
+                        Send To Block
+                    </button>
+                }
             </>
         );
     }
 
+    callBackSubmitTransactionSuccess(userBlockchain: UserBlockchain) {
+        this.props.addUserBlockchain(userBlockchain);
+        this.props.checkExistUserBlockchain(userBlockchain.Id);
+    }
+
     checkDataHasChanged(transactionHash: string, hexCompare: string) {
         const transactionHttp = new TransactionHttp();
-        transactionHttp.getByHash(transactionHash).subscribe(transaction => {
+
+        transactionHttp.getByHash(transactionHash).subscribe((transaction: any) => {
             console.log(transaction);
+
             let hex = Commons.decodeHexMessageTransaction((transaction as any).message.payload);
+
             if (hexCompare.toUpperCase() === hex.toUpperCase()) {
+                this.setState({ isValid: true });
                 console.log('Data Valid');
             } else {
+                this.setState({ isValid: false });
                 console.log('Data has changed');
             }
         });
@@ -132,7 +174,8 @@ class UserContainer extends Component<any, any> {
 const mapStateToProps = (state: any) => {
     return {
         users: state.users,
-        modal: state.modal
+        modal: state.modal,
+        nemBlockchain: state.nemBlockchain
     }
 }
 
@@ -142,7 +185,9 @@ const mapDispatchToProps = (dispatch: any, props: any) => {
         openModal: Actions.actShowModal,
         closeModal: Actions.actHideModal,
         setDataModal: Actions.actSetDataModal,
-        addUserBlockchain: Actions.actAddUserBlockchainRequest
+        addUserBlockchain: Actions.actAddUserBlockchainRequest,
+        checkExistUserBlockchain: Actions.actCheckExistUserBlockchainRequest,
+        findUserBlockchainById: Actions.actFindUserBlockchainByIdRequest
     }, dispatch);
 }
 

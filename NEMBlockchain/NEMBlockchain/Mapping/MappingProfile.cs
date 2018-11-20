@@ -11,6 +11,7 @@ namespace NEMBlockchain.Mapping
         {
             CreateMap<UserDto, UserViewModel>();
             CreateMap<UserBlockchainViewModel, UserBlockchainDto>();
+            CreateMap<UserBlockchainDto, UserBlockchainViewModel>();
         }
     }
 }

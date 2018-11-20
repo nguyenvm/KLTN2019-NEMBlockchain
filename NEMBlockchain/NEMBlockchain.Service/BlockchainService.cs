@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using NEMBlockchain.Data.AutoFlowDB_Blockchain_DataContext;
 using AutoMapper;
 using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace NEMBlockchain.Service
 {
@@ -46,6 +48,15 @@ namespace NEMBlockchain.Service
 
                     return mapper.Map<UserBlockchainDto>(newUserInBlock);
                 }
+            }
+        }
+
+        public async Task<UserBlockchainDto> CheckExistUserBlockchain(string userId)
+        {
+            using (var blockchainContext = new AutoFlowDB_BlockchainContext())
+            {
+                var userBlockchain = await blockchainContext.UserBlockChains.FirstOrDefaultAsync(u => u.Id == userId);
+                return mapper.Map<UserBlockchainDto>(userBlockchain);
             }
         }
     }

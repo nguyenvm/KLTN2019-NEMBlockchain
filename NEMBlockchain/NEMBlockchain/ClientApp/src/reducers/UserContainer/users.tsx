@@ -1,5 +1,5 @@
-import * as Types from '../contants/ActionTypes';
-import UserInfo from '../models/UserInfo';
+import * as Types from '../../contants/ActionTypes';
+import UserInfo from '../../models/UserInfo';
 
 const users = (state = {}, action: any) => {
     switch (action.type) {
@@ -11,9 +11,6 @@ const users = (state = {}, action: any) => {
                     return obj;
                 }, {})
             }
-        case Types.ADD_USERS:
-            return action.message;
-        
         default:
             return state;
     }

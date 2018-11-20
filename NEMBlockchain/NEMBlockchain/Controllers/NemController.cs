@@ -29,12 +29,28 @@ namespace NEMBlockchain.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             if (string.IsNullOrEmpty(userBlockchainViewModel.TransactionHash))
             {
                 return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
             }
+
             await blockchainService.InsertUserBlockchain(mapper.Map<UserBlockchainDto>(userBlockchainViewModel));
+
             return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
+        }
+
+        [HttpGet("check-exist-user/{userId}")]
+        public async Task<IActionResult> CheckExistUser(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.USERID_IS_REQUIRED, true));
+            }
+
+            var userBlockchainDto = await blockchainService.CheckExistUserBlockchain(userId);
+
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<UserBlockchainViewModel>(userBlockchainDto)));
         }
     }
 }

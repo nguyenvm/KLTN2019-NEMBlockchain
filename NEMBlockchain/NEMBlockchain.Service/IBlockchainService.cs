@@ -9,5 +9,6 @@ namespace NEMBlockchain.Service
     public interface IBlockchainService
     {
         Task<UserBlockchainDto> InsertUserBlockchain(UserBlockchainDto userBlockchainDto);
+        Task<UserBlockchainDto> CheckExistUserBlockchain(string userId);
     }
 }

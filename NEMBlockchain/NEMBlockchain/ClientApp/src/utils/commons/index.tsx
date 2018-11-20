@@ -16,7 +16,7 @@ export function decodePayloadTransation(payload: string): string {
 
 export function hashData(data: any): string {
     console.log(data);
-    const hash: string = SHA256(JSON.stringify(data)).toString().toUpperCase();
+    const hash: string = SHA256(JSON.stringify(data)).toString();
     console.log('Hashed: ', hash);
     return hash;
 }

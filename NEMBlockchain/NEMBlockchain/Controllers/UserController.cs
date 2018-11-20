@@ -21,6 +21,7 @@ namespace NEMBlockchain.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             var userDtos = await membershipService.GetAllUsers();
+
             return new OkObjectResult(new ResponseAsObject(mapper.Map<UserViewModel[]>(userDtos)));
         }
     }
