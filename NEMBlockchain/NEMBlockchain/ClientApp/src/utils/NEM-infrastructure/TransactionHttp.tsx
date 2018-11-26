@@ -10,6 +10,17 @@ export function submitTransaction(message: string, id: string, callBackFunction:
 
         const account = Account.createWithPrivateKey(privateKey);
         
+        // var NEM_EPOCH = Date.UTC(2015, 2, 29, 0, 6, 25, 0);
+
+        // var receiveTimeStamp = 0;
+
+        // fetch('http://23.228.67.85:7890/time-sync/network-time')
+        //     .then(resJson => resJson.json())
+        //     .then(res => receiveTimeStamp = res.receiveTimeStamp);
+
+        // var createNEMTimeStamp = function createNEMTimeStamp() {
+        //     return Math.floor((receiveTimeStamp / 1000) - (NEM_EPOCH / 1000));
+        // };
         const transferTransaction: Transaction = TransferTransaction.create(
             TimeWindow.createWithDeadline(),
             new Address(process.env.REACT_APP_ADDRESS_RECIPIENT || 'TBHZ6JJYAWAQU2JIX2GFTN4IKFI4XB4VH4GSTI2S'),

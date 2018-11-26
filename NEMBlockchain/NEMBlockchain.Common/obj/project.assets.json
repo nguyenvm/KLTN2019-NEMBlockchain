@@ -687,11 +687,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Bin.UIT\\GitHub\\KLTN2019-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\NEMBlockchain.Common.csproj",
+      "projectUniqueName": "d:\\Bin.UIT\\GitHub\\KLTN2019-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\NEMBlockchain.Common.csproj",
       "projectName": "NEMBlockchain.Common",
-      "projectPath": "D:\\Bin.UIT\\GitHub\\KLTN2019-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\NEMBlockchain.Common.csproj",
+      "projectPath": "d:\\Bin.UIT\\GitHub\\KLTN2019-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\NEMBlockchain.Common.csproj",
       "packagesPath": "C:\\Users\\Bin\\.nuget\\packages\\",
-      "outputPath": "D:\\Bin.UIT\\GitHub\\KLTN2019-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\obj\\",
+      "outputPath": "d:\\Bin.UIT\\GitHub\\KLTN2019-NEMBlockchain\\NEMBlockchain\\NEMBlockchain.Common\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

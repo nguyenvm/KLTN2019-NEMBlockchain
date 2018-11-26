@@ -10,19 +10,22 @@ const nemBlockchain = (state = initalState, action: any) => {
         case Types.ADD_USER_BLOCK_CHAIN:
             return {
                 ...state,
-                message: action.payload,
-                data: {}
-            };
-        case Types.CHECK_EXIST_USER_BLOCK_CHAIN:
-            return {
-                ...state,
-                message: action.payload,
-                data: {}
+                message: action.payload
             };
         case Types.FIND_USER_BLOCK_CHAIN_BY_ID:
             return {
                 ...state,
                 data: action.payload
+            }
+        case Types.CHECK_VALID_OF_DATA:
+            return {
+                ...state,
+                message: action.payload
+            }
+        case Types.RESET_NEMBLOCKCHAIN:
+            return {
+                ...state,
+                message: ''
             }
         default:
             return state;

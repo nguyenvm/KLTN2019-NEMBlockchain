@@ -71,6 +71,19 @@ export const actFindUserBlockchainByIdRequest = (id: string) => {
     }
 }
 
+export const actCheckValidOfData = (message: string) => {
+    return {
+        type: Types.CHECK_VALID_OF_DATA,
+        payload: message
+    }
+}
+
+export const actResetNemBlockchain = () => {
+    return {
+        type: Types.RESET_NEMBLOCKCHAIN
+    }
+}
+
 //Action for Modal
 
 export const actShowModal = (modal: Modal) => {

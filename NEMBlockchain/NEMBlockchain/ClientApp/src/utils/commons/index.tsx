@@ -1,5 +1,6 @@
 import utf8 from 'utf8';
 import { SHA256 } from 'crypto-js';
+import { TransactionHttp } from "nem-library";
 
 export function decodePayloadTransation(payload: string): string {
     let str = "";
@@ -30,30 +31,22 @@ export function decodeHexMessageTransaction(hex: string): string {
     }
 }
 
-// export function getLastAccount(): any{
-//     callApi('api/user/list', 'GET', null).then((res: any) => {
-//         const data: Array<Object> = [...res.data.data];
-//         const lastUserInfo: any = data.slice(-1)[0];
+export function checkDataHasChanged(transactionHash: string, hexCompare: string, callBackFunction: Function) {
+    const transactionHttp = new TransactionHttp();
 
-//         const userInfo = new UserInfo(
-//             lastUserInfo.id,
-//             lastUserInfo.address,
-//             lastUserInfo.fullName,
-//             lastUserInfo.phoneNumber,
-//             lastUserInfo.gender,
-//             lastUserInfo.waterSupplierId,
-//             lastUserInfo.createDate,
-//             lastUserInfo.pendingStatus,
-//             lastUserInfo.coin,
-//             lastUserInfo.latitude,
-//             lastUserInfo.longitude,
-//             lastUserInfo.isActive,
-//             lastUserInfo.accountType,
-//             lastUserInfo.serialNumber
-//         );
-//         console.log(userInfo);
-        
-//     });
-// }
+    transactionHttp.getByHash(transactionHash).subscribe((transaction: any) => {
+        console.log(transaction);
+
+        let hex = decodeHexMessageTransaction(transaction.message.payload);
+
+        if (hexCompare.toUpperCase() === hex.toUpperCase()) {
+            callBackFunction(true);
+            console.log('Data Valid');
+        } else {
+            callBackFunction(false);
+            console.log('Data has changed');
+        }
+    });
+}
 
 export * from './index';
