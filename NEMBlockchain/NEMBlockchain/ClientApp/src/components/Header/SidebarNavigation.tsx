@@ -19,73 +19,31 @@ class Header extends Component {
                     {/* <!-- Side navigation links --> */}
                     <li>
                         <ul className="collapsible collapsible-accordion">
-                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-heart"></i> New Arrivals<i className="fa fa-angle-down rotate-icon"></i></a>
+                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-heart"></i> User account Blockchain</a>
+
+                            </li>
+                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-diamond"></i> Water-Energy Blockchain<i className="fa fa-angle-down rotate-icon"></i></a>
                                 <div className="collapsible-body">
                                     <ul>
-                                        <li><a href="#" className="waves-effect">Handbags</a>
+                                        <li><a href="#" className="waves-effect">Water</a>
                                         </li>
-                                        <li><a href="#" className="waves-effect">Shoes</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Dresses</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Skirts</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Jeans</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Outerwear</a>
+                                        <li><a href="#" className="waves-effect">Electricity</a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-diamond"></i> Accessories<i className="fa fa-angle-down rotate-icon"></i></a>
+                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-gitlab"></i>Trading activity blockchain<i className="fa fa-angle-down rotate-icon"></i></a>
                                 <div className="collapsible-body">
                                     <ul>
-                                        <li><a href="#" className="waves-effect">Jewelry</a>
+                                        <li><a href="#" className="waves-effect">Buying activity</a>
                                         </li>
-                                        <li><a href="#" className="waves-effect">Wallets & Purses</a>
+                                        <li><a href="#" className="waves-effect">Selling activity</a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-gitlab"></i> For kids<i className="fa fa-angle-down rotate-icon"></i></a>
-                                <div className="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" className="waves-effect">Girls</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Boys</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-sun-o"></i> Summer<i className="fa fa-angle-down rotate-icon"></i></a>
-                                <div className="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" className="waves-effect">Swimsuits</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Sandals</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-briefcase"></i> Fall / Winter<i className="fa fa-angle-down rotate-icon"></i></a>
-                                <div className="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" className="waves-effect">Coats</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Boots</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-coffee "></i> Spring<i className="fa fa-angle-down rotate-icon"></i></a>
-                                <div className="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" className="waves-effect">Denim jackets</a>
-                                        </li>
-                                        <li><a href="#" className="waves-effect">Sneakers</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <li><a className="collapsible-header waves-effect arrow-r"><i className="fa fa-sun-o"></i> Checking data modification</a>
+
                             </li>
                         </ul>
                     </li>

@@ -34,19 +34,28 @@ export function decodeHexMessageTransaction(hex: string): string {
 export function checkDataHasChanged(transactionHash: string, hexCompare: string, callBackFunction: Function) {
     const transactionHttp = new TransactionHttp();
 
-    transactionHttp.getByHash(transactionHash).subscribe((transaction: any) => {
-        console.log(transaction);
+    if (transactionHash) {
 
-        let hex = decodeHexMessageTransaction(transaction.message.payload);
+        transactionHttp.getByHash(transactionHash).subscribe((transaction: any) => {
+            console.log(transaction);
 
-        if (hexCompare.toUpperCase() === hex.toUpperCase()) {
-            callBackFunction(true);
-            console.log('Data Valid');
-        } else {
-            callBackFunction(false);
-            console.log('Data has changed');
-        }
-    });
+            let hex = decodeHexMessageTransaction(transaction.message.payload);
+
+            if (hexCompare.toUpperCase() === hex.toUpperCase()) {
+                callBackFunction(true, null);
+                console.log('Data Valid');
+            } else {
+                callBackFunction(false, null);
+                console.log('Data has changed');
+            }
+            
+        }, (err: any) => {
+            callBackFunction(null, false);
+            console.log(err);
+        });
+    } else {
+        console.log('TransactionHash is required');
+    }
 }
 
 export * from './index';

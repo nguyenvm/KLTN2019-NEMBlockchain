@@ -5,59 +5,59 @@ using AutoMapper;
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using NEMBlockchain.Common;
 
 namespace NEMBlockchain.Service
 {
     public class BlockchainService : IBlockchainService
     {
+        private readonly AutoFlowDB_BlockchainContext dbBlockchain;
         private readonly IMapper mapper;
-        public BlockchainService(IMapper mapper)
+        public BlockchainService(IMapper mapper, AutoFlowDB_BlockchainContext dbBlockchain)
         {
+            this.dbBlockchain = dbBlockchain;
             this.mapper = mapper;
         }
         public async Task<UserBlockchainDto> InsertUserBlockchain(UserBlockchainDto userBlockchainDto)
         {
-            using (var blockchainContext = new AutoFlowDB_BlockchainContext())
+            using (var transaction = dbBlockchain.Database.BeginTransaction())
             {
-                using (var transaction = blockchainContext.Database.BeginTransaction())
+                try
                 {
-                    try
-                    {
-                        var userBlockChains = await AddUserBlockchain();
+                    var userBlockChains = await AddUserBlockchain();
 
-                        transaction.Commit();
+                    await dbBlockchain.SaveChangesAsync();
 
-                        return userBlockChains;
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
+                    transaction.Commit();
+
+                    return mapper.Map<UserBlockchainDto>(userBlockChains);
                 }
-
-                async Task<UserBlockchainDto> AddUserBlockchain()
+                catch (Exception)
                 {
-                    var newUserInBlock = (await blockchainContext.UserBlockChains.AddAsync(new UserBlockChains
-                    {
-                        Id = userBlockchainDto.Id,
-                        TransactionHash = userBlockchainDto.TransactionHash
-                    })).Entity;
-
-                    await blockchainContext.SaveChangesAsync();
-
-                    return mapper.Map<UserBlockchainDto>(newUserInBlock);
+                    transaction.Rollback();
+                    throw;
                 }
+            }
+
+            async Task<UserBlockChains> AddUserBlockchain()
+            {
+                var newUserInBlock = (await dbBlockchain.UserBlockChains.AddAsync(new UserBlockChains
+                {
+                    Id = userBlockchainDto.Id,
+                    TransactionHash = userBlockchainDto.TransactionHash
+                })).Entity;
+
+                return newUserInBlock;
             }
         }
 
         public async Task<UserBlockchainDto> CheckExistUserBlockchain(string userId)
         {
-            using (var blockchainContext = new AutoFlowDB_BlockchainContext())
-            {
-                var userBlockchain = await blockchainContext.UserBlockChains.FirstOrDefaultAsync(u => u.Id == userId);
-                return mapper.Map<UserBlockchainDto>(userBlockchain);
-            }
+            var userBlockchain = await dbBlockchain
+                .UserBlockChains
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            return mapper.Map<UserBlockchainDto>(userBlockchain);
         }
     }
 }

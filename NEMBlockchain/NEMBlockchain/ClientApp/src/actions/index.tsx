@@ -4,6 +4,7 @@ import UserInfo from '../models/UserInfo';
 import UserBlockchain from '../models/UserBlockchain';
 import Modal from '../models/Modal';
 import callApi from '../utils/apiCaller';
+import * as _ from 'lodash';
 
 // Action for User
 
@@ -31,42 +32,33 @@ export const actAddUserBlockchain = (message: string) => {
 
 export const actAddUserBlockchainRequest = (usersBlockchain: UserBlockchain) => {
     return (dispatch: any) => {
-        return callApi('api/nem/user-transaction', 'POST', usersBlockchain).then((res: any) => {
-            dispatch(actAddUserBlockchain(res.data.message));
-        });
-    }
-}
-
-export const actCheckExistUserBlockchain = (message: string) => {
-    return {
-        type: Types.CHECK_EXIST_USER_BLOCK_CHAIN,
-        payload: message
-    }
-}
-
-export const actCheckExistUserBlockchainRequest = (id: string) => {
-    return (dispatch: any) => {
-        return callApi(`api/nem/check-exist-user/${id}`, 'GET', null).then((res: any) => {
-            if (res.data.data) {
-                dispatch(actCheckExistUserBlockchain(Messages.MSG_FIND_USER_SUCCESSFUL));
-            } else {
-                dispatch(actCheckExistUserBlockchain(Messages.MSG_NOT_FOUND_ANY_USER));
-            }
-        });
+        return callApi('api/nem/user-transaction', 'POST', usersBlockchain)
+            .then((res: any) => {
+                dispatch(actAddUserBlockchain(Messages.INSERT_TRANSACTION_HASH_SUCCESS));
+                dispatch(actFindUserBlockchainByIdRequest(usersBlockchain.Id));
+            })
+            .catch((err: any) => {
+                dispatch(actAddUserBlockchain(Messages.INSERT_TRANSACTION_HASH_FAILURE));
+            });
     }
 }
 
 export const actFindUserBlockchainById = (userBlockchain: UserBlockchain) => {
     return {
         type: Types.FIND_USER_BLOCK_CHAIN_BY_ID,
-        payload: userBlockchain
+        payload: userBlockchain || {}
     }
 }
 
 export const actFindUserBlockchainByIdRequest = (id: string) => {
     return (dispatch: any) => {
         return callApi(`api/nem/check-exist-user/${id}`, 'GET', null).then((res: any) => {
-            dispatch(actFindUserBlockchainById(res.data.data));
+            if (!_.isNil(res.data.data)) {
+                const userBlockchain = new UserBlockchain(res.data.data.id, res.data.data.transactionHash);
+                dispatch(actFindUserBlockchainById(userBlockchain));
+            } else {
+                dispatch(actFindUserBlockchainById(null as any));
+            }
         });
     }
 }

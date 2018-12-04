@@ -1,11 +1,15 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NEMBlockchain.Service;
+using NEMBlockchain.Infrastructure;
+using NEMBlockchain.Data.AutoFlowDB_Blockchain_DataContext;
+using NEMBlockchain.Data.AutoFlowDB_Water_Electricity_DataContext;
+using NEMBlockchain.Data.AutoFlowDB_Water_Membership_DataContext;
+using NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace NEMBlockchain
 {
@@ -28,11 +32,10 @@ namespace NEMBlockchain
             {
                 configuration.RootPath = "ClientApp/build";
             });
-            
 
-            services.AddAutoMapper();
-            services.AddScoped<IMembershipService, MembershipService>();
-            services.AddScoped<IBlockchainService, BlockchainService>();
+            services.DefineAutoMapper();
+            services.DefineConnectionString(Configuration);
+            services.DefineScopes();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

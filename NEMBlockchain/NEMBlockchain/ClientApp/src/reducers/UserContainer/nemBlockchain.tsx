@@ -16,17 +16,17 @@ const nemBlockchain = (state = initalState, action: any) => {
             return {
                 ...state,
                 data: action.payload
-            }
+            };
         case Types.CHECK_VALID_OF_DATA:
             return {
                 ...state,
                 message: action.payload
-            }
+            };
         case Types.RESET_NEMBLOCKCHAIN:
             return {
                 ...state,
                 message: ''
-            }
+            };
         default:
             return state;
     }

@@ -25,19 +25,26 @@ namespace NEMBlockchain.Controllers
         [HttpPost("user-transaction")]
         public async Task<IActionResult> AddUserBlockchain([FromBody]UserBlockchainViewModel userBlockchainViewModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            if (string.IsNullOrEmpty(userBlockchainViewModel.TransactionHash))
+                if (string.IsNullOrEmpty(userBlockchainViewModel.TransactionHash))
+                {
+                    return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
+                }
+
+                await blockchainService.InsertUserBlockchain(mapper.Map<UserBlockchainDto>(userBlockchainViewModel));
+
+                return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
+            }
+            catch (Exception ex)
             {
-                return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
+                throw new Exception(ex.Message);
             }
-
-            await blockchainService.InsertUserBlockchain(mapper.Map<UserBlockchainDto>(userBlockchainViewModel));
-
-            return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
         }
 
         [HttpGet("check-exist-user/{userId}")]

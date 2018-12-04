@@ -5,6 +5,7 @@
   "dependencies": {
     "@types/crypto-js": "^3.1.43",
     "@types/jest": "^18.1.1",
+    "@types/lodash": "^4.14.118",
     "@types/node": "^10.3.3",
     "@types/react": "^16.4.1",
     "@types/react-bootstrap": "^0.32.14",
@@ -14,17 +15,18 @@
     "@types/utf8": "^2.1.6",
     "axios": "^0.18.0",
     "crypto-js": "^3.1.9-1",
+    "lodash": "^4.17.11",
     "nem-library": "^2.0.0-RC3",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.6",
-    "react-router-dom": "^4.2.2",
+    "react-router-dom": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.8",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.2",
-    "rxjs": "^5.5.7",
+    "rxjs": "^6.3.3",
     "utf8": "^2.1.2"
   },
   "devDependencies": {

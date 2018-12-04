@@ -1,6 +1,4 @@
-﻿using NEMBlockchain.Data.AutoFlowDB_Membership_DataContext;
-
-namespace NEMBlockchain.Models
+﻿namespace NEMBlockchain.Models
 {
     public class UserViewModel
     {

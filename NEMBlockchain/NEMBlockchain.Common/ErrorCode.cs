@@ -7,7 +7,7 @@ namespace NEMBlockchain.Common
     public static class ErrorCode
     {
         public const string TRANSACTION_HASH_IS_REQUIRED = "TRANSACTION_HASH_IS_REQUIRED";
-        public const string NOT_FOUND_ANY_USER = "NOT_FOUND_ANY_USER";
+        public const string USER_BLOCK_CHAIN_NOT_EXIST = "USER_BLOCK_CHAIN_NOT_EXIST";
         public const string USERID_IS_REQUIRED = "USERID_IS_REQUIRED";
     }
 }

@@ -10,7 +10,7 @@ import UserInfo from '../models/UserInfo';
 import * as Commons from '../utils/commons/index';
 import * as nemTransaction from '../utils/NEM-infrastructure/TransactionHttp';
 import * as Messages from '../contants/Messages';
-import { TransactionHttp } from "nem-library";
+import * as _ from 'lodash';
 import UserBlockchain from "../models/UserBlockchain";
 
 class UserContainer extends Component<any, any> {
@@ -114,8 +114,11 @@ class UserContainer extends Component<any, any> {
         let { data } = this.props.modal;
         return (
             <>
-                {this.props.nemBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESSUL &&
+                {this.props.nemBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
                     <p className="text-success">Data has send to block</p>
+                }
+                {this.props.nemBlockchain.message === Messages.INSERT_TRANSACTION_HASH_FAILURE &&
+                    <p className="text-warning">Send failure</p>
                 }
                 {this.props.nemBlockchain.data && this.props.nemBlockchain.message === Messages.DATA_VALID &&
                     <p className="text-primary">Data valid</p>
@@ -123,14 +126,17 @@ class UserContainer extends Component<any, any> {
                 {this.props.nemBlockchain.data && this.props.nemBlockchain.message === Messages.DATA_INVALID &&
                     <p className="text-warning">Data has changed</p>
                 }
-                {this.props.nemBlockchain.data &&
+                {this.props.nemBlockchain.data && this.props.nemBlockchain.message === Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN &&
+                    <p className="text-warning">Transaction hash not exist on blockchain</p>
+                }
+                {!_.isNil(this.props.nemBlockchain.data) && !_.isEmpty(this.props.nemBlockchain.data) &&
                     <button className="btn btn-primary waves-effect waves-light"
-                        onClick={() => Commons.checkDataHasChanged(this.props.nemBlockchain.data.transactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
+                        onClick={() => Commons.checkDataHasChanged(this.props.nemBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
                     >
                         Check Data
                     </button>
                 }
-                {!this.props.nemBlockchain.data &&
+                {_.isNil(this.props.nemBlockchain.data) || _.isEmpty(this.props.nemBlockchain.data) &&
                     <button className="btn btn-primary waves-effect waves-light"
                         onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), data.id, this.callBackSubmitTransactionSuccess.bind(this))}
                     >
@@ -143,14 +149,19 @@ class UserContainer extends Component<any, any> {
 
     callBackSubmitTransactionSuccess(userBlockchain: UserBlockchain) {
         this.props.addUserBlockchain(userBlockchain);
-        this.props.findUserBlockchainById(userBlockchain.Id);
     }
 
-    callBackCheckDataHasChanged(isValid: boolean) {
-        if (isValid) {
-            this.props.checkValidOfData(Messages.DATA_VALID);
+    callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {
+        if (!_.isNull(isValid)) {
+            if (isValid) {
+                this.props.checkValidOfData(Messages.DATA_VALID);
+            } else {
+                this.props.checkValidOfData(Messages.DATA_INVALID);
+            }
         } else {
-            this.props.checkValidOfData(Messages.DATA_INVALID);
+            if (!isExist) {
+                this.props.checkValidOfData(Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN);
+            }
         }
     }
 }
