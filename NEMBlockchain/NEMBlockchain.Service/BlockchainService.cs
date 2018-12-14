@@ -32,7 +32,7 @@ namespace NEMBlockchain.Service
 
                     return mapper.Map<UserBlockchainDto>(userBlockChains);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     transaction.Rollback();
                     throw;

@@ -1,15 +1,25 @@
 import * as Types from '../../contants/ActionTypes';
-import UserInfo from '../../models/UserInfo';
+import UserInfo from '../../models/User/UserInfo';
+import PaginationResult from '../../models/PaginationResult';
 
-const users = (state = {}, action: any) => {
+const initialState = {
+    paginationResult: {},
+    error: null
+};
+
+const users = (state = initialState, action: any) => {
     switch (action.type) {
-        case Types.FETCH_USERS:
+        case Types.FETCH_USERS_SUCCESS:
             return {
                 ...state,
-                ...action.users.reduce((obj: any, user: UserInfo, index: number) => {
-                    obj[index] = user;
-                    return obj;
-                }, {})
+                paginationResult: action.payload,
+                error: null
+            }
+        case Types.FETCH_USERS_FAILURE:
+            return {
+                ...state,
+                paginationResult: {},
+                error: action.payload
             }
         default:
             return state;

@@ -36,12 +36,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NEMBlockchain.Common\NEMBlockchain.Common.csproj" />
+    <ProjectReference Include="..\NEMBlockchain.Contract\NEMBlockchain.Contract.csproj" />
     <ProjectReference Include="..\NEMBlockchain.Data\NEMBlockchain.Data.csproj" />
     <ProjectReference Include="..\NEMBlockchain.Service\NEMBlockchain.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\components\FetchData.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

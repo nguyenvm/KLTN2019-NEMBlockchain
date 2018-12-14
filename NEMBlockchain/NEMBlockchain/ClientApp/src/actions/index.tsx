@@ -1,25 +1,46 @@
 import * as Types from '../contants/ActionTypes';
 import * as Messages from '../contants/Messages';
-import UserInfo from '../models/UserInfo';
-import UserBlockchain from '../models/UserBlockchain';
+import UserInfo from '../models/User/UserInfo';
+import UserBlockchain from '../models/User/UserBlockchain';
 import Modal from '../models/Modal';
 import callApi from '../utils/apiCaller';
 import * as _ from 'lodash';
+import PaginationInput from '../models/PaginationInput';
+import PaginationResult from '../models/PaginationResult';
 
 // Action for User
 
-export const actFetchUsers = (users: Array<UserInfo>) => {
+export const actFetchUsersSuccess = (paginationResult: PaginationResult<UserInfo>) => {
     return {
-        type: Types.FETCH_USERS,
-        users
+        type: Types.FETCH_USERS_SUCCESS,
+        payload: paginationResult
     }
 }
 
-export const actFetchUsersRequest = () => {
+export const actFetchUsersFailure = (error: any) => {
+    return {
+        type: Types.FETCH_USERS_FAILURE,
+        payload: error
+    }
+}
+
+export const actFetchUsersRequest = (paginationInput: PaginationInput) => {
     return (dispatch: any) => {
-        return callApi('api/user/list', 'GET', null).then((res: any) => {
-            dispatch(actFetchUsers(res.data.data));
-        });
+        return callApi(`api/user/list?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<UserInfo>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+                
+                dispatch(actFetchUsersSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchUsersFailure(err));
+            });
     }
 }
 
@@ -75,6 +96,8 @@ export const actResetNemBlockchain = () => {
         type: Types.RESET_NEMBLOCKCHAIN
     }
 }
+
+//Action for Water
 
 //Action for Modal
 

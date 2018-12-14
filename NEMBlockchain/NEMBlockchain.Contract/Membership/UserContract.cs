@@ -1,6 +1,6 @@
-﻿namespace NEMBlockchain.Models
+﻿namespace NEMBlockchain.Contract.Membership
 {
-    public class UserViewModel
+    public class UserContract
     {
         public string Id { get; set; }
         public string FullName { get; set; }

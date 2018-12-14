@@ -22,7 +22,7 @@ namespace NEMBlockchain.Infrastructure
 
             services.AddDbContext<AutoFlowDB_Water_MembershipContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("AutoFlowDB_MembershipEntities"))
-            );       
+            );
 
             services.AddDbContext<AutoFlowDB_Water_ElectricityContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("AutoFlowDB_ElectricityEntities"))
@@ -45,6 +45,7 @@ namespace NEMBlockchain.Infrastructure
         {
             services.AddScoped<IMembershipService, MembershipService>();
             services.AddScoped<IBlockchainService, BlockchainService>();
+            services.AddScoped<IWaterService, WaterService>();
         }
     }
 }

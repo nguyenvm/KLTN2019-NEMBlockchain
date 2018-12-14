@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NEMBlockchain.Models
+namespace NEMBlockchain.Contract.Blockchain
 {
-    public class UserBlockchainViewModel
+    public class UserBlockchainContract
     {
         [DataType(DataType.Text)]
         [MaxLength(128)]

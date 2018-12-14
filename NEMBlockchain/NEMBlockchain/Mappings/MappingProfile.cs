@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using NEMBlockchain.Models;
+using NEMBlockchain.Contract.Blockchain;
+using NEMBlockchain.Contract.Membership;
 using NEMBlockchain.Service.Dtos;
 
 namespace NEMBlockchain.Mapping
@@ -8,9 +9,9 @@ namespace NEMBlockchain.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<UserDto, UserViewModel>();
-            CreateMap<UserBlockchainViewModel, UserBlockchainDto>();
-            CreateMap<UserBlockchainDto, UserBlockchainViewModel>();
+            CreateMap<UserDto, UserContract>();
+            CreateMap<UserBlockchainContract, UserBlockchainDto>();
+            CreateMap<UserBlockchainDto, UserBlockchainContract>();
         }
     }
 }

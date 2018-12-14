@@ -11,4 +11,12 @@
 .container-fluid .tab-content .card-block .table td:first-child {
   font-weight: bold;
 }
+
+.container-fluid .tab-content nav {
+  text-align: center;
+}
+
+.page-item.active .page-link {
+  background-color: #3f729b;
+}
 /*# sourceMappingURL=style.css.map */

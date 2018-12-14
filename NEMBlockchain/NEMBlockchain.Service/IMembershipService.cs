@@ -1,10 +1,11 @@
-﻿using NEMBlockchain.Service.Dtos;
+﻿using NEMBlockchain.Service.Common;
+using NEMBlockchain.Service.Dtos;
 using System.Threading.Tasks;
 
 namespace NEMBlockchain.Service
 {
     public interface IMembershipService
     {
-        Task<UserDto[]> GetAllUsers();
+        Task<PaginationSet<UserDto>> GetAllUsers(PaginationInputBase input);
     }
 }

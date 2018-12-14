@@ -6,25 +6,45 @@ import * as Actions from '../actions/index';
 import UserItem from '../components/Main/User/UserItem';
 import CommonModal from '../utils/commons/Modal/CommonModal';
 import Modal from '../models/Modal';
-import UserInfo from '../models/UserInfo';
+import UserInfo from '../models/User/UserInfo';
 import * as Commons from '../utils/commons/index';
 import * as nemTransaction from '../utils/NEM-infrastructure/TransactionHttp';
 import * as Messages from '../contants/Messages';
 import * as _ from 'lodash';
-import UserBlockchain from "../models/UserBlockchain";
+import UserBlockchain from '../models/User/UserBlockchain';
+import PaginationInput from '../models/PaginationInput';
+import * as Constants from '../contants';
 
 class UserContainer extends Component<any, any> {
 
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            currentPage: 1
+        }
+    }
+
+
     componentDidMount() {
-        this.props.fetchAllUsers();
+        const paginationInput = new PaginationInput(
+            Constants.DEFAULT_PAGE_INDEX,
+            Constants.DEFAULT_ITEMS_PER_PAGE
+        );
+
+        this.props.fetchAllUsers(paginationInput);
     }
 
     render() {
-        var { users } = this.props;
+        var { items } = this.props.users.paginationResult;
         return (
             <>
-                <UserComponent>
-                    {this.showUsers(users)}
+                <UserComponent
+                    paginationResult={this.props.users.paginationResult}
+                    onPageChange={this.onPageChanged.bind(this)}
+                    showPageIndex={this.showPageIndex.bind(this)}
+                >
+                    {items && this.showUsers(items)}
                 </UserComponent>
                 <CommonModal
                     show={this.props.modal.isShow}
@@ -37,29 +57,61 @@ class UserContainer extends Component<any, any> {
         );
     }
 
-    showUsers(users: UserInfo): Array<any> {
+    showUsers(users: UserInfo[]): Array<any> {
+
         let result: any = null;
-        result = Object.keys(users).map((key, index) => {
+
+        result = users.map((user, index) => {
             return (
                 <UserItem
                     key={index}
                     index={index}
-                    users={users[key]}
+                    user={user}
                     openModal={this.openModal.bind(this)}
                 />
             )
         });
+
         return result;
     }
 
-    openModal(data: any): void {
+    onPageChanged(index: number) {
+        this.setState({ currentPage: index });
+
+        const paginationInput = new PaginationInput(
+            index,
+            Constants.DEFAULT_ITEMS_PER_PAGE
+        );
+
+        this.props.fetchAllUsers(paginationInput);
+    }
+
+    showPageIndex(totalCount: number) {
+        let totalPage = Math.ceil(totalCount / Constants.DEFAULT_ITEMS_PER_PAGE);
+
+        let renderIndex = [];
+
+        for (let index = 1; index <= totalPage; index++) {
+            renderIndex.push(
+                <li key={index} className={'page-item' + (this.state.currentPage === index ? ' active' : '')}>
+                    <a className="page-link"
+                        onClick={() => this.onPageChanged(index)}
+                    >
+                        {index}
+                    </a>
+                </li>
+            )
+        }
+
+        return renderIndex;
+    }
+
+    async openModal(data: any): Promise<void> {
+        await this.props.findUserBlockchainById(data.id);
 
         let modal = new Modal(true);
         modal.data = data;
-
         this.props.setDataModal(modal);
-        this.props.findUserBlockchainById(data.id);
-
         this.props.openModal(modal);
     }
 
@@ -131,7 +183,7 @@ class UserContainer extends Component<any, any> {
                 }
                 {!_.isNil(this.props.nemBlockchain.data) && !_.isEmpty(this.props.nemBlockchain.data) &&
                     <button className="btn btn-primary waves-effect waves-light"
-                        onClick={() => Commons.checkDataHasChanged(this.props.nemBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
+                    onClick={() => Commons.checkDataHasChanged(this.props.nemBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
                     >
                         Check Data
                     </button>
@@ -141,7 +193,7 @@ class UserContainer extends Component<any, any> {
                         onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), data.id, this.callBackSubmitTransactionSuccess.bind(this))}
                     >
                         Send To Block
-                    </button>
+                        </button>
                 }
             </>
         );

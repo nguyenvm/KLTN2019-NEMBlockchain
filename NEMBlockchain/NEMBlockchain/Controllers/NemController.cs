@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NEMBlockchain.Service;
 using NEMBlockchain.Common;
-using NEMBlockchain.Models;
 using NEMBlockchain.Service.Dtos;
+using NEMBlockchain.Contract.Blockchain;
 
 namespace NEMBlockchain.Controllers
 {
@@ -23,7 +20,7 @@ namespace NEMBlockchain.Controllers
         }
 
         [HttpPost("user-transaction")]
-        public async Task<IActionResult> AddUserBlockchain([FromBody]UserBlockchainViewModel userBlockchainViewModel)
+        public async Task<IActionResult> AddUserBlockchain([FromBody]UserBlockchainContract userBlockchainContract)
         {
             try
             {
@@ -32,12 +29,12 @@ namespace NEMBlockchain.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if (string.IsNullOrEmpty(userBlockchainViewModel.TransactionHash))
+                if (string.IsNullOrEmpty(userBlockchainContract.TransactionHash))
                 {
                     return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
                 }
 
-                await blockchainService.InsertUserBlockchain(mapper.Map<UserBlockchainDto>(userBlockchainViewModel));
+                await blockchainService.InsertUserBlockchain(mapper.Map<UserBlockchainDto>(userBlockchainContract));
 
                 return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
             }
@@ -57,7 +54,7 @@ namespace NEMBlockchain.Controllers
 
             var userBlockchainDto = await blockchainService.CheckExistUserBlockchain(userId);
 
-            return new OkObjectResult(new ResponseAsObject(mapper.Map<UserBlockchainViewModel>(userBlockchainDto)));
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<UserBlockchainContract>(userBlockchainDto)));
         }
     }
 }

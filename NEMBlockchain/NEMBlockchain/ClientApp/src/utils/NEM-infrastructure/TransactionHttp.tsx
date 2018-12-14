@@ -1,5 +1,5 @@
 import { TransactionHttp, Account, Transaction, TransferTransaction, TimeWindow, Address, XEM, HexMessage } from "nem-library";
-import UserBlockchain from '../../models/UserBlockchain';
+import UserBlockchain from '../../models/User/UserBlockchain';
 import callApi from '../apiCaller';
 
 export function submitTransaction(message: string, id: string, callBackFunction: Function): void {

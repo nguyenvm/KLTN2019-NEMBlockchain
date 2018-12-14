@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace NEMBlockchain.Models
+namespace NEMBlockchain.Contract.Membership
 {
-    public class UserInfoViewModel
+    public class UserInfoContract
     {
         public string Id { get; set; }
         public string FullName { get; set; }

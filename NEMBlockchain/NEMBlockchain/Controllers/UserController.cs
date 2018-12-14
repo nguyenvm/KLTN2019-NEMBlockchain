@@ -2,8 +2,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NEMBlockchain.Common;
-using NEMBlockchain.Models;
+using NEMBlockchain.Contract.Membership;
 using NEMBlockchain.Service;
+using NEMBlockchain.Service.Common;
 
 namespace NEMBlockchain.Controllers
 {
@@ -18,11 +19,13 @@ namespace NEMBlockchain.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers([FromQuery]PaginationInputBase input)
         {
-            var userDtos = await membershipService.GetAllUsers();
+            var userDtos = await membershipService.GetAllUsers(input);
 
-            return new OkObjectResult(new ResponseAsObject(mapper.Map<UserViewModel[]>(userDtos)));
+            var resultPagination = mapper.Map<PaginationSet<UserContract>>(userDtos);
+
+            return new OkObjectResult(new ResponseAsObject(resultPagination));
         }
     }
 }

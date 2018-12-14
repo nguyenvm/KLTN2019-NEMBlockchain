@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class UserComponent extends Component<any, any> {
+    
     render() {
         return (
             <div className="container-fluid">
@@ -36,9 +37,27 @@ class UserComponent extends Component<any, any> {
                             {/* <!--/Content--> */}
                         </div>
                         {/* <!--/Card--> */}
-                        <br />
+                        {/* <!--/Pagination--> */}
+                        <nav>
+                            <ul className="pagination pg-primary">
+                                <li className="page-item">
+                                    <a className="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span className="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                {this.props.showPageIndex(this.props.paginationResult.totalCount)}
+                                <li className="page-item">
+                                    <a className="page-link" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span className="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        {/* <!--/Pagination--> */}
                         <hr />
-                        <br />
                     </div>
                 </div>
             </div>

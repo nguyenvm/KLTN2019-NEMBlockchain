@@ -25,3 +25,6 @@ D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\obj\De
 D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\obj\Debug\netcoreapp2.1\NEMBlockchain.Data.dll
 D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\obj\Debug\netcoreapp2.1\NEMBlockchain.Data.pdb
 D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\obj\Debug\netcoreapp2.1\NEMBlockchain.Data.csprojAssemblyReference.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\bin\Debug\netcoreapp2.1\NEMBlockchain.Contract.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\bin\Debug\netcoreapp2.1\NEMBlockchain.Contract.pdb
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.Data\obj\Debug\netcoreapp2.1\NEMBlockchain.Data.csproj.CopyComplete
