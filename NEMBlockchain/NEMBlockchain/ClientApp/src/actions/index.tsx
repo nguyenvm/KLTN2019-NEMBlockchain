@@ -7,6 +7,9 @@ import callApi from '../utils/apiCaller';
 import * as _ from 'lodash';
 import PaginationInput from '../models/PaginationInput';
 import PaginationResult from '../models/PaginationResult';
+import WaterConsumptionTotal from 'src/models/Water/WaterConsumptionTotal';
+import WaterConsumptionDetail from 'src/models/Water/WaterConsumptionDetail';
+import WaterBlockchain from 'src/models/Water/WaterBlockchain';
 
 // Action for User
 
@@ -84,20 +87,134 @@ export const actFindUserBlockchainByIdRequest = (id: string) => {
     }
 }
 
-export const actCheckValidOfData = (message: string) => {
+export const actCheckValidOfUserData = (message: string) => {
     return {
-        type: Types.CHECK_VALID_OF_DATA,
+        type: Types.CHECK_VALID_OF_USER_DATA,
         payload: message
     }
 }
 
-export const actResetNemBlockchain = () => {
+export const actResetUserBlockchain = () => {
     return {
-        type: Types.RESET_NEMBLOCKCHAIN
+        type: Types.RESET_USERBLOCKCHAIN
     }
 }
 
 //Action for Water
+
+export const actFetchWaterConsumptionSuccess = (paginationResult: PaginationResult<WaterConsumptionTotal>) => {
+    return {
+        type: Types.FETCH_WATER_CONSUMPTIONS_SUCCESS,
+        payload: paginationResult
+    }
+}
+
+export const actFetchWaterConsumptionFailure = (error: any) => {
+    return {
+        type: Types.FETCH_WATER_CONSUMPTIONS_FAILURE,
+        payload: error
+    }
+}
+
+export const actFetchWaterConsumptionRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/consumptions-list?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterConsumptionTotal>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+                
+                dispatch(actFetchWaterConsumptionSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterConsumptionFailure(err));
+            });
+    }
+}
+
+export const actGetWaterConsumptionDetailSuccess = (waterConsumptionDetail: Array<WaterConsumptionDetail>) => {
+    return {
+        type: Types.FETCH_WATER_CONSUMPTION_DETAIL_SUCCESS,
+        payload: waterConsumptionDetail
+    }
+}
+
+export const actGetWaterConsumptionDetailFailure = (error: any) => {
+    return {
+        type: Types.FETCH_WATER_CONSUMPTION_DETAIL_FAILURE,
+        payload: error
+    }
+}
+
+export const actGetWaterConsumptionDetailRequest = (userId: string, logTime: string) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/consumption-detail/${userId}/${logTime}`, 'GET', null)
+            .then((res: any) => {
+                dispatch(actGetWaterConsumptionDetailSuccess(res.data.data));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actGetWaterConsumptionDetailFailure(err));
+            });
+    }
+}
+
+export const actAddWaterBlockchain = (message: string) => {
+    return {
+        type: Types.ADD_WATER_CONSUMPTION_BLOCK_CHAIN,
+        payload: message
+    }
+}
+
+export const actAddWaterBlockchainRequest = (waterBlockchain: WaterBlockchain) => {
+    return (dispatch: any) => {
+        return callApi('api/nem/water-transaction', 'POST', waterBlockchain)
+            .then((res: any) => {
+                dispatch(actAddWaterBlockchain(Messages.INSERT_TRANSACTION_HASH_SUCCESS));
+                dispatch(actFindWaterBlockchainByIdRequest(waterBlockchain.Id));
+            })
+            .catch((err: any) => {
+                dispatch(actAddWaterBlockchain(Messages.INSERT_TRANSACTION_HASH_FAILURE));
+            });
+    }
+}
+
+export const actFindWaterBlockchainById = (waterBlockchain: WaterBlockchain) => {
+    return {
+        type: Types.FIND_WATER_CONSUMPTION_BLOCK_CHAIN_BY_ID,
+        payload: waterBlockchain || {}
+    }
+}
+
+export const actFindWaterBlockchainByIdRequest = (id: string) => {
+    return (dispatch: any) => {
+        return callApi(`api/nem/check-exist-water/${id}`, 'GET', null).then((res: any) => {
+            if (!_.isNil(res.data.data)) {
+                const waterBlockchain = new WaterBlockchain(res.data.data.id, res.data.data.logTime,res.data.data.transactionHash);
+                dispatch(actFindWaterBlockchainById(waterBlockchain));
+            } else {
+                dispatch(actFindWaterBlockchainById(null as any));
+            }
+        });
+    }
+}
+
+export const actCheckValidOfWaterData = (message: string) => {
+    return {
+        type: Types.CHECK_VALID_OF_WATER_CONSUMPTION_DATA,
+        payload: message
+    }
+}
+
+export const actResetWaterBlockchain = () => {
+    return {
+        type: Types.RESET_WATERBLOCKCHAIN
+    }
+}
 
 //Action for Modal
 

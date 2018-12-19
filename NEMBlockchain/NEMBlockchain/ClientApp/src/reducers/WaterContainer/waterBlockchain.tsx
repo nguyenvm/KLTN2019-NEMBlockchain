@@ -5,24 +5,24 @@ const initalState = {
     data: {}
 };
 
-const nemBlockchain = (state = initalState, action: any) => {
+const waterBlockchain = (state = initalState, action: any) => {
     switch (action.type) {
-        case Types.ADD_USER_BLOCK_CHAIN:
+        case Types.ADD_WATER_CONSUMPTION_BLOCK_CHAIN:
             return {
                 ...state,
                 message: action.payload
             };
-        case Types.FIND_USER_BLOCK_CHAIN_BY_ID:
+        case Types.FIND_WATER_CONSUMPTION_BLOCK_CHAIN_BY_ID:
             return {
                 ...state,
                 data: action.payload
             };
-        case Types.CHECK_VALID_OF_DATA:
+        case Types.CHECK_VALID_OF_WATER_CONSUMPTION_DATA:
             return {
                 ...state,
                 message: action.payload
             };
-        case Types.RESET_NEMBLOCKCHAIN:
+        case Types.RESET_WATERBLOCKCHAIN:
             return {
                 ...state,
                 message: ''
@@ -32,4 +32,4 @@ const nemBlockchain = (state = initalState, action: any) => {
     }
 };
 
-export default nemBlockchain;
+export default waterBlockchain;

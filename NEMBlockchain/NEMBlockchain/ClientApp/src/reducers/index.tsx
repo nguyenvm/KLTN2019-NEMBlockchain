@@ -1,12 +1,16 @@
 import { combineReducers } from 'redux';
 import users from './UserContainer/users';
 import modal from './modal';
-import nemBlockchain from './UserContainer/nemBlockchain';
+import userBlockchain from './UserContainer/userBlockchain';
+import water from './WaterContainer/water';
+import waterBlockchain from './WaterContainer/waterBlockchain';
 
 const appReducers = combineReducers({
     users,
     modal,
-    nemBlockchain
+    userBlockchain,
+    water,
+    waterBlockchain
 });
 
 export default appReducers;

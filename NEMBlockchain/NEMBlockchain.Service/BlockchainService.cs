@@ -59,5 +59,46 @@ namespace NEMBlockchain.Service
 
             return mapper.Map<UserBlockchainDto>(userBlockchain);
         }
+        public async Task<WaterBlockchainDto> InsertWaterBlockchain(WaterBlockchainDto waterBlockchainDto)
+        {
+            using (var transaction = dbBlockchain.Database.BeginTransaction())
+            {
+                try
+                {
+                    var waterBlockChains = await AddWaterBlockchain();
+
+                    await dbBlockchain.SaveChangesAsync();
+
+                    transaction.Commit();
+
+                    return mapper.Map<WaterBlockchainDto>(waterBlockChains);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+
+            async Task<WaterBlockChains> AddWaterBlockchain()
+            {
+                var newWaterInBlock = (await dbBlockchain.WaterBlockChains.AddAsync(new WaterBlockChains
+                {
+                    Id = waterBlockchainDto.Id,
+                    LogTime = waterBlockchainDto.LogTime,
+                    TransactionHash = waterBlockchainDto.TransactionHash
+                })).Entity;
+
+                return newWaterInBlock;
+            }
+        }
+        public async Task<WaterBlockchainDto> CheckExistWaterBlockchain(string id)
+        {
+            var waterBlockchain = await dbBlockchain
+                .WaterBlockChains
+                .FirstOrDefaultAsync(w => w.Id == id);
+
+            return mapper.Map<WaterBlockchainDto>(waterBlockchain);
+        }
     }
 }

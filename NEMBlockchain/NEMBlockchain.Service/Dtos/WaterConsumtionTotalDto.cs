@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Text;
 
-namespace NEMBlockchain.Contract.Water
+namespace NEMBlockchain.Service.Dtos
 {
-    public class WaterConsumtionTotalContract
+    public class WaterConsumtionTotalDto
     {
         public string UserId { get; set; }
         public double? TotalVolume { get; set; }

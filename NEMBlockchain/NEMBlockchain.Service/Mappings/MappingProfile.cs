@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using NEMBlockchain.Data.AutoFlowDB_Blockchain_DataContext;
-using NEMBlockchain.Data.AutoFlowDB_Water_Membership_DataContext;
+using NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext.ViewModels;
 using NEMBlockchain.Service.Dtos;
 
 namespace NEMBlockchain.Service.Mapping
@@ -15,6 +15,9 @@ namespace NEMBlockchain.Service.Mapping
             //    .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.UserInfo.Longitude))
             //    .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.UserInfo.Latitude));
             CreateMap<UserBlockChains, UserBlockchainDto>();
+            CreateMap<WaterBlockChains, WaterBlockchainDto>();
+            CreateMap<WaterConsumtionTotalViewModel, WaterConsumtionTotalDto>();
+            CreateMap<WaterConsumptionDetailViewModel, WaterConsumptionDetailDto>();
         }
     }
 }

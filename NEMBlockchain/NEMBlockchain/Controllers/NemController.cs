@@ -56,5 +56,43 @@ namespace NEMBlockchain.Controllers
 
             return new OkObjectResult(new ResponseAsObject(mapper.Map<UserBlockchainContract>(userBlockchainDto)));
         }
+
+        [HttpPost("water-transaction")]
+        public async Task<IActionResult> AddWaterBlockchain([FromBody]WaterBlockchainContract waterBlockchainContract)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (string.IsNullOrEmpty(waterBlockchainContract.TransactionHash))
+                {
+                    return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
+                }
+
+                await blockchainService.InsertWaterBlockchain(mapper.Map<WaterBlockchainDto>(waterBlockchainContract));
+
+                return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet("check-exist-water/{id}")]
+        public async Task<IActionResult> CheckExistWater(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.USERID_IS_REQUIRED, true));
+            }
+
+            var waterBlockchainDto = await blockchainService.CheckExistWaterBlockchain(id);
+
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterBlockchainContract>(waterBlockchainDto)));
+        }
     }
 }

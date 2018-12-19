@@ -1,8 +1,10 @@
 import { TransactionHttp, Account, Transaction, TransferTransaction, TimeWindow, Address, XEM, HexMessage } from "nem-library";
 import UserBlockchain from '../../models/User/UserBlockchain';
 import callApi from '../apiCaller';
+import * as ActionTypes from 'src/contants/ActionTypes';
+import WaterBlockchain from "src/models/Water/WaterBlockchain";
 
-export function submitTransaction(message: string, id: string, callBackFunction: Function): void {
+export function submitTransaction(message: string, type: string, data: any, callBackFunction: Function): void {
     if (message) {
 
         const transactionHttp = new TransactionHttp();
@@ -26,8 +28,20 @@ export function submitTransaction(message: string, id: string, callBackFunction:
                     console.log(x);
                     if (x.message === 'SUCCESS') {
                         console.log('Data has sent to block');
-                        let userBlockchain = new UserBlockchain(id, x.transactionHash.data);
-                        callBackFunction(userBlockchain);
+
+                        switch (type) {
+                            case ActionTypes.ADD_USER_BLOCK_CHAIN:
+                                let userBlockchain = new UserBlockchain(data.id, x.transactionHash.data);
+                                callBackFunction(userBlockchain);
+                                break;
+                            case ActionTypes.ADD_WATER_CONSUMPTION_BLOCK_CHAIN:
+                                let waterBlockchain = new WaterBlockchain(data[0].userId, data[0].logTime, x.transactionHash.data);
+                                callBackFunction(waterBlockchain);
+                                break;
+                            default:
+                                break;
+                        }
+
                     } else {
                         console.log('Fail');
                     }

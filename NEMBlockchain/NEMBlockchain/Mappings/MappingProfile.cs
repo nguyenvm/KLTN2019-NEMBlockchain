@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NEMBlockchain.Contract.Blockchain;
 using NEMBlockchain.Contract.Membership;
+using NEMBlockchain.Contract.Water;
 using NEMBlockchain.Service.Dtos;
 
 namespace NEMBlockchain.Mapping
@@ -12,6 +13,10 @@ namespace NEMBlockchain.Mapping
             CreateMap<UserDto, UserContract>();
             CreateMap<UserBlockchainContract, UserBlockchainDto>();
             CreateMap<UserBlockchainDto, UserBlockchainContract>();
+            CreateMap<WaterBlockchainContract, WaterBlockchainDto>();
+            CreateMap<WaterBlockchainDto, WaterBlockchainContract>();
+            CreateMap<WaterConsumtionTotalDto, WaterConsumtionTotalContract>();
+            CreateMap<WaterConsumptionDetailDto, WaterConsumptionDetailContract>();
         }
     }
 }

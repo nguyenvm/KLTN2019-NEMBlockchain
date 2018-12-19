@@ -1,3 +1,7 @@
+.page-item.active .page-link {
+  background-color: #3f729b;
+}
+
 .container-fluid {
   margin-top: 37px;
   padding-left: 0px;
@@ -16,7 +20,11 @@
   text-align: center;
 }
 
-.page-item.active .page-link {
-  background-color: #3f729b;
+.table td {
+  vertical-align: middle;
+}
+
+.table td:first-child {
+  font-weight: bold;
 }
 /*# sourceMappingURL=style.css.map */

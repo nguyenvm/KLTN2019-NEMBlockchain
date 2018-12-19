@@ -7,5 +7,7 @@ namespace NEMBlockchain.Service
     {
         Task<UserBlockchainDto> InsertUserBlockchain(UserBlockchainDto userBlockchainDto);
         Task<UserBlockchainDto> CheckExistUserBlockchain(string userId);
+        Task<WaterBlockchainDto> InsertWaterBlockchain(WaterBlockchainDto waterBlockchainDto);
+        Task<WaterBlockchainDto> CheckExistWaterBlockchain(string id);
     }
 }

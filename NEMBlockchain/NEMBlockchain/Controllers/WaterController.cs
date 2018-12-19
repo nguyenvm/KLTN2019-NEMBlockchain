@@ -20,22 +20,33 @@ namespace NEMBlockchain.Controllers
 
         public int WaterConsumtionViewModel { get; private set; }
 
-        [HttpGet("consumtions-list")]
+        [HttpGet("consumptions-list")]
         public async Task<IActionResult> GetConsumtionList([FromQuery]PaginationInputBase input)
         {
-            var waterConsumtions = await waterService.GetWaterConsumptionsTotalByDate(input);
+            if (string.IsNullOrEmpty(input.SearchTerm))
+            {
+                var waterConsumtionDtos = await waterService.GetWaterConsumptionsTotal(input);
 
-            var resultPagination = mapper.Map<PaginationSet<WaterConsumtionTotalContract>>(waterConsumtions);
+                var resultPagination = mapper.Map<PaginationSet<WaterConsumtionTotalContract>>(waterConsumtionDtos);
 
-            return new OkObjectResult(new ResponseAsObject(resultPagination));
+                return new OkObjectResult(new ResponseAsObject(resultPagination));
+            }
+            else
+            {
+                var waterConsumtionDtos = await waterService.GetWaterConsumptionsTotalByDate(input);
+
+                var resultPagination = mapper.Map<PaginationSet<WaterConsumtionTotalContract>>(waterConsumtionDtos);
+
+                return new OkObjectResult(new ResponseAsObject(resultPagination));
+            }
         }
 
         [HttpGet("consumption-detail/{userId}/{logTime}")]
         public async Task<IActionResult> GetConsumtionDetail(string userId, string logTime)
         {
-            var waterConsumtion = await waterService.GetWaterConsumptionDetail(userId, logTime);
+            var waterConsumtionDtos = await waterService.GetWaterConsumptionDetail(userId, logTime);
 
-            return new OkObjectResult(new ResponseAsObject(waterConsumtion));
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterConsumptionDetailContract[]>(waterConsumtionDtos)));
         }
-     }
+    }
 }

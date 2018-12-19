@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NEMBlockchain.Contract.Water;
+using NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext.ViewModels;
 
 namespace NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext
 {
@@ -23,8 +24,8 @@ namespace NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext
         public virtual DbSet<UserUsageQuickSumary> UserUsageQuickSumary { get; set; }
         public virtual DbSet<UserUsageSumary> UserUsageSumary { get; set; }
         public virtual DbSet<UserWaterAmount> UserWaterAmount { get; set; }
-        public DbQuery<WaterConsumptionDetailContract> WaterConsumptionDetailContract { get; set; }
-        public DbQuery<WaterConsumtionTotalContract> WaterConsumtionTotalContract { get; set; }
+        public DbQuery<WaterConsumptionDetailViewModel> WaterConsumptionDetailViewModels { get; set; }
+        public DbQuery<WaterConsumtionTotalViewModel> WaterConsumtionTotalViewModels { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

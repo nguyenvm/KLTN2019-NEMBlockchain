@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import UserBlockchain from '../models/User/UserBlockchain';
 import PaginationInput from '../models/PaginationInput';
 import * as Constants from '../contants';
+import * as ActionTypes from 'src/contants/ActionTypes';
 
 class UserContainer extends Component<any, any> {
 
@@ -61,17 +62,19 @@ class UserContainer extends Component<any, any> {
 
         let result: any = null;
 
-        result = users.map((user, index) => {
-            return (
-                <UserItem
-                    key={index}
-                    index={index}
-                    user={user}
-                    openModal={this.openModal.bind(this)}
-                />
-            )
-        });
-
+        if (users.length > 0) {
+            result = users.map((user, index) => {
+                return (
+                    <UserItem
+                        key={index}
+                        index={index}
+                        user={user}
+                        openModal={this.openModal.bind(this)}
+                    />
+                )
+            });
+        }
+        
         return result;
     }
 
@@ -116,7 +119,7 @@ class UserContainer extends Component<any, any> {
     }
 
     closeModal(): void {
-        this.props.resetNemBlockchain();
+        this.props.resetUserBlockchain();
 
         let modal = new Modal(false);
         this.props.closeModal(modal);
@@ -166,31 +169,31 @@ class UserContainer extends Component<any, any> {
         let { data } = this.props.modal;
         return (
             <>
-                {this.props.nemBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
-                    <p className="text-success">Data has send to block</p>
+                {this.props.userBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
+                    <p className="text-success">Data has sent to block</p>
                 }
-                {this.props.nemBlockchain.message === Messages.INSERT_TRANSACTION_HASH_FAILURE &&
-                    <p className="text-warning">Send failure</p>
+                {this.props.userBlockchain.message === Messages.INSERT_TRANSACTION_HASH_FAILURE &&
+                    <p className="text-warning">Insert failure</p>
                 }
-                {this.props.nemBlockchain.data && this.props.nemBlockchain.message === Messages.DATA_VALID &&
+                {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_VALID &&
                     <p className="text-primary">Data valid</p>
                 }
-                {this.props.nemBlockchain.data && this.props.nemBlockchain.message === Messages.DATA_INVALID &&
+                {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_INVALID &&
                     <p className="text-warning">Data has changed</p>
                 }
-                {this.props.nemBlockchain.data && this.props.nemBlockchain.message === Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN &&
+                {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN &&
                     <p className="text-warning">Transaction hash not exist on blockchain</p>
                 }
-                {!_.isNil(this.props.nemBlockchain.data) && !_.isEmpty(this.props.nemBlockchain.data) &&
+                {!_.isNil(this.props.userBlockchain.data) && !_.isEmpty(this.props.userBlockchain.data) &&
                     <button className="btn btn-primary waves-effect waves-light"
-                    onClick={() => Commons.checkDataHasChanged(this.props.nemBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
+                    onClick={() => Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
                     >
                         Check Data
                     </button>
                 }
-                {_.isNil(this.props.nemBlockchain.data) || _.isEmpty(this.props.nemBlockchain.data) &&
+                {_.isNil(this.props.userBlockchain.data) || _.isEmpty(this.props.userBlockchain.data) &&
                     <button className="btn btn-primary waves-effect waves-light"
-                        onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), data.id, this.callBackSubmitTransactionSuccess.bind(this))}
+                        onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), ActionTypes.ADD_USER_BLOCK_CHAIN, data, this.callBackSubmitTransactionSuccess.bind(this))}
                     >
                         Send To Block
                         </button>
@@ -222,7 +225,7 @@ const mapStateToProps = (state: any) => {
     return {
         users: state.users,
         modal: state.modal,
-        nemBlockchain: state.nemBlockchain
+        userBlockchain: state.userBlockchain
     }
 }
 
@@ -234,8 +237,8 @@ const mapDispatchToProps = (dispatch: any, props: any) => {
         setDataModal: Actions.actSetDataModal,
         addUserBlockchain: Actions.actAddUserBlockchainRequest,
         findUserBlockchainById: Actions.actFindUserBlockchainByIdRequest,
-        checkValidOfData: Actions.actCheckValidOfData,
-        resetNemBlockchain: Actions.actResetNemBlockchain
+        checkValidOfData: Actions.actCheckValidOfUserData,
+        resetUserBlockchain: Actions.actResetUserBlockchain
     }, dispatch);
 }
 

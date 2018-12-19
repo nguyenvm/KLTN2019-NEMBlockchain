@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Data.SqlClient;
 using NEMBlockchain.Contract.Water;
+using NEMBlockchain.Service.Dtos;
 
 namespace NEMBlockchain.Service
 {
@@ -19,15 +20,38 @@ namespace NEMBlockchain.Service
             this.dbWater = dbWater;
             this.mapper = mapper;
         }
-        
-        public async Task<PaginationSet<WaterConsumtionTotalContract>> GetWaterConsumptionsTotalByDate(PaginationInputBase input)
+
+        public async Task<PaginationSet<WaterConsumtionTotalDto>> GetWaterConsumptionsTotal(PaginationInputBase input)
+        {
+            var waterConsumptions = dbWater
+                .WaterConsumtionTotalViewModels
+                .FromSql("Pro_GetWaterConsumptionsTotal");
+
+            int totalCount = await waterConsumptions
+                .CountAsync();
+
+            var items = await waterConsumptions
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArrayAsync();
+
+            return new PaginationSet<WaterConsumtionTotalDto>
+            {
+                Items = mapper.Map<WaterConsumtionTotalDto[]>(items),
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PaginationSet<WaterConsumtionTotalDto>> GetWaterConsumptionsTotalByDate(PaginationInputBase input)
         {
             string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
 
             var param = new SqlParameter("@LogTime", searchTerm);
 
             var waterConsumptions = dbWater
-                .WaterConsumtionTotalContract
+                .WaterConsumtionTotalViewModels
                 .FromSql("Pro_GetWaterConsumptionsTotalByDate @LogTime", param);
 
             int totalCount = await waterConsumptions
@@ -38,24 +62,24 @@ namespace NEMBlockchain.Service
                 .Take(input.PageSize)
                 .ToArrayAsync();
 
-            return new PaginationSet<WaterConsumtionTotalContract> {
-                Items = items,
+            return new PaginationSet<WaterConsumtionTotalDto> {
+                Items = mapper.Map<WaterConsumtionTotalDto[]>(items),
                 PageIndex = input.PageIndex,
                 PageSize = input.PageSize,
                 TotalCount = totalCount
             };
         }
 
-        public async Task<WaterConsumptionDetailContract[]> GetWaterConsumptionDetail(string userId, string logTime)
+        public async Task<WaterConsumptionDetailDto[]> GetWaterConsumptionDetail(string userId, string logTime)
         {
             var paramUserID = new SqlParameter("@UserID", userId);
             var paramLogTime = new SqlParameter("@LogTime", logTime);
 
             var waterConsumption = await dbWater
-                .WaterConsumptionDetailContract
+                .WaterConsumptionDetailViewModels
                 .FromSql("Pro_GetWaterConsumptionDetailByUserIDAndByDate @UserID, @LogTime", paramUserID, paramLogTime).ToArrayAsync();
 
-            return waterConsumption;
+            return mapper.Map<WaterConsumptionDetailDto[]>(waterConsumption);
         }
     }
 }
