@@ -5,8 +5,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Data.SqlClient;
-using NEMBlockchain.Contract.Water;
 using NEMBlockchain.Service.Dtos;
+using System;
 
 namespace NEMBlockchain.Service
 {
@@ -62,7 +62,8 @@ namespace NEMBlockchain.Service
                 .Take(input.PageSize)
                 .ToArrayAsync();
 
-            return new PaginationSet<WaterConsumtionTotalDto> {
+            return new PaginationSet<WaterConsumtionTotalDto>
+            {
                 Items = mapper.Map<WaterConsumtionTotalDto[]>(items),
                 PageIndex = input.PageIndex,
                 PageSize = input.PageSize,
@@ -80,6 +81,106 @@ namespace NEMBlockchain.Service
                 .FromSql("Pro_GetWaterConsumptionDetailByUserIDAndByDate @UserID, @LogTime", paramUserID, paramLogTime).ToArrayAsync();
 
             return mapper.Map<WaterConsumptionDetailDto[]>(waterConsumption);
+        }
+
+        public async Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingList(PaginationInputBase input)
+        {
+            var waterBuyingList = dbWater
+                .WaterBuyingViewModels
+                .FromSql("Pro_GetWaterBuyingList");
+
+            int totalCount = await waterBuyingList
+                .CountAsync();
+
+            var items = await waterBuyingList
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArrayAsync();
+
+            return new PaginationSet<WaterBuyingDto>
+            {
+                Items = mapper.Map<WaterBuyingDto[]>(items),
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListByDate(PaginationInputBase input)
+        {
+            string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
+
+            var param = new SqlParameter("@BuyTime", searchTerm);
+
+            var waterBuyingList = dbWater
+                .WaterBuyingViewModels
+                .FromSql("Pro_GetWaterBuyingListByDate @BuyTime", param);
+
+            int totalCount = await waterBuyingList
+                .CountAsync();
+
+            var items = await waterBuyingList
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArrayAsync();
+
+            return new PaginationSet<WaterBuyingDto>
+            {
+                Items = mapper.Map<WaterBuyingDto[]>(items),
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PaginationSet<WaterSellingDto>> GetWaterSellingList(PaginationInputBase input)
+        {
+            var waterSellingList = dbWater
+                .WaterSellingViewModels
+                .FromSql("Pro_GetWaterSellingList");
+
+            int totalCount = await waterSellingList
+                .CountAsync();
+
+            var items = await waterSellingList
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArrayAsync();
+
+            return new PaginationSet<WaterSellingDto>
+            {
+                Items = mapper.Map<WaterSellingDto[]>(items),
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PaginationSet<WaterSellingDto>> GetWaterSellingListByDate(PaginationInputBase input)
+        {
+            string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
+
+            var param = new SqlParameter("@SellTime", searchTerm);
+
+            var waterSellingList = dbWater
+                .WaterSellingViewModels
+                .FromSql("Pro_GetWaterSellingListByDate @SellTime", param);
+
+            int totalCount = await waterSellingList
+                .CountAsync();
+
+            var items = await waterSellingList
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArrayAsync();
+
+            return new PaginationSet<WaterSellingDto>
+            {
+                Items = mapper.Map<WaterSellingDto[]>(items),
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
         }
     }
 }

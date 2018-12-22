@@ -3,6 +3,8 @@ import UserBlockchain from '../../models/User/UserBlockchain';
 import callApi from '../apiCaller';
 import * as ActionTypes from 'src/contants/ActionTypes';
 import WaterBlockchain from "src/models/Water/WaterBlockchain";
+import WaterBuyingBlockchain from "src/models/Water/WaterBuyingBlockchain";
+import WaterSellingBlockchain from "src/models/Water/WaterSellingBlockchain";
 
 export function submitTransaction(message: string, type: string, data: any, callBackFunction: Function): void {
     if (message) {
@@ -37,6 +39,14 @@ export function submitTransaction(message: string, type: string, data: any, call
                             case ActionTypes.ADD_WATER_CONSUMPTION_BLOCK_CHAIN:
                                 let waterBlockchain = new WaterBlockchain(data[0].userId, data[0].logTime, x.transactionHash.data);
                                 callBackFunction(waterBlockchain);
+                                break;
+                            case ActionTypes.ADD_WATER_BUYING_BLOCK_CHAIN:
+                                let waterBuyingBlockchain = new WaterBuyingBlockchain(data.buyerId, data.buyTime, x.transactionHash.data);
+                                callBackFunction(waterBuyingBlockchain);
+                                break;
+                            case ActionTypes.ADD_WATER_SELLING_BLOCK_CHAIN:
+                                let waterSellingBlockchain = new WaterSellingBlockchain(data.sellerId, data.sellTime, x.transactionHash.data);
+                                callBackFunction(waterSellingBlockchain);
                                 break;
                             default:
                                 break;

@@ -31,6 +31,30 @@ const water = (state = initialState, action: any) => {
                 ...state,
                 error: action.payload
             }
+        case Types.FETCH_WATER_BUYING_SUCCESS:
+            return {
+                ...state,
+                paginationResult: action.payload,
+                error: null
+            }
+        case Types.FETCH_WATER_BUYING_FAILURE:
+            return {
+                ...state,
+                paginationResult: {},
+                error: action.payload
+            }
+        case Types.FETCH_WATER_SELLING_SUCCESS:
+            return {
+                ...state,
+                paginationResult: action.payload,
+                error: null
+            }
+        case Types.FETCH_WATER_SELLING_FAILURE:
+            return {
+                ...state,
+                paginationResult: {},
+                error: action.payload
+            }
         default:
             return state;
     }

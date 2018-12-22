@@ -26,6 +26,8 @@ namespace NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext
         public virtual DbSet<UserWaterAmount> UserWaterAmount { get; set; }
         public DbQuery<WaterConsumptionDetailViewModel> WaterConsumptionDetailViewModels { get; set; }
         public DbQuery<WaterConsumtionTotalViewModel> WaterConsumtionTotalViewModels { get; set; }
+        public DbQuery<WaterBuyingViewModel> WaterBuyingViewModels { get; set; }
+        public DbQuery<WaterSellingViewModel> WaterSellingViewModels { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

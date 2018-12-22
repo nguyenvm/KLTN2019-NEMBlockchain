@@ -48,5 +48,41 @@ namespace NEMBlockchain.Controllers
 
             return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterConsumptionDetailContract[]>(waterConsumtionDtos)));
         }
+
+        [HttpGet("buying")]
+        public async Task<IActionResult> GetWaterBuyingList([FromQuery]PaginationInputBase input)
+        {
+            if (string.IsNullOrEmpty(input.SearchTerm))
+            {
+                var waterBuyingDtos = await waterService.GetWaterBuyingList(input);
+
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterBuyingContract>>(waterBuyingDtos)));
+            }
+            else
+            {
+                var waterBuyingDtos = await waterService.GetWaterBuyingListByDate(input);
+
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterBuyingContract>>(waterBuyingDtos)));
+            }
+
+        }
+
+        [HttpGet("selling")]
+        public async Task<IActionResult> GetWaterSellingList([FromQuery]PaginationInputBase input)
+        {
+            if (string.IsNullOrEmpty(input.SearchTerm))
+            {
+                var waterSellingDtos = await waterService.GetWaterSellingList(input);
+
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterSellingContract>>(waterSellingDtos)));
+            }
+            else
+            {
+                var waterSellingDtos = await waterService.GetWaterSellingListByDate(input);
+
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterSellingContract>>(waterSellingDtos)));
+            }
+
+        }
     }
 }

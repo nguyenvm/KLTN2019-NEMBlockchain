@@ -100,5 +100,91 @@ namespace NEMBlockchain.Service
 
             return mapper.Map<WaterBlockchainDto>(waterBlockchain);
         }
+
+        public async Task<WaterBuyingBlockchainDto> InsertWaterBuyingBlockchain(WaterBuyingBlockchainDto waterBuyingBlockchainDto)
+        {
+            using (var transaction = dbBlockchain.Database.BeginTransaction())
+            {
+                try
+                {
+                    var waterBuyingBlockChain = await AddWaterBuyingBlockchain();
+
+                    await dbBlockchain.SaveChangesAsync();
+
+                    transaction.Commit();
+
+                    return mapper.Map<WaterBuyingBlockchainDto>(waterBuyingBlockChain);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+
+            async Task<WaterBuyingBlockChains> AddWaterBuyingBlockchain()
+            {
+                var newWaterBuyingInBlock = (await dbBlockchain.WaterBuyingBlockChains.AddAsync(new WaterBuyingBlockChains
+                {
+                    Id = waterBuyingBlockchainDto.Id,
+                    BuyTime = waterBuyingBlockchainDto.BuyTime,
+                    TransactionHash = waterBuyingBlockchainDto.TransactionHash
+                })).Entity;
+
+                return newWaterBuyingInBlock;
+            }
+        }
+
+        public async Task<WaterBuyingBlockchainDto> CheckExistWaterBuyingBlockchain(string id, DateTime buyTime)
+        {
+            var waterBuyingBlockchain = await dbBlockchain
+                .WaterBuyingBlockChains
+                .FirstOrDefaultAsync(w => w.Id == id && w.BuyTime == buyTime);
+
+            return mapper.Map<WaterBuyingBlockchainDto>(waterBuyingBlockchain);
+        }
+
+        public async Task<WaterSellingBlockchainDto> InsertWaterSellingBlockchain(WaterSellingBlockchainDto waterSellingBlockchainDto)
+        {
+            using (var transaction = dbBlockchain.Database.BeginTransaction())
+            {
+                try
+                {
+                    var waterSellingBlockchain = await AddWaterSellingBlockchain();
+
+                    await dbBlockchain.SaveChangesAsync();
+
+                    transaction.Commit();
+
+                    return mapper.Map<WaterSellingBlockchainDto>(waterSellingBlockchain);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+
+            async Task<WaterSellingBlockChains> AddWaterSellingBlockchain()
+            {
+                var newWaterSellingInBlock = (await dbBlockchain.WaterSellingBlockChains.AddAsync(new WaterSellingBlockChains
+                {
+                    Id = waterSellingBlockchainDto.Id,
+                    SellTime = waterSellingBlockchainDto.SellTime,
+                    TransactionHash = waterSellingBlockchainDto.TransactionHash
+                })).Entity;
+
+                return newWaterSellingInBlock;
+            }
+        }
+
+        public async Task<WaterSellingBlockchainDto> CheckExistWaterSellingBlockchain(string id, DateTime sellTime)
+        {
+            var waterSellingBlockchain = await dbBlockchain
+                .WaterSellingBlockChains
+                .FirstOrDefaultAsync(w => w.Id == id && w.SellTime == sellTime);
+
+            return mapper.Map<WaterSellingBlockchainDto>(waterSellingBlockchain);
+        }
     }
 }

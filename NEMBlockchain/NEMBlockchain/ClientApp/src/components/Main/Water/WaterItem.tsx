@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class UserItem extends Component<any, any> {
+class WaterItem extends Component<any, any> {
 
     render() {
         var { water, index, openModal } = this.props;
@@ -18,4 +18,4 @@ class UserItem extends Component<any, any> {
     }
 }
 
-export default UserItem;
+export default WaterItem;

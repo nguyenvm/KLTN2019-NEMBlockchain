@@ -15,7 +15,7 @@ class Navbar extends Component {
                         <p>AUTOFLOW Blockchain</p>
                     </div>
                     <ul className="nav navbar-nav float-xs-right">
-                        <li className="nav-item ">
+                        {/* <li className="nav-item ">
                             <a className="nav-link waves-effect waves-light"> <span className="tag red z-depth-1">2</span> <i className="fa fa-shopping-cart"></i> <span className="hidden-sm-down">Cart</span></a>
                         </li>
                         <li className="nav-item ">
@@ -26,7 +26,7 @@ class Navbar extends Component {
                         </li>
                         <li className="nav-item ">
                             <a className="nav-link waves-effect waves-light"><i className="fa fa-sign-in"></i> <span className="hidden-sm-down">Register</span></a>
-                        </li>
+                        </li> */}
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fa fa-user"></i> <span className="hidden-sm-down">Profile</span></a>
                             <div className="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">

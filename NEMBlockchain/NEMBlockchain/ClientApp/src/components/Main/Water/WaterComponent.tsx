@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import * as Constants from 'src/contants';
 
 class WaterComponent extends Component<any, any> {
-    
+
     render() {
         return (
             <div className="container-fluid">
@@ -11,7 +12,7 @@ class WaterComponent extends Component<any, any> {
                         <div className="card">
                             {/* <!--Header--> */}
                             <div className="card-header danger-color-dark white-text text-sm-center">
-                                Water Management
+                                Water Consumption Management
                             </div>
                             {/* <!--/Header--> */}
                             {/* <!--Content--> */}
@@ -35,24 +36,25 @@ class WaterComponent extends Component<any, any> {
                         </div>
                         {/* <!--/Card--> */}
                         {/* <!--/Pagination--> */}
-                        <nav>
-                            <ul className="pagination pg-primary">
-                                <li className="page-item">
-                                    <a className="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span className="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                {this.props.showPageIndex(this.props.paginationResult.totalCount)}
-                                <li className="page-item">
-                                    <a className="page-link" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                        <span className="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-
+                        {this.props.paginationResult.totalCount > Constants.DEFAULT_ITEMS_PER_PAGE &&
+                            <nav>
+                                <ul className="pagination pg-primary">
+                                    <li className="page-item">
+                                        <a className="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span className="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    {this.props.showPageIndex(this.props.paginationResult.totalCount)}
+                                    <li className="page-item">
+                                        <a className="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span className="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
                         {/* <!--/Pagination--> */}
                         <hr />
                     </div>

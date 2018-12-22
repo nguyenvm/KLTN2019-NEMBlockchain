@@ -94,5 +94,81 @@ namespace NEMBlockchain.Controllers
 
             return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterBlockchainContract>(waterBlockchainDto)));
         }
+
+        [HttpPost("water-buying-transaction")]
+        public async Task<IActionResult> AddWaterBuyingBlockchain([FromBody]WaterBuyingBlockchainContract waterBuyingBlockchainContract)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (string.IsNullOrEmpty(waterBuyingBlockchainContract.TransactionHash))
+                {
+                    return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
+                }
+
+                await blockchainService.InsertWaterBuyingBlockchain(mapper.Map<WaterBuyingBlockchainDto>(waterBuyingBlockchainContract));
+
+                return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet("check-exist-water-buying/{id}/{buyTime}")]
+        public async Task<IActionResult> CheckExistWaterBuying(string id, DateTime buyTime)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.USERID_IS_REQUIRED, true));
+            }
+
+            var waterBuyingBlockchainDto = await blockchainService.CheckExistWaterBuyingBlockchain(id, buyTime);
+
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterBuyingBlockchainContract>(waterBuyingBlockchainDto)));
+        }
+
+        [HttpPost("water-selling-transaction")]
+        public async Task<IActionResult> AddWaterSellingBlockchain([FromBody]WaterSellingBlockchainContract waterSellingBlockchainContract)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (string.IsNullOrEmpty(waterSellingBlockchainContract.TransactionHash))
+                {
+                    return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.TRANSACTION_HASH_IS_REQUIRED, true));
+                }
+
+                await blockchainService.InsertWaterSellingBlockchain(mapper.Map<WaterSellingBlockchainDto>(waterSellingBlockchainContract));
+
+                return new OkObjectResult(new ResponseAsMessage(MessageCode.INSERT_TRANSACTION_HASH_SUCCESSUL));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet("check-exist-water-selling/{id}/{sellTime}")]
+        public async Task<IActionResult> CheckExistWaterSelling(string id, DateTime sellTime)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.USERID_IS_REQUIRED, true));
+            }
+
+            var waterSellingBlockchainDto = await blockchainService.CheckExistWaterSellingBlockchain(id, sellTime);
+
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterSellingBlockchainContract>(waterSellingBlockchainDto)));
+        }
     }
 }

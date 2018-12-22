@@ -77,12 +77,12 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }: { label: any, to: any, act
                                     <ul>
                                         <li>
                                             <Link
-                                                to="/buying-activity" className="waves-effect">Buying Activity
+                                                to="/water/buying-activity" className="waves-effect">Buying Activity
                                             </Link>
                                         </li>
                                         <li>
                                             <Link
-                                                to="/selling-activity" className="waves-effect">Selling Activity
+                                                to="/water/selling-activity" className="waves-effect">Selling Activity
                                             </Link>
                                         </li>
                                     </ul>

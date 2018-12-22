@@ -18,6 +18,10 @@ namespace NEMBlockchain.Service.Mapping
             CreateMap<WaterBlockChains, WaterBlockchainDto>();
             CreateMap<WaterConsumtionTotalViewModel, WaterConsumtionTotalDto>();
             CreateMap<WaterConsumptionDetailViewModel, WaterConsumptionDetailDto>();
+            CreateMap<WaterBuyingViewModel, WaterBuyingDto>();
+            CreateMap<WaterSellingViewModel, WaterSellingDto>();
+            CreateMap<WaterBuyingBlockChains, WaterBuyingBlockchainDto>();
+            CreateMap<WaterSellingBlockChains, WaterSellingBlockchainDto>();
         }
     }
 }
