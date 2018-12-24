@@ -5,6 +5,7 @@ using NEMBlockchain.Common;
 using NEMBlockchain.Contract.Membership;
 using NEMBlockchain.Service;
 using NEMBlockchain.Service.Common;
+using NEMBlockchain.Service.Dtos;
 
 namespace NEMBlockchain.Controllers
 {
@@ -26,6 +27,14 @@ namespace NEMBlockchain.Controllers
             var resultPagination = mapper.Map<PaginationSet<UserContract>>(userDtos);
 
             return new OkObjectResult(new ResponseAsObject(resultPagination));
+        }
+
+        [HttpPost("find")]
+        public async Task<IActionResult> FindUserByInformation([FromBody]UserContract userContract)
+        {
+            var userDto = await membershipService.FindUserByInformation(mapper.Map<UserDto>(userContract));
+
+            return new OkObjectResult(new ResponseAsObject(mapper.Map<UserContract>(userDto)));
         }
     }
 }

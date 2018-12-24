@@ -92,11 +92,20 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }: { label: any, to: any, act
                     case 'Checking data modification':
                         return (
                             <li>
-                                <Link
-                                    to={to}
+                                <a
                                     className="collapsible-header waves-effect arrow-r">
                                     <i className="fa fa-sun-o"></i> {label}
-                                </Link>
+                                    <i className="fa fa-angle-down rotate-icon"></i>
+                                </a>
+                                <div className="collapsible-body">
+                                    <ul>
+                                        <li>
+                                            <Link
+                                                to="/checking/user" className="waves-effect">User Checking
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         );
                     default:

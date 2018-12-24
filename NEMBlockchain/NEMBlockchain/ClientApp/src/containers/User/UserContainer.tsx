@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import UserComponent from '../components/Main/User/UserComponent';
-import * as Actions from '../actions/index';
-import UserItem from '../components/Main/User/UserItem';
-import CommonModal from '../utils/commons/Modal/CommonModal';
-import Modal from '../models/Modal';
-import UserInfo from '../models/User/UserInfo';
-import * as Commons from '../utils/commons/index';
-import * as nemTransaction from '../utils/NEM-infrastructure/TransactionHttp';
-import * as Messages from '../contants/Messages';
+import UserComponent from '../../components/Main/User/UserComponent';
+import * as Actions from '../../actions/index';
+import UserItem from '../../components/Main/User/UserItem';
+import CommonModal from '../../utils/commons/Modal/CommonModal';
+import Modal from '../../models/Modal';
+import UserInfo from '../../models/User/UserInfo';
+import * as Commons from '../../utils/commons/index';
+import * as nemTransaction from '../../utils/NEM-infrastructure/TransactionHttp';
+import * as Messages from '../../contants/Messages';
 import * as _ from 'lodash';
-import UserBlockchain from '../models/User/UserBlockchain';
-import PaginationInput from '../models/PaginationInput';
-import * as Constants from '../contants';
+import UserBlockchain from '../../models/User/UserBlockchain';
+import PaginationInput from '../../models/PaginationInput';
+import * as Constants from '../../contants';
 import * as ActionTypes from 'src/contants/ActionTypes';
 
 class UserContainer extends Component<any, any> {
@@ -153,14 +153,14 @@ class UserContainer extends Component<any, any> {
                     <strong>Address:</strong>
                     <div className="d-inline ml-1">{data.address}</div>
                 </div>
-                <div className="mb-1">
+                {/* <div className="mb-1">
                     <strong>Longitude:</strong>
                     <div className="d-inline ml-1">{data.longitude}</div>
                 </div>
                 <div className="mb-1">
                     <strong>Latitude:</strong>
                     <div className="d-inline ml-1">{data.latitude}</div>
-                </div>
+                </div> */}
             </>
         );
     }

@@ -12,8 +12,8 @@ class UserItem extends Component<any, any> {
                     <td>{user.userName}</td>
                     <td>{user.email}</td>
                     <td>{user.address}</td>
-                    <td>{user.longitude}</td>
-                    <td>{user.latitude}</td>
+                    {/* <td>{user.longitude}</td>
+                    <td>{user.latitude}</td> */}
                     <td><button className="btn btn-primary waves-effect waves-light" onClick={() => this.props.openModal(user)}>Detail</button></td>
                 </tr>
             </>

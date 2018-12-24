@@ -24,8 +24,8 @@ class UserComponent extends Component<any, any> {
                                             <th>User Name</th>
                                             <th>Email</th>
                                             <th>Address</th>
-                                            <th>Longitude</th>
-                                            <th>Latitude</th>
+                                            {/* <th>Longitude</th>
+                                            <th>Latitude</th> */}
                                             <th>#</th>
                                         </tr>
                                     </thead>

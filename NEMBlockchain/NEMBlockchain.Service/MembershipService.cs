@@ -19,6 +19,29 @@ namespace NEMBlockchain.Service
             this.dbMemberShip = dbMemberShip;
             this.mapper = mapper;
         }
+
+        public async Task<UserDto> FindUserByInformation(UserDto userDto)
+        {
+            var user = await (from aspUsers in dbMemberShip.AspNetUsers
+                              join userInfo in dbMemberShip.UserInfo on aspUsers.Id equals userInfo.Id
+                              where aspUsers.Email == userDto.Email
+                                  && aspUsers.UserName == userDto.UserName
+                                  && userInfo.Address == userDto.Address
+                                  && userInfo.FullName == userDto.FullName
+                              select new UserDto
+                              {
+                                  Id = aspUsers.Id,
+                                  FullName = aspUsers.UserInfo.FullName,
+                                  UserName = aspUsers.UserName,
+                                  Email = aspUsers.Email,
+                                  Address = aspUsers.UserInfo.Address,
+                                  Longitude = aspUsers.UserInfo.Longitude,
+                                  Latitude = aspUsers.UserInfo.Latitude
+                              }).FirstOrDefaultAsync();
+
+            return user;
+        }
+
         public async Task<PaginationSet<UserDto>> GetAllUsers(PaginationInputBase input)
         {
             var users = from aspUsers in dbMemberShip.AspNetUsers

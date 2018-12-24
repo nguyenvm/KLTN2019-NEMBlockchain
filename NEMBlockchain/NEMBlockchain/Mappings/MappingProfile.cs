@@ -11,6 +11,7 @@ namespace NEMBlockchain.Mapping
         public MappingProfile()
         {
             CreateMap<UserDto, UserContract>();
+            CreateMap<UserContract, UserDto>();
             CreateMap<UserBlockchainContract, UserBlockchainDto>();
             CreateMap<UserBlockchainDto, UserBlockchainContract>();
             CreateMap<WaterBlockchainContract, WaterBlockchainDto>();

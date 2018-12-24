@@ -5,24 +5,24 @@ export default class UserInfo {
     userName: string;
     email: string;
     address: string;
-    longitude: string;
-    latitude: string;
+    // longitude: string;
+    // latitude: string;
 
     constructor(
         id: string,
         fullName: string,
         userName: string,
         email: string,
-        address: string,
-        longitude: string,
-        latitude: string
+        address: string
+        // longitude: string,
+        // latitude: string
     ) {
         this.id = id || '';
         this.fullName = fullName || '';
         this.userName = userName || '';
         this.email = email || '';
         this.address = address || '';
-        this.longitude = longitude || '';
-        this.latitude = latitude || '';
+        // this.longitude = longitude || '';
+        // this.latitude = latitude || '';
     }
 }

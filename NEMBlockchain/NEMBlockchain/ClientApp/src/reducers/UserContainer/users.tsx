@@ -21,6 +21,18 @@ const users = (state = initialState, action: any) => {
                 paginationResult: {},
                 error: action.payload
             }
+        case Types.FIND_USER_BY_INFOMATION_SUCCESS:
+            return {
+                ...state,
+                paginationResult: action.payload,
+                error: null
+            }
+        case Types.FIND_USER_BY_INFOMATION_FAILURE:
+            return {
+                ...state,
+                paginationResult: {},
+                error: action.payload
+            }
         default:
             return state;
     }

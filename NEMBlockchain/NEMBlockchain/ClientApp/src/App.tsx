@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import Header from './components/Header/index';
-import UserContainer from './containers/UserContainer';
+import UserContainer from './containers/User/UserContainer';
 import routes from './utils/routes';
 
 class App extends Component<any, any> {

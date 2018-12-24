@@ -1,8 +1,9 @@
 import React from 'react';
-import UserContainer from '../containers/UserContainer';
-import WaterContainer from 'src/containers/WaterContainer';
-import WaterBuyingContainer from 'src/containers/WaterBuyingContainer';
-import WaterSellingContainer from 'src/containers/WaterSellingContainer';
+import UserContainer from 'src/containers/User/UserContainer';
+import WaterContainer from 'src/containers/Water/WaterContainer';
+import WaterBuyingContainer from 'src/containers/Water/WaterBuyingContainer';
+import WaterSellingContainer from 'src/containers/Water/WaterSellingContainer';
+import UserCheckingDataContainer from 'src/containers/Checking/UserCheckingDataContainer';
 
 const routes = [ 
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/water/selling-activity',
         exact: true,
         main: () => <WaterSellingContainer />
+    },
+    {
+        path: '/checking/user',
+        exact: true,
+        main: () => <UserCheckingDataContainer />
     }
 ]
 

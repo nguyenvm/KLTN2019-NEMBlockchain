@@ -7,5 +7,6 @@ namespace NEMBlockchain.Service
     public interface IMembershipService
     {
         Task<PaginationSet<UserDto>> GetAllUsers(PaginationInputBase input);
+        Task<UserDto> FindUserByInformation(UserDto userDto);
     }
 }

@@ -398,6 +398,35 @@ export const actResetWaterBuyingBlockchain = () => {
     }
 }
 
+//Checking data modification
+
+export const actFindUserByInfomationSuccess = (userInfo: UserInfo) => {
+    return {
+        type: Types.FIND_USER_BY_INFOMATION_SUCCESS,
+        payload: userInfo
+    }
+}
+
+export const actFindUserByInfomationFailure = (error: any) => {
+    return {
+        type: Types.FIND_USER_BY_INFOMATION_FAILURE,
+        payload: error
+    }
+}
+
+export const actFindUserByInfomationRequest = (userInfo: UserInfo) => {
+    return (dispatch: any) => {
+        return callApi('api/user/find', 'POST', userInfo)
+            .then((res: any) => {
+                dispatch(actFindUserByInfomationSuccess(res.data.data));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFindUserByInfomationFailure(err));
+            });
+    }
+}
+
 //Action for Modal
 
 export const actShowModal = (modal: Modal) => {

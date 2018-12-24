@@ -27,4 +27,12 @@
 .table td:first-child {
   font-weight: bold;
 }
+
+.container {
+  margin-top: 37px;
+}
+
+.text-right {
+  text-align: right;
+}
 /*# sourceMappingURL=style.css.map */
