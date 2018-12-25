@@ -25,9 +25,7 @@ namespace NEMBlockchain.Service
             var user = await (from aspUsers in dbMemberShip.AspNetUsers
                               join userInfo in dbMemberShip.UserInfo on aspUsers.Id equals userInfo.Id
                               where aspUsers.Email == userDto.Email
-                                  && aspUsers.UserName == userDto.UserName
-                                  && userInfo.Address == userDto.Address
-                                  && userInfo.FullName == userDto.FullName
+                                  || aspUsers.UserName == userDto.UserName
                               select new UserDto
                               {
                                   Id = aspUsers.Id,

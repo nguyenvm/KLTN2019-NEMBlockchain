@@ -25,7 +25,8 @@ const userBlockchain = (state = initalState, action: any) => {
         case Types.RESET_USERBLOCKCHAIN:
             return {
                 ...state,
-                message: ''
+                message: '',
+                data: {}
             };
         default:
             return state;

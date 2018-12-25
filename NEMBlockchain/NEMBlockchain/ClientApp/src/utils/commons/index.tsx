@@ -54,6 +54,7 @@ export function checkDataHasChanged(transactionHash: string, hexCompare: string,
             console.log(err);
         });
     } else {
+        callBackFunction(null, false);
         console.log('TransactionHash is required');
     }
 }

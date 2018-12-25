@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserInfo from 'src/models/User/UserInfo';
 import * as _ from 'lodash';
 import * as Commons from 'src/utils/commons';
+import * as Messages from 'src/contants/Messages';
 
 class UserCheckingDataComponent extends Component<any, any> {
 
@@ -36,7 +37,8 @@ class UserCheckingDataComponent extends Component<any, any> {
                                         name="txtFullName"
                                         id="form1"
                                         className="form-control"
-                                        onChange={() => this.onChange(event)}
+                                        onChange={() => this.onChanged(event)}
+                                        onFocus={() => this.onFocused(event)}
                                     />
                                     <label htmlFor="form1" data-error="wrong" data-success="right">Type your fullname</label>
                                 </div>
@@ -46,7 +48,8 @@ class UserCheckingDataComponent extends Component<any, any> {
                                         name="txtUserName"
                                         id="form2"
                                         className="form-control"
-                                        onChange={() => this.onChange(event)}
+                                        onChange={() => this.onChanged(event)}
+                                        onFocus={() => this.onFocused(event)}
                                     />
                                     <label htmlFor="form2" data-error="wrong" data-success="right">Type your username</label>
                                 </div>
@@ -56,7 +59,8 @@ class UserCheckingDataComponent extends Component<any, any> {
                                         name="txtEmail"
                                         id="form3"
                                         className="form-control validate"
-                                        onChange={() => this.onChange(event)}
+                                        onChange={() => this.onChanged(event)}
+                                        onFocus={() => this.onFocused(event)}
                                     />
                                     <label htmlFor="form3" data-error="wrong" data-success="right">Type your email</label>
                                 </div>
@@ -66,14 +70,21 @@ class UserCheckingDataComponent extends Component<any, any> {
                                         name="txtAddress"
                                         id="form4"
                                         className="form-control"
-                                        onChange={() => this.onChange(event)}
+                                        onChange={() => this.onChanged(event)}
+                                        onFocus={() => this.onFocused(event)}
                                     />
                                     <label htmlFor="form4" data-error="wrong" data-success="right">Type your address</label>
                                 </div>
                                 <div className="text-right">
-                                    {/* <p className="text-primary">Data valid</p>
-                                    <p className="text-warning">Data has changed</p>
-                                    <p className="text-warning">Transaction hash not exist on blockchain</p> */}
+                                    {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_VALID &&
+                                        <p className="text-primary">Data valid</p>
+                                    }
+                                    {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_INVALID &&
+                                        <p className="text-warning">Data has changed</p>
+                                    }
+                                    {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN &&
+                                        <p className="text-warning">Transaction hash not exist on blockchain</p>
+                                    }
                                     <button
                                         className="btn btn-primary waves-effect waves-light"
                                         onClick={this.checkingData.bind(this)}
@@ -92,7 +103,11 @@ class UserCheckingDataComponent extends Component<any, any> {
         );
     }
 
-    onChange(e: any) {
+    onFocused(e: any) {
+        this.props.resetUserBlockchain();
+    }
+
+    onChanged(e: any) {
         let target = e.target;
         let name = target.name;
         let value = target.value;
@@ -110,7 +125,7 @@ class UserCheckingDataComponent extends Component<any, any> {
             this.state.txtEmail,
             this.state.txtAddress
         );
-        
+
         await this.props.findUserByInfomation(userInfo);
 
         if (!_.isNil(this.props.users.paginationResult)) {
@@ -123,8 +138,22 @@ class UserCheckingDataComponent extends Component<any, any> {
                 this.state.txtEmail,
                 this.state.txtAddress
             );
-            Commons.hashData(userInfo);
-            // Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(userInfo))
+        }
+
+        Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(userInfo), this.callBackCheckDataHasChanged.bind(this))
+    }
+
+    callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {
+        if (!_.isNull(isValid)) {
+            if (isValid) {
+                this.props.checkValidOfUserData(Messages.DATA_VALID);
+            } else {
+                this.props.checkValidOfUserData(Messages.DATA_INVALID);
+            }
+        } else {
+            if (!isExist) {
+                this.props.checkValidOfUserData(Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN);
+            }
         }
     }
 }
