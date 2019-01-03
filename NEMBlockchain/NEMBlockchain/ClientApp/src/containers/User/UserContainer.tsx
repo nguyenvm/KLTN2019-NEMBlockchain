@@ -22,7 +22,8 @@ class UserContainer extends Component<any, any> {
         super(props);
 
         this.state = {
-            currentPage: 1
+            currentPage: 1,
+            checkingIcons: {}
         }
     }
 
@@ -63,18 +64,22 @@ class UserContainer extends Component<any, any> {
         let result: any = null;
 
         if (users.length > 0) {
+
             result = users.map((user, index) => {
                 return (
                     <UserItem
                         key={index}
                         index={index}
                         user={user}
+                        findUserBlockchainById={this.props.findUserBlockchainById}
+                        userBlockchain={this.props.userBlockchain}
+                        checkingIcons={this.state.checkingIcons}
                         openModal={this.openModal.bind(this)}
                     />
                 )
             });
         }
-        
+
         return result;
     }
 
@@ -186,7 +191,7 @@ class UserContainer extends Component<any, any> {
                 }
                 {!_.isNil(this.props.userBlockchain.data) && !_.isEmpty(this.props.userBlockchain.data) &&
                     <button className="btn btn-primary waves-effect waves-light"
-                    onClick={() => Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
+                        onClick={() => Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
                     >
                         Check Data
                     </button>

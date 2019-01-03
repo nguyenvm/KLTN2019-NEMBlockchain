@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import * as _ from 'lodash';
+import callApi from 'src/utils/apiCaller';
 
 class UserItem extends Component<any, any> {
 
     render() {
-        var { user, index } = this.props;
+        var { user, index, openModal } = this.props;
+
         return (
             <>
                 <tr>
@@ -14,10 +17,25 @@ class UserItem extends Component<any, any> {
                     <td>{user.address}</td>
                     {/* <td>{user.longitude}</td>
                     <td>{user.latitude}</td> */}
-                    <td><button className="btn btn-primary waves-effect waves-light" onClick={() => this.props.openModal(user)}>Detail</button></td>
+                    <td>
+                        <button className="btn btn-primary waves-effect waves-light" onClick={() => openModal(user)}>Detail</button>
+                        {this.showChecked()}
+                    </td>
                 </tr>
             </>
         );
+    }
+
+    showChecked() {
+        callApi(`api/nem/check-exist-user/${this.props.user.id}`, 'GET', null).then((res: any) => {
+            if (!_.isNil(res.data.data)) {
+                return (
+                    <i className="fa fa-check text-success" aria-hidden="true"></i>
+                );
+            } else {
+                return '';
+            }
+        });
     }
 }
 

@@ -130,7 +130,7 @@ export const actFetchWaterConsumptionRequest = (paginationInput: PaginationInput
                     res.data.data.pageIndex,
                     res.data.data.pageSize
                 );
-                
+
                 dispatch(actFetchWaterConsumptionSuccess(paginationResult));
             })
             .catch((err: any) => {
@@ -198,7 +198,7 @@ export const actFindWaterBlockchainByIdRequest = (id: string) => {
     return (dispatch: any) => {
         return callApi(`api/nem/check-exist-water/${id}`, 'GET', null).then((res: any) => {
             if (!_.isNil(res.data.data)) {
-                const waterBlockchain = new WaterBlockchain(res.data.data.id, res.data.data.logTime,res.data.data.transactionHash);
+                const waterBlockchain = new WaterBlockchain(res.data.data.id, res.data.data.logTime, res.data.data.transactionHash);
                 dispatch(actFindWaterBlockchainById(waterBlockchain));
             } else {
                 dispatch(actFindWaterBlockchainById(null as any));
@@ -246,7 +246,7 @@ export const actFetchWaterSellingRequest = (paginationInput: PaginationInput) =>
                     res.data.data.pageIndex,
                     res.data.data.pageSize
                 );
-                
+
                 dispatch(actFetchWaterSellingSuccess(paginationResult));
             })
             .catch((err: any) => {
@@ -335,7 +335,7 @@ export const actFetchWaterBuyingRequest = (paginationInput: PaginationInput) => 
                     res.data.data.pageIndex,
                     res.data.data.pageSize
                 );
-                
+
                 dispatch(actFetchWaterBuyingSuccess(paginationResult));
             })
             .catch((err: any) => {
