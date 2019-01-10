@@ -41,7 +41,7 @@ export const actFetchUsersRequest = (paginationInput: PaginationInput) => {
                     res.data.data.pageIndex,
                     res.data.data.pageSize
                 );
-                
+
                 dispatch(actFetchUsersSuccess(paginationResult));
             })
             .catch((err: any) => {
@@ -131,6 +131,29 @@ export const actFetchWaterConsumptionRequest = (paginationInput: PaginationInput
                     res.data.data.pageSize
                 );
 
+                console.log(paginationResult);
+                
+
+                dispatch(actFetchWaterConsumptionSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterConsumptionFailure(err));
+            });
+    }
+}
+
+export const actFetchWaterConsumptionByDateRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/consumptions-list?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterConsumptionTotal>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
                 dispatch(actFetchWaterConsumptionSuccess(paginationResult));
             })
             .catch((err: any) => {
@@ -179,7 +202,7 @@ export const actAddWaterBlockchainRequest = (waterBlockchain: WaterBlockchain) =
         return callApi('api/nem/water-transaction', 'POST', waterBlockchain)
             .then((res: any) => {
                 dispatch(actAddWaterBlockchain(Messages.INSERT_TRANSACTION_HASH_SUCCESS));
-                dispatch(actFindWaterBlockchainByIdRequest(waterBlockchain.Id));
+                dispatch(actFindWaterBlockchainByIdRequest(waterBlockchain.Id, waterBlockchain.LogTime));
             })
             .catch((err: any) => {
                 dispatch(actAddWaterBlockchain(Messages.INSERT_TRANSACTION_HASH_FAILURE));
@@ -194,9 +217,9 @@ export const actFindWaterBlockchainById = (waterBlockchain: WaterBlockchain) => 
     }
 }
 
-export const actFindWaterBlockchainByIdRequest = (id: string) => {
+export const actFindWaterBlockchainByIdRequest = (id: string, logTime: Date) => {
     return (dispatch: any) => {
-        return callApi(`api/nem/check-exist-water/${id}`, 'GET', null).then((res: any) => {
+        return callApi(`api/nem/check-exist-water/${id}/${logTime}`, 'GET', null).then((res: any) => {
             if (!_.isNil(res.data.data)) {
                 const waterBlockchain = new WaterBlockchain(res.data.data.id, res.data.data.logTime, res.data.data.transactionHash);
                 dispatch(actFindWaterBlockchainById(waterBlockchain));
@@ -222,7 +245,7 @@ export const actResetWaterBlockchain = () => {
 
 // Water Selling
 
-export const actFetchWaterSellingSuccess = (paginationResult: PaginationResult<WaterBuying>) => {
+export const actFetchWaterSellingSuccess = (paginationResult: PaginationResult<WaterSelling>) => {
     return {
         type: Types.FETCH_WATER_SELLING_SUCCESS,
         payload: paginationResult
@@ -240,7 +263,27 @@ export const actFetchWaterSellingRequest = (paginationInput: PaginationInput) =>
     return (dispatch: any) => {
         return callApi(`api/water/selling?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}`, 'GET', null)
             .then((res: any) => {
-                const paginationResult = new PaginationResult<WaterBuying>(
+                const paginationResult = new PaginationResult<WaterSelling>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterSellingSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterSellingFailure(err));
+            });
+    }
+}
+
+export const actFetchWaterSellingByDateRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/selling?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterSelling>(
                     res.data.data.totalCount,
                     res.data.data.items,
                     res.data.data.pageIndex,
@@ -328,6 +371,26 @@ export const actFetchWaterBuyingFailure = (error: any) => {
 export const actFetchWaterBuyingRequest = (paginationInput: PaginationInput) => {
     return (dispatch: any) => {
         return callApi(`api/water/buying?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterBuying>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterBuyingSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterBuyingFailure(err));
+            });
+    }
+}
+
+export const actFetchWaterBuyingByDateRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/buying?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}`, 'GET', null)
             .then((res: any) => {
                 const paginationResult = new PaginationResult<WaterBuying>(
                     res.data.data.totalCount,

@@ -8,7 +8,7 @@ namespace NEMBlockchain.Data.AutoFlowDB_Water_Water_DataContext.ViewModels
     {
         public string TradeId { get; set; }
         public string BuyerId { get; set; }
-        public DateTime? BuyTime { get; set; }
+        public DateTime BuyTime { get; set; }
         public double? Total { get; set; }
     }
 }

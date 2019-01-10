@@ -10,5 +10,6 @@ namespace NEMBlockchain.Contract.Water
         public int? Amount { get; set; }
         public double? Total { get; set; }
         public string SellTime { get; set; }
+        public bool isExistedOnNem { get; set; }
     }
 }

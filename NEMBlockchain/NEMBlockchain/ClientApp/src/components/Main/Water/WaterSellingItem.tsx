@@ -12,7 +12,10 @@ class WaterSellingItem extends Component<any, any> {
                     <td>{water.amount}</td>
                     <td>{water.total}</td>
                     <td>{water.sellTime}</td>
-                    <td><button className="btn btn-primary waves-effect waves-light" onClick={() => openModal(water)}>Detail</button></td>
+                    <td>
+                        <button className="btn btn-primary waves-effect waves-light" onClick={() => openModal(water)}>Detail</button>
+                        {water.isExistedOnNem && <i className="fa fa-check text-success" aria-hidden="true"></i>}
+                    </td>
                 </tr>
             </>
         );

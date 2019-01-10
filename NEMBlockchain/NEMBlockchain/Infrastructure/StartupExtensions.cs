@@ -35,8 +35,13 @@ namespace NEMBlockchain.Infrastructure
 
         public static void DefineAutoMapper(this IServiceCollection services)
         {
-            //Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
-            services.AddAutoMapper();
+            Mapper.Initialize(cfg => {
+                cfg.AddProfile<MappingProfile>();
+                cfg.AddProfile<NEMBlockchain.Mapping.MappingProfile>();
+            });
+
+            //Mapper.Initialize(cfg => cfg.ValidateInlineMaps = false);
+            //services.AddAutoMapper();
             services.AddSingleton(Mapper.Configuration);
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
         }

@@ -23,7 +23,9 @@ class WaterContainer extends Component<any, any> {
         super(props);
 
         this.state = {
-            currentPage: 1
+            currentPage: 1,
+            isSearch: false,
+            date: ''
         }
     }
 
@@ -44,6 +46,8 @@ class WaterContainer extends Component<any, any> {
                     paginationResult={this.props.water.paginationResult}
                     onPageChange={this.onPageChanged.bind(this)}
                     showPageIndex={this.showPageIndex.bind(this)}
+                    fetchWaterConsumptionByDate={this.props.fetchWaterConsumptionByDate}
+                    onSearch={this.onSearch.bind(this)}
                 >
                     {items && this.showWaterConsumption(items)}
                 </WaterComponent>
@@ -78,18 +82,38 @@ class WaterContainer extends Component<any, any> {
         return result;
     }
 
-    onPageChanged(index: number) {
-        this.setState({ currentPage: index });
+    onPageChanged(index: number, date: string) {
+        
+        this.setState({ currentPage: index, date: date });
 
-        const paginationInput = new PaginationInput(
-            index,
-            Constants.DEFAULT_ITEMS_PER_PAGE
-        );
+        if (!this.state.isSearch) {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
 
-        this.props.fetchWaterConsumption(paginationInput);
+            this.props.fetchWaterConsumption(paginationInput);
+        } else {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                date
+            );
+
+            this.props.fetchWaterConsumptionByDate(paginationInput);
+        }
     }
 
-    showPageIndex(totalCount: number) {
+    onSearch(date: string) {
+        if (date) {
+            this.setState({ isSearch: true, currentPage: 1, date: date });
+        } else {
+            this.setState({ isSearch: false, currentPage: 1, date: '' });
+        }
+    }
+
+    showPageIndex(totalCount: number, date: string) {
+        
         let totalPage = Math.ceil(totalCount / Constants.DEFAULT_ITEMS_PER_PAGE);
 
         let renderIndex = [];
@@ -98,7 +122,7 @@ class WaterContainer extends Component<any, any> {
             renderIndex.push(
                 <li key={index} className={'page-item' + (this.state.currentPage === index ? ' active' : '')}>
                     <a className="page-link"
-                        onClick={() => this.onPageChanged(index)}
+                        onClick={() => this.onPageChanged(index, date)}
                     >
                         {index}
                     </a>
@@ -110,7 +134,7 @@ class WaterContainer extends Component<any, any> {
     }
 
     async openModal(data: any): Promise<void> {
-        await this.props.findWaterBlockchainById(data.userId);
+        await this.props.findWaterBlockchainById(data.userId, data.logTime);
         await this.props.getConsumptionDetail(data.userId, data.logTime);
 
         let modal = new Modal(true);
@@ -167,6 +191,7 @@ class WaterContainer extends Component<any, any> {
 
     dataFooter() {
         let { data } = this.props.modal;
+        
         return (
             <>
                 {this.props.waterBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
@@ -202,8 +227,26 @@ class WaterContainer extends Component<any, any> {
         );
     }
 
-    callBackSubmitTransactionSuccess(waterBlockchain: WaterBlockchain) {
-        this.props.addWaterBlockchain(waterBlockchain);
+    async callBackSubmitTransactionSuccess(waterBlockchain: WaterBlockchain) {
+        
+        await this.props.addWaterBlockchain(waterBlockchain);
+        
+        if (!this.state.isSearch) {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            this.props.fetchWaterConsumption(paginationInput);
+        } else {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                this.state.date
+            );
+
+            this.props.fetchWaterConsumptionByDate(paginationInput);
+        }
     }
 
     callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {
@@ -232,6 +275,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any, props: any) => {
     return bindActionCreators({
         fetchWaterConsumption: Actions.actFetchWaterConsumptionRequest,
+        fetchWaterConsumptionByDate: Actions.actFetchWaterConsumptionByDateRequest,
         getConsumptionDetail: Actions.actGetWaterConsumptionDetailRequest,
         openModal: Actions.actShowModal,
         closeModal: Actions.actHideModal,

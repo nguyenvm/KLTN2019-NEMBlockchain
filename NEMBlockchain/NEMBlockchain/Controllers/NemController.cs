@@ -82,15 +82,15 @@ namespace NEMBlockchain.Controllers
             }
         }
 
-        [HttpGet("check-exist-water/{id}")]
-        public async Task<IActionResult> CheckExistWater(string id)
+        [HttpGet("check-exist-water/{id}/{logTime}")]
+        public async Task<IActionResult> CheckExistWater(string id, DateTime logTime)
         {
             if (string.IsNullOrEmpty(id))
             {
                 return new BadRequestObjectResult(new ResponseAsMessage(ErrorCode.USERID_IS_REQUIRED, true));
             }
 
-            var waterBlockchainDto = await blockchainService.CheckExistWaterBlockchain(id);
+            var waterBlockchainDto = await blockchainService.CheckExistWaterBlockchain(id, logTime);
 
             return new OkObjectResult(new ResponseAsObject(mapper.Map<WaterBlockchainContract>(waterBlockchainDto)));
         }

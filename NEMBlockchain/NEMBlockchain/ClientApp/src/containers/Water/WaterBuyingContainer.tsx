@@ -22,7 +22,9 @@ class WaterBuyingContainer extends Component<any, any> {
         super(props);
 
         this.state = {
-            currentPage: 1
+            currentPage: 1,
+            isSearch: false,
+            date: ''
         }
     }
 
@@ -43,6 +45,8 @@ class WaterBuyingContainer extends Component<any, any> {
                     paginationResult={this.props.water.paginationResult}
                     onPageChange={this.onPageChanged.bind(this)}
                     showPageIndex={this.showPageIndex.bind(this)}
+                    fetchWaterBuyingByDate={this.props.fetchWaterBuyingByDate}
+                    onSearch={this.onSearch.bind(this)}
                 >
                     {items && this.showWaterBuying(items)}
                 </WaterBuyingComponent>
@@ -77,18 +81,37 @@ class WaterBuyingContainer extends Component<any, any> {
         return result;
     }
 
-    onPageChanged(index: number) {
-        this.setState({ currentPage: index });
+    onPageChanged(index: number, date: string) {
 
-        const paginationInput = new PaginationInput(
-            index,
-            Constants.DEFAULT_ITEMS_PER_PAGE
-        );
+        this.setState({ currentPage: index, date: date });
 
-        this.props.fetchWaterBuying(paginationInput);
+        if (!this.state.isSearch) {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            this.props.fetchWaterBuying(paginationInput);
+        } else {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                date
+            );
+
+            this.props.fetchWaterBuyingByDate(paginationInput);
+        }
     }
 
-    showPageIndex(totalCount: number) {
+    onSearch(date: string) {
+        if (date) {
+            this.setState({ isSearch: true, currentPage: 1, date: date });
+        } else {
+            this.setState({ isSearch: false, currentPage: 1, date: '' });
+        }
+    }
+
+    showPageIndex(totalCount: number, date: string) {
         let totalPage = Math.ceil(totalCount / Constants.DEFAULT_ITEMS_PER_PAGE);
 
         let renderIndex = [];
@@ -97,7 +120,7 @@ class WaterBuyingContainer extends Component<any, any> {
             renderIndex.push(
                 <li key={index} className={'page-item' + (this.state.currentPage === index ? ' active' : '')}>
                     <a className="page-link"
-                        onClick={() => this.onPageChanged(index)}
+                        onClick={() => this.onPageChanged(index, date)}
                     >
                         {index}
                     </a>
@@ -111,8 +134,15 @@ class WaterBuyingContainer extends Component<any, any> {
     async openModal(data: any): Promise<void> {
         await this.props.findWaterBuyingBlockchainById(data.buyerId, data.buyTime);
 
+        let waterBuying: WaterBuying = new WaterBuying(
+            data.tradeId,
+            data.buyerId,
+            data.total,
+            data.buyTime
+        );
+
         let modal = new Modal(true);
-        modal.data = data;
+        modal.data = waterBuying;
         this.props.setDataModal(modal);
         this.props.openModal(modal);
     }
@@ -130,7 +160,7 @@ class WaterBuyingContainer extends Component<any, any> {
 
     dataBody() {
         let data: WaterBuying = this.props.modal.data;
-        
+
         return (
             <>
                 <div className="mb-1">
@@ -190,8 +220,26 @@ class WaterBuyingContainer extends Component<any, any> {
         );
     }
 
-    callBackSubmitTransactionSuccess(waterBuyingBlockchain: WaterBuyingBlockchain) {
-        this.props.addWaterBuyingBlockchain(waterBuyingBlockchain);
+    async callBackSubmitTransactionSuccess(waterBuyingBlockchain: WaterBuyingBlockchain) {
+
+        await this.props.addWaterBuyingBlockchain(waterBuyingBlockchain);
+
+        if (!this.state.isSearch) {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            this.props.fetchWaterBuying(paginationInput);
+        } else {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                this.state.date
+            );
+
+            this.props.fetchWaterBuyingByDate(paginationInput);
+        }
     }
 
     callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {
@@ -220,6 +268,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any, props: any) => {
     return bindActionCreators({
         fetchWaterBuying: Actions.actFetchWaterBuyingRequest,
+        fetchWaterBuyingByDate: Actions.actFetchWaterBuyingByDateRequest,
         openModal: Actions.actShowModal,
         closeModal: Actions.actHideModal,
         setDataModal: Actions.actSetDataModal,

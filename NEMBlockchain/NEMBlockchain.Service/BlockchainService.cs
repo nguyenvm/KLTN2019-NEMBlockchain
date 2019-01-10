@@ -92,11 +92,11 @@ namespace NEMBlockchain.Service
                 return newWaterInBlock;
             }
         }
-        public async Task<WaterBlockchainDto> CheckExistWaterBlockchain(string id)
+        public async Task<WaterBlockchainDto> CheckExistWaterBlockchain(string id, DateTime logTime)
         {
             var waterBlockchain = await dbBlockchain
                 .WaterBlockChains
-                .FirstOrDefaultAsync(w => w.Id == id);
+                .FirstOrDefaultAsync(w => w.Id == id && w.LogTime == logTime);
 
             return mapper.Map<WaterBlockchainDto>(waterBlockchain);
         }

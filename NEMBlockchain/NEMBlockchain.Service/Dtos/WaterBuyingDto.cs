@@ -8,7 +8,8 @@ namespace NEMBlockchain.Service.Dtos
     {
         public string TradeId { get; set; }
         public string BuyerId { get; set; }
-        public DateTime BuyTime { get; set; }
+        public string BuyTime { get; set; }
         public double? Total { get; set; }
+        public bool isExistedOnNem { get; set; }
     }
 }

@@ -20,6 +20,23 @@
   text-align: center;
 }
 
+.container-fluid .md-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  float: right;
+}
+
+.container-fluid .md-form label {
+  top: -1rem;
+}
+
+@media (min-width: 1442px) {
+  .container-fluid {
+    padding-left: 240px;
+  }
+}
+
 .table td {
   vertical-align: middle;
 }

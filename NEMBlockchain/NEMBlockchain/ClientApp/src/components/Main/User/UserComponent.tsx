@@ -19,6 +19,7 @@ class UserComponent extends Component<any, any> {
                                 <table className="table">
                                     <thead>
                                         <tr>
+                                            <th>Check</th>
                                             <th>#</th>
                                             <th>Full Name</th>
                                             <th>User Name</th>

@@ -23,6 +23,21 @@
             text-align: center;
         }
     }
+
+    .md-form  {
+        display: flex;
+        float: right;
+
+        label {
+            top: -1rem;
+        }
+    }
+}
+
+@media (min-width: 1442px) { 
+    .container-fluid {
+        padding-left: 240px;
+    }
 }
 
 .table {

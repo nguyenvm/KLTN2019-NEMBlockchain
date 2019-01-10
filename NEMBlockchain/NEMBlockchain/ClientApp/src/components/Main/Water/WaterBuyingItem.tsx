@@ -11,7 +11,10 @@ class WaterBuyingItem extends Component<any, any> {
                     <td>{water.buyerId}</td>
                     <td>{water.total}</td>
                     <td>{water.buyTime}</td>
-                    <td><button className="btn btn-primary waves-effect waves-light" onClick={() => openModal(water)}>Detail</button></td>
+                    <td>
+                        <button className="btn btn-primary waves-effect waves-light" onClick={() => openModal(water)}>Detail</button>
+                        {water.isExistedOnNem && <i className="fa fa-check text-success" aria-hidden="true"></i>}
+                    </td>
                 </tr>
             </>
         );

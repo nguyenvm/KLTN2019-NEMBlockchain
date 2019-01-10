@@ -22,8 +22,7 @@ class UserContainer extends Component<any, any> {
         super(props);
 
         this.state = {
-            currentPage: 1,
-            checkingIcons: {}
+            currentPage: 1
         }
     }
 
@@ -73,7 +72,6 @@ class UserContainer extends Component<any, any> {
                         user={user}
                         findUserBlockchainById={this.props.findUserBlockchainById}
                         userBlockchain={this.props.userBlockchain}
-                        checkingIcons={this.state.checkingIcons}
                         openModal={this.openModal.bind(this)}
                     />
                 )
@@ -117,8 +115,16 @@ class UserContainer extends Component<any, any> {
     async openModal(data: any): Promise<void> {
         await this.props.findUserBlockchainById(data.id);
 
+        let userInfo: UserInfo = new UserInfo(
+            data.id,
+            data.fullName,
+            data.userName,
+            data.email,
+            data.address
+        );
+
         let modal = new Modal(true);
-        modal.data = data;
+        modal.data = userInfo;
         this.props.setDataModal(modal);
         this.props.openModal(modal);
     }
@@ -201,14 +207,22 @@ class UserContainer extends Component<any, any> {
                         onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), ActionTypes.ADD_USER_BLOCK_CHAIN, data, this.callBackSubmitTransactionSuccess.bind(this))}
                     >
                         Send To Block
-                        </button>
+                    </button>
                 }
             </>
         );
     }
 
-    callBackSubmitTransactionSuccess(userBlockchain: UserBlockchain) {
-        this.props.addUserBlockchain(userBlockchain);
+    async callBackSubmitTransactionSuccess(userBlockchain: UserBlockchain) {
+
+        await this.props.addUserBlockchain(userBlockchain);
+
+        const paginationInput = new PaginationInput(
+            this.state.currentPage,
+            Constants.DEFAULT_ITEMS_PER_PAGE
+        );
+
+        this.props.fetchAllUsers(paginationInput);
     }
 
     callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {

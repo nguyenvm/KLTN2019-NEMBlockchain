@@ -16,10 +16,15 @@ namespace NEMBlockchain.Service.Mapping
             //    .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.UserInfo.Latitude));
             CreateMap<UserBlockChains, UserBlockchainDto>();
             CreateMap<WaterBlockChains, WaterBlockchainDto>();
-            CreateMap<WaterConsumtionTotalViewModel, WaterConsumtionTotalDto>();
+            CreateMap<WaterConsumtionTotalViewModel, WaterConsumtionTotalDto>()
+                .ForMember(dest => dest.isExistedOnNem, opt => opt.Ignore());
             CreateMap<WaterConsumptionDetailViewModel, WaterConsumptionDetailDto>();
-            CreateMap<WaterBuyingViewModel, WaterBuyingDto>();
-            CreateMap<WaterSellingViewModel, WaterSellingDto>();
+            CreateMap<WaterBuyingViewModel, WaterBuyingDto>()
+                .ForMember(dest => dest.BuyTime, opt => opt.MapFrom(src => src.BuyTime.ToString("yyyy-MM-dd HH:mm:ss.fff")))
+                .ForMember(dest => dest.isExistedOnNem, opt => opt.Ignore());
+            CreateMap<WaterSellingViewModel, WaterSellingDto>()
+                .ForMember(dest => dest.SellTime, opt => opt.MapFrom(src => src.SellTime.ToString("yyyy-MM-dd HH:mm:ss.fff")))
+                .ForMember(dest => dest.isExistedOnNem, opt => opt.Ignore());
             CreateMap<WaterBuyingBlockChains, WaterBuyingBlockchainDto>();
             CreateMap<WaterSellingBlockChains, WaterSellingBlockchainDto>();
         }
