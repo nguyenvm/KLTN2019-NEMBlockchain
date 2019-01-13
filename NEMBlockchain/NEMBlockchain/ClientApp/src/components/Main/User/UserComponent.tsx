@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
+import * as Messages from 'src/contants/Messages';
 
 class UserComponent extends Component<any, any> {
-    
+
     render() {
         return (
             <div className="container-fluid">
                 <div className="tab-content">
                     <div className="col-lg-12 col-md-12">
+                        <div className="d-flex mt-2 mb-1 align-items-center">
+                            <button
+                                className="btn btn-primary waves-effect waves-light m-0"
+                                onClick={() => this.props.sendMultiToBlockchain(this.props.listUser)}
+                            >
+                                Send Multiple To Blockchain
+                            </button>
+                            {this.props.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
+                                <div className="text-success ml-2">Data has sent to block</div>
+                            }
+                            {this.props.message === Messages.INSERT_TRANSACTION_HASH_FAILURE &&
+                                <div className="text-warning ml-2">Insert failure</div>
+                            }
+                            {this.props.message === Messages.EMPTY_LIST &&
+                                <div className="text-warning ml-2">Please select the checkbox</div>
+                            }
+                        </div>
                         {/* <!--Card--> */}
                         <div className="card">
                             {/* <!--Header--> */}
@@ -19,7 +37,19 @@ class UserComponent extends Component<any, any> {
                                 <table className="table">
                                     <thead>
                                         <tr>
-                                            <th>Check</th>
+                                            <th className="d-flex align-items-center">
+                                                <fieldset className="form-group">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="filled-in"
+                                                        id="checkboxAll"
+                                                        ref="checkboxAll"
+                                                        onChange={() => this.props.checkedAll(event)}
+                                                    />
+                                                    <label htmlFor="checkboxAll">Checking Available</label>
+                                                </fieldset>
+                                                {/* <div className="cursor-pointer" onClick={() => this.onChecked()}>Check All</div> */}
+                                            </th>
                                             <th>#</th>
                                             <th>Full Name</th>
                                             <th>User Name</th>
@@ -64,8 +94,6 @@ class UserComponent extends Component<any, any> {
             </div>
         );
     }
-
-
 }
 
 export default UserComponent;

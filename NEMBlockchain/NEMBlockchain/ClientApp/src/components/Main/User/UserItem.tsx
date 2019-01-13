@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as _ from 'lodash';
+import UserInfo from 'src/models/User/UserInfo';
 
 class UserItem extends Component<any, any> {
 
@@ -10,8 +11,17 @@ class UserItem extends Component<any, any> {
             <>
                 <tr>
                     <td>
-                        <input type="checkbox" className="filled-in" id={`checkbox${index}`} onChange={() => this.onChecked(event)} />
-                        <label htmlFor={`checkbox${index}`}></label>
+                        <fieldset className="form-group">
+                            <input
+                                type="checkbox"
+                                className="filled-in"
+                                id={`checkbox${index}`}
+                                disabled={user.isExistedOnNem}
+                                onChange={() => this.onChecked(event, user)}
+                                ref={'ref_' + index}
+                            />
+                            <label htmlFor={`checkbox${index}`} className={user.isExistedOnNem ? 'disabled' : ''}></label>
+                        </fieldset>
                     </td>
                     <td scope="row">
                         {Number(index) + 1}
@@ -31,9 +41,35 @@ class UserItem extends Component<any, any> {
         );
     }
 
-    onChecked(e: any) {
-        console.log(e.target.checked);
+    unChecked(i: number, isChecked: boolean) {
+        let ref = 'ref_' + i;
+        (this.refs[ref] as any).checked = !isChecked;
+    }
+
+    async onChecked(e: any, user: any) {
         
+        if (e.target.checked) {
+            let userInfo: UserInfo = new UserInfo(
+                user.id,
+                user.fullName,
+                user.userName,
+                user.email,
+                user.address
+            );
+
+            await this.props.onChangedListUser(userInfo, true);
+
+        } else {
+            let userInfo: UserInfo = new UserInfo(
+                user.id,
+                user.fullName,
+                user.userName,
+                user.email,
+                user.address
+            );
+
+            await this.props.onChangedListUser(userInfo, false);
+        }
     }
 }
 

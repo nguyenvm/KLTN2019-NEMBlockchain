@@ -18,12 +18,18 @@ import * as ActionTypes from 'src/contants/ActionTypes';
 
 class UserContainer extends Component<any, any> {
 
+    childUserItems: any = [];
+    childUserComponent: any = {};
+    
     constructor(props: any) {
         super(props);
 
         this.state = {
-            currentPage: 1
+            currentPage: 1,
+            listUser: []
         }
+
+        this.childUserComponent = React.createRef();
     }
 
 
@@ -44,6 +50,11 @@ class UserContainer extends Component<any, any> {
                     paginationResult={this.props.users.paginationResult}
                     onPageChange={this.onPageChanged.bind(this)}
                     showPageIndex={this.showPageIndex.bind(this)}
+                    message={this.props.userBlockchain.message}
+                    sendMultiToBlockchain={this.sendMultiToBlockchain.bind(this)}
+                    listUser={this.state.listUser}
+                    checkedAll={this.checkedAll.bind(this)}
+                    ref={this.childUserComponent}
                 >
                     {items && this.showUsers(items)}
                 </UserComponent>
@@ -73,6 +84,8 @@ class UserContainer extends Component<any, any> {
                         findUserBlockchainById={this.props.findUserBlockchainById}
                         userBlockchain={this.props.userBlockchain}
                         openModal={this.openModal.bind(this)}
+                        onChangedListUser={this.onChangedListUser.bind(this)}
+                        ref={input => this.childUserItems[index] = input}
                     />
                 )
             });
@@ -81,15 +94,126 @@ class UserContainer extends Component<any, any> {
         return result;
     }
 
-    onPageChanged(index: number) {
-        this.setState({ currentPage: index });
+    async onChangedListUser(user: UserInfo, isAdding: boolean) {
+        if (isAdding) {
+            let listUser = [...this.state.listUser];
+            let index = await this.findUserInList(listUser, user);
+
+            if (index === -1) {
+                await this.setState({ listUser: [...this.state.listUser, user] });
+            }
+        } else {
+            let listUser = [...this.state.listUser];
+            let index = await this.findUserInList(listUser, user);
+
+            if (index !== -1) {
+                listUser.splice(index, 1);
+                await this.setState({ listUser: listUser });
+            }
+        }
+    }
+
+    findUserInList(listUser: Array<UserInfo>, user: UserInfo) {
+        let index = -1;
+
+        if (listUser.length > 0) {
+            for (let i = 0; i < listUser.length; i++) {
+                if (listUser[i].id === user.id) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
+    }
+
+    findUserInItems(childUserItem: Array<any>, user: UserInfo) {
+        let index = -1;
+
+        if (childUserItem.length > 0) {
+            for (let i = 0; i < childUserItem.length; i++) {
+                if (childUserItem[i].props.user.id === user.id) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
+    }
+
+    async sendMultiToBlockchain(listUser: Array<UserInfo>) {
+        if (listUser.length > 0) {
+            for (let i = 0; i < listUser.length; i++) { 
+                await nemTransaction.submitTransaction(Commons.hashData(listUser[i]), ActionTypes.ADD_USER_BLOCK_CHAIN, listUser[i], this.callBackSubmitTransactionSuccess.bind(this));
+                
+                let index = await this.findUserInItems(this.childUserItems, listUser[i]);
+                await this.childUserItems[index].unChecked(index, true);
+            }
+        } else {
+            this.props.checkValidOfData(Messages.EMPTY_LIST);
+        }
+    }
+
+    async onPageChanged(index: number) {
+
+        if (this.childUserComponent) {
+            this.childUserComponent.current.refs.checkboxAll.checked = false;
+        }
+
+        for (let i = 0; i < this.childUserItems.length; i++) {
+            if (this.childUserItems[i]) {
+                await this.childUserItems[i].unChecked(i, true);
+            }
+        }
+        
+        await this.setState({ currentPage: index, listUser: [] });
 
         const paginationInput = new PaginationInput(
             index,
             Constants.DEFAULT_ITEMS_PER_PAGE
         );
 
-        this.props.fetchAllUsers(paginationInput);
+        this.props.resetUserBlockchain();
+        await this.props.fetchAllUsers(paginationInput);
+    }
+
+    async checkedAll(e: any) {
+        
+        if (e.target.checked) {
+            for (let i = 0; i < this.childUserItems.length; i++) {
+                if (this.childUserItems[i] && !this.childUserItems[i].props.user.isExistedOnNem) {
+                    await this.childUserItems[i].unChecked(i, false);
+    
+                    let userInfo: UserInfo = new UserInfo(
+                        this.childUserItems[i].props.user.id,
+                        this.childUserItems[i].props.user.fullName,
+                        this.childUserItems[i].props.user.userName,
+                        this.childUserItems[i].props.user.email,
+                        this.childUserItems[i].props.user.address
+                    );
+                    
+                    await this.onChangedListUser(userInfo, true);
+                }
+            }
+        } else {
+            for (let i = 0; i < this.childUserItems.length; i++) {
+                if (this.childUserItems[i]) {
+                    await this.childUserItems[i].unChecked(i, true);
+    
+                    let userInfo: UserInfo = new UserInfo(
+                        this.childUserItems[i].props.user.id,
+                        this.childUserItems[i].props.user.fullName,
+                        this.childUserItems[i].props.user.userName,
+                        this.childUserItems[i].props.user.email,
+                        this.childUserItems[i].props.user.address
+                    );
+                    
+                    await this.onChangedListUser(userInfo, false);
+                }
+            }
+        }
     }
 
     showPageIndex(totalCount: number) {
@@ -196,14 +320,14 @@ class UserContainer extends Component<any, any> {
                     <p className="text-warning">Transaction hash not exist on blockchain</p>
                 }
                 {!_.isNil(this.props.userBlockchain.data) && !_.isEmpty(this.props.userBlockchain.data) &&
-                    <button className="btn btn-primary waves-effect waves-light"
+                    <button className="btn btn-primary waves-effect waves-light m-0"
                         onClick={() => Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
                     >
                         Check Data
                     </button>
                 }
                 {_.isNil(this.props.userBlockchain.data) || _.isEmpty(this.props.userBlockchain.data) &&
-                    <button className="btn btn-primary waves-effect waves-light"
+                    <button className="btn btn-primary waves-effect waves-light m-0"
                         onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), ActionTypes.ADD_USER_BLOCK_CHAIN, data, this.callBackSubmitTransactionSuccess.bind(this))}
                     >
                         Send To Block
