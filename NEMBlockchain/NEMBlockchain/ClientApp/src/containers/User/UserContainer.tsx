@@ -20,7 +20,7 @@ class UserContainer extends Component<any, any> {
 
     childUserItems: any = [];
     childUserComponent: any = {};
-    
+
     constructor(props: any) {
         super(props);
 
@@ -145,11 +145,8 @@ class UserContainer extends Component<any, any> {
 
     async sendMultiToBlockchain(listUser: Array<UserInfo>) {
         if (listUser.length > 0) {
-            for (let i = 0; i < listUser.length; i++) { 
+            for (let i = 0; i < listUser.length; i++) {
                 await nemTransaction.submitTransaction(Commons.hashData(listUser[i]), ActionTypes.ADD_USER_BLOCK_CHAIN, listUser[i], this.callBackSubmitTransactionSuccess.bind(this));
-                
-                let index = await this.findUserInItems(this.childUserItems, listUser[i]);
-                await this.childUserItems[index].unChecked(index, true);
             }
         } else {
             this.props.checkValidOfData(Messages.EMPTY_LIST);
@@ -157,6 +154,13 @@ class UserContainer extends Component<any, any> {
     }
 
     async onPageChanged(index: number) {
+        const paginationInput = new PaginationInput(
+            index,
+            Constants.DEFAULT_ITEMS_PER_PAGE
+        );
+
+        this.props.resetUserBlockchain();
+        await this.props.fetchAllUsers(paginationInput);
 
         if (this.childUserComponent) {
             this.childUserComponent.current.refs.checkboxAll.checked = false;
@@ -167,25 +171,17 @@ class UserContainer extends Component<any, any> {
                 await this.childUserItems[i].unChecked(i, true);
             }
         }
-        
+
         await this.setState({ currentPage: index, listUser: [] });
-
-        const paginationInput = new PaginationInput(
-            index,
-            Constants.DEFAULT_ITEMS_PER_PAGE
-        );
-
-        this.props.resetUserBlockchain();
-        await this.props.fetchAllUsers(paginationInput);
     }
 
     async checkedAll(e: any) {
-        
+
         if (e.target.checked) {
             for (let i = 0; i < this.childUserItems.length; i++) {
                 if (this.childUserItems[i] && !this.childUserItems[i].props.user.isExistedOnNem) {
                     await this.childUserItems[i].unChecked(i, false);
-    
+
                     let userInfo: UserInfo = new UserInfo(
                         this.childUserItems[i].props.user.id,
                         this.childUserItems[i].props.user.fullName,
@@ -193,7 +189,7 @@ class UserContainer extends Component<any, any> {
                         this.childUserItems[i].props.user.email,
                         this.childUserItems[i].props.user.address
                     );
-                    
+
                     await this.onChangedListUser(userInfo, true);
                 }
             }
@@ -201,7 +197,7 @@ class UserContainer extends Component<any, any> {
             for (let i = 0; i < this.childUserItems.length; i++) {
                 if (this.childUserItems[i]) {
                     await this.childUserItems[i].unChecked(i, true);
-    
+
                     let userInfo: UserInfo = new UserInfo(
                         this.childUserItems[i].props.user.id,
                         this.childUserItems[i].props.user.fullName,
@@ -209,7 +205,7 @@ class UserContainer extends Component<any, any> {
                         this.childUserItems[i].props.user.email,
                         this.childUserItems[i].props.user.address
                     );
-                    
+
                     await this.onChangedListUser(userInfo, false);
                 }
             }
@@ -337,7 +333,7 @@ class UserContainer extends Component<any, any> {
         );
     }
 
-    async callBackSubmitTransactionSuccess(userBlockchain: UserBlockchain) {
+    async callBackSubmitTransactionSuccess(userBlockchain: UserBlockchain, userInfo: UserInfo) {
 
         await this.props.addUserBlockchain(userBlockchain);
 
@@ -346,7 +342,16 @@ class UserContainer extends Component<any, any> {
             Constants.DEFAULT_ITEMS_PER_PAGE
         );
 
-        this.props.fetchAllUsers(paginationInput);
+        await this.props.fetchAllUsers(paginationInput);
+
+        let index = await this.findUserInItems(this.childUserItems, userInfo);
+        await this.childUserItems[index].unChecked(index, true);
+
+        this.onChangedListUser(userInfo, false);
+
+        if (this.childUserComponent) {
+            this.childUserComponent.current.refs.checkboxAll.checked = false;
+        }
     }
 
     callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {

@@ -22,7 +22,7 @@ class UserComponent extends Component<any, any> {
                                 <div className="text-warning ml-2">Insert failure</div>
                             }
                             {this.props.message === Messages.EMPTY_LIST &&
-                                <div className="text-warning ml-2">Please select the checkbox</div>
+                                <div className="text-warning ml-2">Please select available checkbox</div>
                             }
                         </div>
                         {/* <!--Card--> */}

@@ -34,7 +34,7 @@ export function submitTransaction(message: string, type: string, data: any, call
                         switch (type) {
                             case ActionTypes.ADD_USER_BLOCK_CHAIN:
                                 let userBlockchain = new UserBlockchain(data.id, x.transactionHash.data);
-                                callBackFunction(userBlockchain);
+                                callBackFunction(userBlockchain, data);
                                 break;
                             case ActionTypes.ADD_WATER_CONSUMPTION_BLOCK_CHAIN:
                                 let waterBlockchain = new WaterBlockchain(data[0].userId, data[0].logTime, x.transactionHash.data);
