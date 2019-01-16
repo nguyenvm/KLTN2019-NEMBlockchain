@@ -9,6 +9,13 @@
     padding-left: 0px;
     padding-right: 0px;
     .tab-content {
+        // position: absolute;
+
+        .header-table {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
         .card-block {
             .table {
                 td {
@@ -46,7 +53,11 @@
     }
     td:first-child {
         font-weight: bold;
+        width: 13%;
     }
+    // td:nth-child(2) {
+    //     font-weight: bold;
+    // }
 }
 
 .container {

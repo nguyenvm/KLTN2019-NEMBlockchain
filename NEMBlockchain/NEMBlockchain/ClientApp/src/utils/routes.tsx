@@ -1,9 +1,9 @@
 import React from 'react';
 import UserContainer from 'src/containers/User/UserContainer';
-import WaterContainer from 'src/containers/Water/WaterContainer';
-import WaterBuyingContainer from 'src/containers/Water/WaterBuyingContainer';
-import WaterSellingContainer from 'src/containers/Water/WaterSellingContainer';
-import UserCheckingDataContainer from 'src/containers/Checking/UserCheckingDataContainer';
+import WaterContainer from 'src/containers/Water/Consumption/WaterContainer';
+import WaterBuyingContainer from 'src/containers/Water/Buying/WaterBuyingContainer';
+import WaterSellingContainer from 'src/containers/Water/Selling/WaterSellingContainer';
+import UserCheckingDataContainer from 'src/containers/Checking/User/UserCheckingDataContainer';
 
 const routes = [ 
     {

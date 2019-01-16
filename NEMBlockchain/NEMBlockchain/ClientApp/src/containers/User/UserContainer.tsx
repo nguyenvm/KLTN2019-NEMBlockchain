@@ -128,12 +128,12 @@ class UserContainer extends Component<any, any> {
         return index;
     }
 
-    findUserInItems(childUserItem: Array<any>, user: UserInfo) {
+    findUserInItems(childUserItems: Array<any>, user: UserInfo) {
         let index = -1;
 
-        if (childUserItem.length > 0) {
-            for (let i = 0; i < childUserItem.length; i++) {
-                if (childUserItem[i].props.user.id === user.id) {
+        if (childUserItems.length > 0) {
+            for (let i = 0; i < childUserItems.length; i++) {
+                if (childUserItems[i].props.user.id === user.id) {
                     index = i;
                     break;
                 }
@@ -144,9 +144,13 @@ class UserContainer extends Component<any, any> {
     }
 
     async sendMultiToBlockchain(listUser: Array<UserInfo>) {
-        if (listUser.length > 0) {
-            for (let i = 0; i < listUser.length; i++) {
-                await nemTransaction.submitTransaction(Commons.hashData(listUser[i]), ActionTypes.ADD_USER_BLOCK_CHAIN, listUser[i], this.callBackSubmitTransactionSuccess.bind(this));
+        if (listUser) {
+            if (listUser.length > 0) {
+                for (let i = 0; i < listUser.length; i++) {
+                    await nemTransaction.submitTransaction(Commons.hashData(listUser[i]), ActionTypes.ADD_USER_BLOCK_CHAIN, listUser[i], this.callBackSubmitTransactionSuccess.bind(this));
+                }
+            } else {
+                this.props.checkValidOfData(Messages.EMPTY_LIST);
             }
         } else {
             this.props.checkValidOfData(Messages.EMPTY_LIST);

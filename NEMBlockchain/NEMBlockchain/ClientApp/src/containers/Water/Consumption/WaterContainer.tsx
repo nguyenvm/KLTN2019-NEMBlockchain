@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import PaginationInput from 'src/models/PaginationInput';
-import * as Constants from '../../contants';
-import * as Actions from '../../actions/index';
-import * as Messages from '../../contants/Messages';
+import * as Constants from '../../../contants';
+import * as Actions from '../../../actions/index';
+import * as Messages from '../../../contants/Messages';
 import * as _ from 'lodash';
-import * as Commons from '../../utils/commons';
-import * as nemTransaction from '../../utils/NEM-infrastructure/TransactionHttp';
+import * as Commons from '../../../utils/commons';
+import * as nemTransaction from '../../../utils/NEM-infrastructure/TransactionHttp';
 import * as ActionTypes from 'src/contants/ActionTypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import WaterComponent from 'src/components/Main/Water/WaterComponent';
-import WaterItem from 'src/components/Main/Water/WaterItem';
+import WaterComponent from 'src/components/Main/Water/Consumption/WaterComponent';
+import WaterItem from 'src/components/Main/Water/Consumption/WaterItem';
 import WaterConsumptionTotal from 'src/models/Water/WaterConsumptionTotal';
 import Modal from 'src/models/Modal';
-import CommonModal from '../../utils/commons/Modal/CommonModal';
+import CommonModal from '../../../utils/commons/Modal/CommonModal';
 import WaterConsumptionDetail from 'src/models/Water/WaterConsumptionDetail';
 import WaterBlockchain from 'src/models/Water/WaterBlockchain';
 
 class WaterContainer extends Component<any, any> {
+
+    childWaterItems: any = [];
+    childWaterComponent: any = {};
 
     constructor(props: any) {
         super(props);
@@ -25,8 +28,11 @@ class WaterContainer extends Component<any, any> {
         this.state = {
             currentPage: 1,
             isSearch: false,
-            date: ''
+            date: '',
+            listWater: []
         }
+
+        this.childWaterComponent = React.createRef();
     }
 
     componentDidMount() {
@@ -48,6 +54,11 @@ class WaterContainer extends Component<any, any> {
                     showPageIndex={this.showPageIndex.bind(this)}
                     fetchWaterConsumptionByDate={this.props.fetchWaterConsumptionByDate}
                     onSearch={this.onSearch.bind(this)}
+                    message={this.props.waterBlockchain.message}
+                    sendMultiToBlockchain={this.sendMultiToBlockchain.bind(this)}
+                    listWater={this.state.listWater}
+                    checkedAll={this.checkedAll.bind(this)}
+                    ref={this.childWaterComponent}
                 >
                     {items && this.showWaterConsumption(items)}
                 </WaterComponent>
@@ -73,7 +84,11 @@ class WaterContainer extends Component<any, any> {
                         key={index}
                         index={index}
                         water={water}
+                        detail={this.props.water.detail}
                         openModal={this.openModal.bind(this)}
+                        onChangedListWater={this.onChangedListWater.bind(this)}
+                        ref={input => this.childWaterItems[index] = input}
+                        getConsumptionDetail={this.props.getConsumptionDetail}
                     />
                 )
             });
@@ -82,9 +97,72 @@ class WaterContainer extends Component<any, any> {
         return result;
     }
 
-    onPageChanged(index: number, date: string) {
-        
-        this.setState({ currentPage: index, date: date });
+    async onChangedListWater(waterConsumptionDetails: Array<WaterConsumptionDetail>, isAdding: boolean) {
+        if (isAdding) {
+            let listWater = [...this.state.listWater];
+            let index = await this.findWaterInList(listWater, waterConsumptionDetails[0]);
+
+            if (index === -1) {
+                await this.setState({ listWater: [...this.state.listWater, waterConsumptionDetails] });
+            }
+        } else {
+            let listWater = [...this.state.listWater];
+            let index = await this.findWaterInList(listWater, waterConsumptionDetails[0]);
+
+            if (index !== -1) {
+                listWater.splice(index, 1);
+                await this.setState({ listWater: listWater });
+            }
+        }
+    }
+
+    findWaterInList(listWater: Array<any>, waterConsumption: WaterConsumptionDetail) {
+        let index = -1;
+
+        if (listWater.length > 0) {
+            for (let i = 0; i < listWater.length; i++) {
+                if (listWater[i][0].userId === waterConsumption.userId && listWater[i][0].logTime === waterConsumption.logTime) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
+    }
+
+    findWaterInItems(childWaterItems: Array<any>, waterConsumption: WaterConsumptionDetail) {
+        let index = -1;
+
+        if (childWaterItems.length > 0) {
+            for (let i = 0; i < childWaterItems.length; i++) {
+                if (childWaterItems[i].props.water.userId === waterConsumption.userId && childWaterItems[i].props.water.logTime === waterConsumption.logTime) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
+    }
+
+    async sendMultiToBlockchain(listWater: Array<WaterConsumptionDetail>) {
+        if (listWater) {
+            if (listWater.length > 0) {
+                for (let i = 0; i < listWater.length; i++) {
+                    await nemTransaction.submitTransaction(Commons.hashData(listWater[i]), ActionTypes.ADD_WATER_CONSUMPTION_BLOCK_CHAIN, listWater[i], this.callBackSubmitTransactionSuccess.bind(this));
+                }
+            } else {
+                this.props.checkValidOfData(Messages.EMPTY_LIST);
+            }
+        } else {
+            this.props.checkValidOfData(Messages.EMPTY_LIST);
+        }
+    }
+
+    async onPageChanged(index: number, date: string) {
+
+        this.setState({ currentPage: index, date: date, listWater: [] });
 
         if (!this.state.isSearch) {
             const paginationInput = new PaginationInput(
@@ -102,6 +180,36 @@ class WaterContainer extends Component<any, any> {
 
             this.props.fetchWaterConsumptionByDate(paginationInput);
         }
+
+        if (this.childWaterComponent) {
+            this.childWaterComponent.current.refs.checkboxAll.checked = false;
+        }
+
+        for (let i = 0; i < this.childWaterItems.length; i++) {
+            if (this.childWaterItems[i]) {
+                await this.childWaterItems[i].unChecked(i, true);
+            }
+        }
+    }
+
+    async checkedAll(e: any) {
+        if (e.target.checked) {
+            for (let i = 0; i < this.childWaterItems.length; i++) {
+                if (this.childWaterItems[i] && !this.childWaterItems[i].props.water.isExistedOnNem) {
+                    await this.childWaterItems[i].unChecked(i, false);
+                    await this.props.getConsumptionDetail(this.childWaterItems[i].props.water.userId, this.childWaterItems[i].props.water.logTime);
+                    await this.onChangedListWater(this.childWaterItems[i].props.detail, true);
+                }
+            }
+        } else {
+            for (let i = 0; i < this.childWaterItems.length; i++) {
+                if (this.childWaterItems[i]) {
+                    await this.childWaterItems[i].unChecked(i, true);
+                    await this.props.getConsumptionDetail(this.childWaterItems[i].props.water.userId, this.childWaterItems[i].props.water.logTime);
+                    await this.onChangedListWater(this.childWaterItems[i].props.detail, false);
+                }
+            }
+        }
     }
 
     onSearch(date: string) {
@@ -113,7 +221,7 @@ class WaterContainer extends Component<any, any> {
     }
 
     showPageIndex(totalCount: number, date: string) {
-        
+
         let totalPage = Math.ceil(totalCount / Constants.DEFAULT_ITEMS_PER_PAGE);
 
         let renderIndex = [];
@@ -191,7 +299,7 @@ class WaterContainer extends Component<any, any> {
 
     dataFooter() {
         let { data } = this.props.modal;
-        
+
         return (
             <>
                 {this.props.waterBlockchain.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
@@ -227,17 +335,16 @@ class WaterContainer extends Component<any, any> {
         );
     }
 
-    async callBackSubmitTransactionSuccess(waterBlockchain: WaterBlockchain) {
-        
+    async callBackSubmitTransactionSuccess(waterBlockchain: WaterBlockchain, waterConsumptionDetails: Array<WaterConsumptionDetail>) {
         await this.props.addWaterBlockchain(waterBlockchain);
-        
+
         if (!this.state.isSearch) {
             const paginationInput = new PaginationInput(
                 this.state.currentPage,
                 Constants.DEFAULT_ITEMS_PER_PAGE
             );
 
-            this.props.fetchWaterConsumption(paginationInput);
+            await this.props.fetchWaterConsumption(paginationInput);
         } else {
             const paginationInput = new PaginationInput(
                 this.state.currentPage,
@@ -245,7 +352,16 @@ class WaterContainer extends Component<any, any> {
                 this.state.date
             );
 
-            this.props.fetchWaterConsumptionByDate(paginationInput);
+            await this.props.fetchWaterConsumptionByDate(paginationInput);
+        }
+
+        let index = await this.findWaterInItems(this.childWaterItems, waterConsumptionDetails[0]);
+        await this.childWaterItems[index].unChecked(index, true);
+
+        this.onChangedListWater(waterConsumptionDetails, false);
+
+        if (this.childWaterComponent) {
+            this.childWaterComponent.current.refs.checkboxAll.checked = false;
         }
     }
 

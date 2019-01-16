@@ -130,10 +130,7 @@ export const actFetchWaterConsumptionRequest = (paginationInput: PaginationInput
                     res.data.data.pageIndex,
                     res.data.data.pageSize
                 );
-
-                console.log(paginationResult);
                 
-
                 dispatch(actFetchWaterConsumptionSuccess(paginationResult));
             })
             .catch((err: any) => {

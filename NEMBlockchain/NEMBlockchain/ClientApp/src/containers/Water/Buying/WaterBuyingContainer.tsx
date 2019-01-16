@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PaginationInput from 'src/models/PaginationInput';
-import * as Constants from '../../contants';
-import * as Actions from '../../actions/index';
-import * as Messages from '../../contants/Messages';
+import * as Constants from 'src/contants';
+import * as Actions from 'src/actions/index';
+import * as Messages from 'src/contants/Messages';
 import * as _ from 'lodash';
-import * as Commons from '../../utils/commons';
-import * as nemTransaction from '../../utils/NEM-infrastructure/TransactionHttp';
+import * as Commons from 'src/utils/commons';
+import * as nemTransaction from 'src/utils/NEM-infrastructure/TransactionHttp';
 import * as ActionTypes from 'src/contants/ActionTypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import WaterBuyingComponent from 'src/components/Main/Water/WaterBuyingComponent';
-import WaterBuyingItem from 'src/components/Main/Water/WaterBuyingItem';
+import WaterBuyingComponent from 'src/components/Main/Water/Buying/WaterBuyingComponent';
+import WaterBuyingItem from 'src/components/Main/Water/Buying/WaterBuyingItem';
 import Modal from 'src/models/Modal';
-import CommonModal from '../../utils/commons/Modal/CommonModal';
+import CommonModal from 'src/utils/commons/Modal/CommonModal';
 import WaterBuying from 'src/models/Water/WaterBuying';
 import WaterBuyingBlockchain from 'src/models/Water/WaterBuyingBlockchain';
 

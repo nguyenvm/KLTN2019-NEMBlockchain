@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserCheckingDataComponent from 'src/components/Main/Checking/UserCheckingDataComponent';
+import UserCheckingDataComponent from 'src/components/Main/Checking/User/UserCheckingDataComponent';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'src/actions';

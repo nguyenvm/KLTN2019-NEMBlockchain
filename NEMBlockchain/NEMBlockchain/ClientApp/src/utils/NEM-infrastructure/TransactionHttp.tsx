@@ -26,36 +26,36 @@ export function submitTransaction(message: string, type: string, data: any, call
 
                 const signedTransaction = account.signTransaction(transferTransaction);
 
-                transactionHttp.announceTransaction(signedTransaction).subscribe(x => {
-                    console.log(x);
-                    if (x.message === 'SUCCESS') {
-                        console.log('Data has sent to block');
+                // transactionHttp.announceTransaction(signedTransaction).subscribe(x => {
+                //     console.log(x);
+                //     if (x.message === 'SUCCESS') {
+                //         console.log('Data has sent to block');
 
                         switch (type) {
                             case ActionTypes.ADD_USER_BLOCK_CHAIN:
-                                let userBlockchain = new UserBlockchain(data.id, x.transactionHash.data);
+                                let userBlockchain = new UserBlockchain(data.id, 'x.transactionHash.data');
                                 callBackFunction(userBlockchain, data);
                                 break;
                             case ActionTypes.ADD_WATER_CONSUMPTION_BLOCK_CHAIN:
-                                let waterBlockchain = new WaterBlockchain(data[0].userId, data[0].logTime, x.transactionHash.data);
-                                callBackFunction(waterBlockchain);
+                                let waterBlockchain = new WaterBlockchain(data[0].userId, data[0].logTime, 'x.transactionHash.data');
+                                callBackFunction(waterBlockchain, data);
                                 break;
                             case ActionTypes.ADD_WATER_BUYING_BLOCK_CHAIN:
-                                let waterBuyingBlockchain = new WaterBuyingBlockchain(data.buyerId, data.buyTime, x.transactionHash.data);
+                                let waterBuyingBlockchain = new WaterBuyingBlockchain(data.buyerId, data.buyTime, 'x.transactionHash.data');
                                 callBackFunction(waterBuyingBlockchain);
                                 break;
                             case ActionTypes.ADD_WATER_SELLING_BLOCK_CHAIN:
-                                let waterSellingBlockchain = new WaterSellingBlockchain(data.sellerId, data.sellTime, x.transactionHash.data);
+                                let waterSellingBlockchain = new WaterSellingBlockchain(data.sellerId, data.sellTime, 'x.transactionHash.data');
                                 callBackFunction(waterSellingBlockchain);
                                 break;
                             default:
                                 break;
                         }
 
-                    } else {
-                        console.log('Fail');
-                    }
-                });
+                //     } else {
+                //         console.log('Fail');
+                //     }
+                // });
             })
             .catch((err: any) => {
                 callBackFunction(null);

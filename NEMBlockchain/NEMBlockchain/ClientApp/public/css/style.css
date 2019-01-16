@@ -8,6 +8,16 @@
   padding-right: 0px;
 }
 
+.container-fluid .tab-content .header-table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 .container-fluid .tab-content .card-block .table td {
   vertical-align: middle;
 }
@@ -43,6 +53,7 @@
 
 .table td:first-child {
   font-weight: bold;
+  width: 13%;
 }
 
 .container {
