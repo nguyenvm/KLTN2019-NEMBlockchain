@@ -7,11 +7,6 @@ const initalState = {
 
 const waterChecking = (state = initalState, action: any) => {
     switch (action.type) {
-        case Types.ADD_WATER_CONSUMPTION_BLOCK_CHAIN:
-            return {
-                ...state,
-                message: action.payload
-            };
         case Types.FIND_WATER_CONSUMPTION_BLOCK_CHAIN_BY_ID:
             return {
                 ...state,
@@ -28,11 +23,6 @@ const waterChecking = (state = initalState, action: any) => {
                 message: '',
                 data: {}
             };
-        case Types.ADD_WATER_BUYING_BLOCK_CHAIN:
-            return {
-                ...state,
-                message: action.payload
-            };
         case Types.FIND_WATER_BUYING_BLOCK_CHAIN_BY_ID:
             return {
                 ...state,
@@ -48,11 +38,6 @@ const waterChecking = (state = initalState, action: any) => {
                 ...state,
                 message: '',
                 data: {}
-            };
-        case Types.ADD_WATER_SELLING_BLOCK_CHAIN:
-            return {
-                ...state,
-                message: action.payload
             };
         case Types.FIND_WATER_SELLING_BLOCK_CHAIN_BY_ID:
             return {

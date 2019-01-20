@@ -5,6 +5,8 @@ import WaterBuyingContainer from 'src/containers/Water/Buying/WaterBuyingContain
 import WaterSellingContainer from 'src/containers/Water/Selling/WaterSellingContainer';
 import UserCheckingDataContainer from 'src/containers/Checking/User/UserCheckingDataContainer';
 import WaterConsumptionCheckingContainer from 'src/containers/Checking/Water/WaterConsumptionCheckingContainer';
+import WaterBuyingCheckingContainer from 'src/containers/Checking/Water/WaterBuyingCheckingContainer';
+import WaterSellingCheckingContainer from 'src/containers/Checking/Water/WaterSellingCheckingContainer';
 
 const routes = [ 
     {
@@ -36,6 +38,16 @@ const routes = [
         path: '/checking/water',
         exact: true,
         main: () => <WaterConsumptionCheckingContainer />
+    },
+    {
+        path: '/checking/water-buying',
+        exact: true,
+        main: () => <WaterBuyingCheckingContainer />
+    },
+    {
+        path: '/checking/water-selling',
+        exact: true,
+        main: () => <WaterSellingCheckingContainer />
     }
 ]
 
