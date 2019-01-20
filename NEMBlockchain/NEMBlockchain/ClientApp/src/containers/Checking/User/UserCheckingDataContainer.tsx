@@ -14,7 +14,7 @@ class UserCheckingDataContainer extends Component<any, any> {
                     checkValidOfUserData={this.props.checkValidOfUserData}
                     resetUserBlockchain={this.props.resetUserBlockchain}
                     users={this.props.users}
-                    userBlockchain={this.props.userBlockchain}
+                    userChecking={this.props.userChecking}
                 />
             </>
         );
@@ -24,7 +24,7 @@ class UserCheckingDataContainer extends Component<any, any> {
 const mapStateToProps = (state: any) => {
     return {
         users: state.users,
-        userBlockchain: state.userBlockchain
+        userChecking: state.userChecking
     }
 }
 

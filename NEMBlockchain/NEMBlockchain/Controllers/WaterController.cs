@@ -18,8 +18,6 @@ namespace NEMBlockchain.Controllers
             this.waterService = waterService;
         }
 
-        public int WaterConsumtionViewModel { get; private set; }
-
         [HttpGet("consumptions-list")]
         public async Task<IActionResult> GetConsumtionList([FromQuery]PaginationInputBase input)
         {

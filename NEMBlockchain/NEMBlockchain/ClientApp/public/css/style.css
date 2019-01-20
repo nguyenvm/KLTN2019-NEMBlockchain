@@ -79,4 +79,16 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.text-dark {
+  color: black;
+}
+
+.fa-plus-circle {
+  color: #3F729B;
+}
+
+.fa-minus-circle {
+  color: #3F729B;
+}
 /*# sourceMappingURL=style.css.map */

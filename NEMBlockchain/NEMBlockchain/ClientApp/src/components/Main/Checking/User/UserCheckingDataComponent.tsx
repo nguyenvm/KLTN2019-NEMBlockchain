@@ -13,7 +13,8 @@ class UserCheckingDataComponent extends Component<any, any> {
             txtFullName: '',
             txtUserName: '',
             txtEmail: '',
-            txtAddress: ''
+            txtAddress: '',
+            dataHash: ''
         }
     }
 
@@ -75,18 +76,26 @@ class UserCheckingDataComponent extends Component<any, any> {
                                     />
                                     <label htmlFor="form4" data-error="wrong" data-success="right">Type your address</label>
                                 </div>
+                                <div className="row-fluid">
+                                    {this.props.userChecking.data && this.props.userChecking.message === Messages.DATA_VALID &&
+                                        <>
+                                            <p className="text-success"><span className="text-dark">Hash of Data:</span> {this.state.dataHash}</p>
+                                            <p className="text-success"><span className="text-dark">Transaction ID:</span> {this.props.userChecking.data.TransactionHash}</p>
+                                        </>
+                                    }
+                                </div>
                                 <div className="text-right">
-                                    {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_VALID &&
+                                    {this.props.userChecking.data && this.props.userChecking.message === Messages.DATA_VALID &&
                                         <p className="text-primary">Data valid</p>
                                     }
-                                    {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_INVALID &&
+                                    {this.props.userChecking.data && this.props.userChecking.message === Messages.DATA_INVALID &&
                                         <p className="text-warning">Data has changed</p>
                                     }
-                                    {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN &&
+                                    {this.props.userChecking.data && this.props.userChecking.message === Messages.TRANSACTION_HASH_NOT_EXIST_ON_BLOCKCHAIN &&
                                         <p className="text-warning">Transaction hash not exist on blockchain</p>
                                     }
                                     <button
-                                        className="btn btn-primary waves-effect waves-light"
+                                        className="btn btn-primary waves-effect waves-light m-0"
                                         onClick={this.checkingData.bind(this)}
                                     >
                                         Checking
@@ -140,7 +149,9 @@ class UserCheckingDataComponent extends Component<any, any> {
             );
         }
 
-        Commons.checkDataHasChanged(this.props.userBlockchain.data.TransactionHash, Commons.hashData(userInfo), this.callBackCheckDataHasChanged.bind(this))
+        await this.setState({ dataHash: Commons.hashData(userInfo) })
+
+        Commons.checkDataHasChanged(this.props.userChecking.data.TransactionHash, this.state.dataHash, this.callBackCheckDataHasChanged.bind(this))
     }
 
     callBackCheckDataHasChanged(isValid?: boolean, isExist?: boolean) {

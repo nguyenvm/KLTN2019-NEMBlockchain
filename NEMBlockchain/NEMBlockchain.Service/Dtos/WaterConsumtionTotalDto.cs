@@ -7,7 +7,7 @@ namespace NEMBlockchain.Service.Dtos
     public class WaterConsumtionTotalDto
     {
         public string UserId { get; set; }
-        public double? TotalVolume { get; set; }
+        public decimal? TotalVolume { get; set; }
         public DateTime LogTime { get; set; }
         public bool isExistedOnNem { get; set; }
     }

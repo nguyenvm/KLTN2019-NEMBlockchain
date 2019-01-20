@@ -318,14 +318,14 @@ class WaterContainer extends Component<any, any> {
                     <p className="text-warning">Transaction hash not exist on blockchain</p>
                 }
                 {!_.isNil(this.props.waterBlockchain.data) && !_.isEmpty(this.props.waterBlockchain.data) &&
-                    <button className="btn btn-primary waves-effect waves-light"
+                    <button className="btn btn-primary waves-effect waves-light m-0"
                         onClick={() => Commons.checkDataHasChanged(this.props.waterBlockchain.data.TransactionHash, Commons.hashData(data), this.callBackCheckDataHasChanged.bind(this))}
                     >
                         Check Data
                     </button>
                 }
                 {_.isNil(this.props.waterBlockchain.data) || _.isEmpty(this.props.waterBlockchain.data) &&
-                    <button className="btn btn-primary waves-effect waves-light"
+                    <button className="btn btn-primary waves-effect waves-light m-0"
                         onClick={() => nemTransaction.submitTransaction(Commons.hashData(data), ActionTypes.ADD_WATER_CONSUMPTION_BLOCK_CHAIN, data, this.callBackSubmitTransactionSuccess.bind(this))}
                     >
                         Send To Block

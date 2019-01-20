@@ -104,6 +104,11 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }: { label: any, to: any, act
                                                 to="/checking/user" className="waves-effect">User Checking
                                             </Link>
                                         </li>
+                                        <li>
+                                            <Link
+                                                to="/checking/water" className="waves-effect">Water Consumption Checking
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

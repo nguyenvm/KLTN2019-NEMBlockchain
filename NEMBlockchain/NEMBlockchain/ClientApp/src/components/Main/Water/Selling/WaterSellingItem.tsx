@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import WaterSelling from 'src/models/Water/WaterSelling';
 
 class WaterSellingItem extends Component<any, any> {
 
@@ -7,6 +8,19 @@ class WaterSellingItem extends Component<any, any> {
         return (
             <>
                 <tr>
+                    <td>
+                        <fieldset className="form-group">
+                            <input
+                                type="checkbox"
+                                className="filled-in"
+                                id={`checkbox${index}`}
+                                disabled={water.isExistedOnNem}
+                                onChange={() => this.onChecked(event, water)}
+                                ref={'ref_' + index}
+                            />
+                            <label htmlFor={`checkbox${index}`} className={water.isExistedOnNem ? 'disabled' : ''}></label>
+                        </fieldset>
+                    </td>
                     <td scope="row">{Number(index) + 1}</td>
                     <td>{water.sellerId}</td>
                     <td>{water.amount}</td>
@@ -19,6 +33,35 @@ class WaterSellingItem extends Component<any, any> {
                 </tr>
             </>
         );
+    }
+
+    unChecked(i: number, isChecked: boolean) {
+        let ref = 'ref_' + i;
+        (this.refs[ref] as any).checked = !isChecked;
+    }
+
+    async onChecked(e: any, water: any) {
+
+        if (e.target.checked) {
+            let waterSelling: WaterSelling = new WaterSelling(
+                water.sellerId,
+                water.amount,
+                water.total,
+                water.sellTime
+            );
+
+            await this.props.onChangedListSelling(waterSelling, true);
+
+        } else {
+            let waterSelling: WaterSelling = new WaterSelling(
+                water.sellerId,
+                water.amount,
+                water.total,
+                water.sellTime
+            );
+
+            await this.props.onChangedListSelling(waterSelling, false);
+        }
     }
 }
 

@@ -23,7 +23,7 @@ class WaterBuyingComponent extends Component<any, any> {
                             <div className="d-flex mt-2 mb-1 align-items-center">
                                 <button
                                     className="btn btn-primary waves-effect waves-light m-0"
-                                    onClick={() => this.props.sendMultiToBlockchain(this.props.listWater)}
+                                    onClick={() => this.props.sendMultiToBlockchain(this.props.listBuying)}
                                 >
                                     Send Multiple To Blockchain
                                 </button>
@@ -56,6 +56,19 @@ class WaterBuyingComponent extends Component<any, any> {
                                 <table className="table">
                                     <thead>
                                         <tr>
+                                            <th className="d-flex align-items-center">
+                                                <fieldset className="form-group">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="filled-in"
+                                                        id="checkboxAll"
+                                                        ref="checkboxAll"
+                                                        onChange={() => this.props.checkedAll(event)}
+                                                    />
+                                                    <label htmlFor="checkboxAll">Checking Available</label>
+                                                </fieldset>
+                                                {/* <div className="cursor-pointer" onClick={() => this.onChecked()}>Check All</div> */}
+                                            </th>
                                             <th>#</th>
                                             <th>Buyer ID</th>
                                             <th>Total ($SWEG)</th>
