@@ -87,7 +87,7 @@ class WaterSellingCheckingComponent extends Component<any, any> {
                                 </div>
                                 <div className="text-right">
                                     {this.props.waterChecking.data && this.props.waterChecking.message === Messages.DATA_VALID &&
-                                        <p className="text-primary">Data valid</p>
+                                        <p className="text-primary">Data is valid</p>
                                     }
                                     {this.props.waterChecking.data && this.props.waterChecking.message === Messages.DATA_INVALID &&
                                         <p className="text-warning">Data has changed</p>

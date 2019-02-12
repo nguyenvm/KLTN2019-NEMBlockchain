@@ -29,6 +29,16 @@ namespace NEMBlockchain.Controllers
             return new OkObjectResult(new ResponseAsObject(resultPagination));
         }
 
+        [HttpGet("not-exist-on-blockchain")]
+        public async Task<IActionResult> GetListUserNotExistOnBlockchain([FromQuery]PaginationInputBase input)
+        {
+            var userDtos = await membershipService.GetListUserNotExistOnBlockchain(input);
+
+            var resultPagination = mapper.Map<PaginationSet<UserContract>>(userDtos);
+
+            return new OkObjectResult(new ResponseAsObject(resultPagination));
+        }
+
         [HttpPost("find")]
         public async Task<IActionResult> FindUserByInformation([FromBody]UserContract userContract)
         {

@@ -98,5 +98,52 @@ namespace NEMBlockchain.Service
                 TotalCount = totalCount
             };
         }
+
+        public async Task<PaginationSet<UserDto>> GetListUserNotExistOnBlockchain(PaginationInputBase input)
+        {
+            var users = from aspUsers in dbMemberShip.AspNetUsers
+                        join userInfo in dbMemberShip.UserInfo on aspUsers.Id equals userInfo.Id
+                        select new UserDto
+                        {
+                            Id = aspUsers.Id,
+                            FullName = aspUsers.UserInfo.FullName,
+                            UserName = aspUsers.UserName,
+                            Email = aspUsers.Email,
+                            Address = aspUsers.UserInfo.Address,
+                            Longitude = aspUsers.UserInfo.Longitude,
+                            Latitude = aspUsers.UserInfo.Latitude
+                        };
+
+            var listUser = users.ToList();
+            List<UserDto> listUserNotExistOnBlockchain = new List<UserDto>();
+            for (int i = 0; i < listUser.Count; i++)
+            {
+                var userBlockchain = await dbBlockchain
+                                   .UserBlockChains
+                                   .FirstOrDefaultAsync(u => u.Id == listUser[i].Id);
+
+                if (userBlockchain == null)
+                {
+                    listUser[i].isExistedOnNem = false;
+                    listUserNotExistOnBlockchain.Add(listUser[i]);
+                }
+            }
+
+
+            int totalCount = listUserNotExistOnBlockchain.Count;
+
+            var items = listUserNotExistOnBlockchain
+               .Skip(input.PageSize * input.PageIndex)
+               .Take(input.PageSize)
+               .ToArray();
+
+            return new PaginationSet<UserDto>()
+            {
+                Items = items,
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
     }
 }

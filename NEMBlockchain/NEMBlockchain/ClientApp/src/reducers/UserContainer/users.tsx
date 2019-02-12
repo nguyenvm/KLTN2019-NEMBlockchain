@@ -1,6 +1,4 @@
 import * as Types from '../../contants/ActionTypes';
-import UserInfo from '../../models/User/UserInfo';
-import PaginationResult from '../../models/PaginationResult';
 
 const initialState = {
     paginationResult: {},

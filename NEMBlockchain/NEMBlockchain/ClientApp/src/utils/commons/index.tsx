@@ -43,7 +43,7 @@ export function checkDataHasChanged(transactionHash: string, hexCompare: string,
 
             if (hexCompare.toUpperCase() === hex.toUpperCase()) {
                 callBackFunction(true, null);
-                console.log('Data Valid');
+                console.log('Data is Valid');
             } else {
                 callBackFunction(false, null);
                 console.log('Data has changed');

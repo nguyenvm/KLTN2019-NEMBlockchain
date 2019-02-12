@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import * as Messages from 'src/contants/Messages';
+import PaginationInput from 'src/models/PaginationInput';
+import * as Constants from 'src/contants/index';
 
 class UserComponent extends Component<any, any> {
 
@@ -15,6 +17,22 @@ class UserComponent extends Component<any, any> {
                             >
                                 Send Multiple To Blockchain
                             </button>
+                            {/* <button
+                                className="btn btn-primary waves-effect waves-light m-0 ml-1"
+                                onClick={() => this.props.sendAllToBlockchain()}
+                            >
+                                Send All User Not Exist On Blockchain
+                            </button> */}
+                            <fieldset className="form-group m-0 ml-1">
+                                <input
+                                    type="checkbox"
+                                    className="filled-in"
+                                    id="checkboxFilter"
+                                    ref="checkboxFilter"
+                                    onChange={() => this.props.onFilter(event)}
+                                />
+                                <label className="m-0" htmlFor="checkboxFilter">Filter User Not Exist On Blockchain</label>
+                            </fieldset>
                             {this.props.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
                                 <div className="text-success ml-2">Data has sent to block</div>
                             }

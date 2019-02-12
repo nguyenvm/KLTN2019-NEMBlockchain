@@ -315,7 +315,7 @@ class WaterSellingContainer extends Component<any, any> {
                     <p className="text-warning">Insert failure</p>
                 }
                 {this.props.waterBlockchain.data && this.props.waterBlockchain.message === Messages.DATA_VALID &&
-                    <p className="text-primary">Data valid</p>
+                    <p className="text-primary">Data is valid</p>
                 }
                 {this.props.waterBlockchain.data && this.props.waterBlockchain.message === Messages.DATA_INVALID &&
                     <p className="text-warning">Data has changed</p>

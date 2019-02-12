@@ -21,7 +21,7 @@ namespace NEMBlockchain.Controllers
         [HttpGet("consumptions-list")]
         public async Task<IActionResult> GetConsumtionList([FromQuery]PaginationInputBase input)
         {
-            if (string.IsNullOrEmpty(input.SearchTerm))
+            if (string.IsNullOrEmpty(input.SearchTerm) && string.IsNullOrEmpty(input.OrderBy))
             {
                 var waterConsumtionDtos = await waterService.GetWaterConsumptionsTotal(input);
 
@@ -29,9 +29,24 @@ namespace NEMBlockchain.Controllers
 
                 return new OkObjectResult(new ResponseAsObject(resultPagination));
             }
-            else
+            else if (!string.IsNullOrEmpty(input.SearchTerm) && string.IsNullOrEmpty(input.OrderBy))
             {
                 var waterConsumtionDtos = await waterService.GetWaterConsumptionsTotalByDate(input);
+
+                var resultPagination = mapper.Map<PaginationSet<WaterConsumtionTotalContract>>(waterConsumtionDtos);
+
+                return new OkObjectResult(new ResponseAsObject(resultPagination));
+            }
+            else if (!string.IsNullOrEmpty(input.SearchTerm) && input.OrderBy == "Filter")
+            {
+                var waterConsumtionDtos = await waterService.GetWaterConsumptionsNotExistOnBlockchainTotalByDate(input);
+
+                var resultPagination = mapper.Map<PaginationSet<WaterConsumtionTotalContract>>(waterConsumtionDtos);
+
+                return new OkObjectResult(new ResponseAsObject(resultPagination));
+            } else
+            {
+                var waterConsumtionDtos = await waterService.GetListWaterNotExistOnBlockchain(input);
 
                 var resultPagination = mapper.Map<PaginationSet<WaterConsumtionTotalContract>>(waterConsumtionDtos);
 

@@ -26,7 +26,8 @@ class UserContainer extends Component<any, any> {
 
         this.state = {
             currentPage: 1,
-            listUser: []
+            listUser: [],
+            isFilter: false
         }
 
         this.childUserComponent = React.createRef();
@@ -55,6 +56,8 @@ class UserContainer extends Component<any, any> {
                     listUser={this.state.listUser}
                     checkedAll={this.checkedAll.bind(this)}
                     ref={this.childUserComponent}
+                    fetchUsersNotExistOnBlockchain={this.props.fetchUsersNotExistOnBlockchain}
+                    onFilter={this.onFilter.bind(this)}
                 >
                     {items && this.showUsers(items)}
                 </UserComponent>
@@ -157,14 +160,55 @@ class UserContainer extends Component<any, any> {
         }
     }
 
-    async onPageChanged(index: number) {
-        const paginationInput = new PaginationInput(
-            index,
-            Constants.DEFAULT_ITEMS_PER_PAGE
-        );
+    // sendAllToBlockchain() {
+        
+    // }
 
-        this.props.resetUserBlockchain();
-        await this.props.fetchAllUsers(paginationInput);
+    async onFilter(e: any) {
+        if (e.target.checked) {
+            await this.setState({ isFilter: true, currentPage: 1, listUser: [] });
+
+            const paginationInput = new PaginationInput(
+                1,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            await this.props.resetUserBlockchain();
+            await this.props.fetchUsersNotExistOnBlockchain(paginationInput);
+        } else {
+            await this.setState({ isFilter: false, currentPage: 1, listUser: [] });
+
+            const paginationInput = new PaginationInput(
+                1,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            await this.props.resetUserBlockchain();
+            await this.props.fetchAllUsers(paginationInput);
+        }
+    }
+
+    async onPageChanged(index: number) {
+        await this.setState({ currentPage: index, listUser: [] });
+
+        if (!this.state.isFilter) {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            this.props.resetUserBlockchain();
+            await this.props.fetchAllUsers(paginationInput);
+
+        } else {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            this.props.resetUserBlockchain();
+            await this.props.fetchUsersNotExistOnBlockchain(paginationInput);
+        }
 
         if (this.childUserComponent) {
             this.childUserComponent.current.refs.checkboxAll.checked = false;
@@ -175,8 +219,6 @@ class UserContainer extends Component<any, any> {
                 await this.childUserItems[i].unChecked(i, true);
             }
         }
-
-        await this.setState({ currentPage: index, listUser: [] });
     }
 
     async checkedAll(e: any) {
@@ -311,7 +353,7 @@ class UserContainer extends Component<any, any> {
                     <p className="text-warning">Insert failure</p>
                 }
                 {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_VALID &&
-                    <p className="text-primary">Data valid</p>
+                    <p className="text-primary">Data is valid</p>
                 }
                 {this.props.userBlockchain.data && this.props.userBlockchain.message === Messages.DATA_INVALID &&
                     <p className="text-warning">Data has changed</p>
@@ -341,20 +383,39 @@ class UserContainer extends Component<any, any> {
 
         await this.props.addUserBlockchain(userBlockchain);
 
-        const paginationInput = new PaginationInput(
-            this.state.currentPage,
-            Constants.DEFAULT_ITEMS_PER_PAGE
-        );
+        if (!this.state.isFilter) {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
 
-        await this.props.fetchAllUsers(paginationInput);
+            await this.props.fetchAllUsers(paginationInput);
 
-        let index = await this.findUserInItems(this.childUserItems, userInfo);
-        await this.childUserItems[index].unChecked(index, true);
+            let index = await this.findUserInItems(this.childUserItems, userInfo);
+            await this.childUserItems[index].unChecked(index, true);
 
-        this.onChangedListUser(userInfo, false);
+            await this.onChangedListUser(userInfo, false);
 
-        if (this.childUserComponent) {
-            this.childUserComponent.current.refs.checkboxAll.checked = false;
+            if (this.childUserComponent) {
+                this.childUserComponent.current.refs.checkboxAll.checked = false;
+            }
+        } else {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE
+            );
+
+            await this.onChangedListUser(userInfo, false);
+
+            for (let index = 0; index < this.props.users.paginationResult.items.length; index++) {
+                await this.childUserItems[index].unChecked(index, true);
+            }
+
+            if (this.childUserComponent) {
+                this.childUserComponent.current.refs.checkboxAll.checked = false;
+            }
+
+            await this.props.fetchUsersNotExistOnBlockchain(paginationInput);
         }
     }
 
@@ -390,7 +451,8 @@ const mapDispatchToProps = (dispatch: any, props: any) => {
         addUserBlockchain: Actions.actAddUserBlockchainRequest,
         findUserBlockchainById: Actions.actFindUserBlockchainByIdRequest,
         checkValidOfData: Actions.actCheckValidOfUserData,
-        resetUserBlockchain: Actions.actResetUserBlockchain
+        resetUserBlockchain: Actions.actResetUserBlockchain,
+        fetchUsersNotExistOnBlockchain: Actions.actFetchUsersNotExistOnBlockchainRequest
     }, dispatch);
 }
 

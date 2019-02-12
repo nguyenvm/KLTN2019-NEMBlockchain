@@ -51,6 +51,26 @@ export const actFetchUsersRequest = (paginationInput: PaginationInput) => {
     }
 }
 
+export const actFetchUsersNotExistOnBlockchainRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/user/not-exist-on-blockchain?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<UserInfo>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchUsersSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchUsersFailure(err));
+            });
+    }
+}
+
 export const actAddUserBlockchain = (message: string) => {
     return {
         type: Types.ADD_USER_BLOCK_CHAIN,
@@ -140,9 +160,49 @@ export const actFetchWaterConsumptionRequest = (paginationInput: PaginationInput
     }
 }
 
+export const actFetchWaterConsumptionNotExistOnBlockchainRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/consumptions-list?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&OrderBy=${paginationInput.orderBy}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterConsumptionTotal>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+                
+                dispatch(actFetchWaterConsumptionSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterConsumptionFailure(err));
+            });
+    }
+}
+
 export const actFetchWaterConsumptionByDateRequest = (paginationInput: PaginationInput) => {
     return (dispatch: any) => {
         return callApi(`api/water/consumptions-list?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterConsumptionTotal>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterConsumptionSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterConsumptionFailure(err));
+            });
+    }
+}
+
+export const actFetchWaterConsumptionNotExistOnBlockchainFilterByDateRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/consumptions-list?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}&OrderBy=${paginationInput.orderBy}`, 'GET', null)
             .then((res: any) => {
                 const paginationResult = new PaginationResult<WaterConsumptionTotal>(
                     res.data.data.totalCount,
