@@ -189,7 +189,7 @@ class WaterContainer extends Component<any, any> {
             }
 
         } else {
-            await this.setState({ isFilter: false, currentPage: 1, listUser: [] });
+            await this.setState({ isFilter: false, currentPage: 1, listWater: [] });
 
             if (!this.state.isFilter && this.state.isSearch) {
                 const paginationInput = new PaginationInput(

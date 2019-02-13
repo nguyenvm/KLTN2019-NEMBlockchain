@@ -27,6 +27,16 @@ class WaterBuyingComponent extends Component<any, any> {
                                 >
                                     Send Multiple To Blockchain
                                 </button>
+                                <fieldset className="form-group m-0 ml-1">
+                                    <input
+                                        type="checkbox"
+                                        className="filled-in"
+                                        id="checkboxFilter"
+                                        ref="checkboxFilter"
+                                        onChange={() => this.props.onFilter(event)}
+                                    />
+                                    <label className="m-0" htmlFor="checkboxFilter">Filter Water Buying Not Exist On Blockchain</label>
+                                </fieldset>
                                 {this.props.message === Messages.INSERT_TRANSACTION_HASH_SUCCESS &&
                                     <div className="text-success ml-2">Data has sent to block</div>
                                 }
@@ -119,14 +129,6 @@ class WaterBuyingComponent extends Component<any, any> {
         await this.setState({ txtDate: valueDate });
 
         this.props.onSearch(this.state.txtDate);
-
-        const paginationInput = new PaginationInput(
-            Constants.DEFAULT_PAGE_INDEX,
-            Constants.DEFAULT_ITEMS_PER_PAGE,
-            valueDate
-        );
-
-        await this.props.fetchWaterBuyingByDate(paginationInput);
     }
 
 }

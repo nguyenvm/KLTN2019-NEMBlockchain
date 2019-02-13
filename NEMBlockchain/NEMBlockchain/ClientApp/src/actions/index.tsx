@@ -336,9 +336,49 @@ export const actFetchWaterSellingRequest = (paginationInput: PaginationInput) =>
     }
 }
 
+export const actFetchWaterSellingNotExistOnBlockchainRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/selling?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&OrderBy=${paginationInput.orderBy}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterSelling>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterSellingSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterSellingFailure(err));
+            });
+    }
+}
+
 export const actFetchWaterSellingByDateRequest = (paginationInput: PaginationInput) => {
     return (dispatch: any) => {
         return callApi(`api/water/selling?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterSelling>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterSellingSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterSellingFailure(err));
+            });
+    }
+}
+
+export const actFetchWaterSellingNotExistOnBlockchainFilterByDateRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/selling?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}&OrderBy=${paginationInput.orderBy}`, 'GET', null)
             .then((res: any) => {
                 const paginationResult = new PaginationResult<WaterSelling>(
                     res.data.data.totalCount,
@@ -445,9 +485,49 @@ export const actFetchWaterBuyingRequest = (paginationInput: PaginationInput) => 
     }
 }
 
+export const actFetchWaterBuyingNotExistOnBlockchainRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/buying?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&OrderBy=${paginationInput.orderBy}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterBuying>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterBuyingSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterBuyingFailure(err));
+            });
+    }
+}
+
 export const actFetchWaterBuyingByDateRequest = (paginationInput: PaginationInput) => {
     return (dispatch: any) => {
         return callApi(`api/water/buying?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}`, 'GET', null)
+            .then((res: any) => {
+                const paginationResult = new PaginationResult<WaterBuying>(
+                    res.data.data.totalCount,
+                    res.data.data.items,
+                    res.data.data.pageIndex,
+                    res.data.data.pageSize
+                );
+
+                dispatch(actFetchWaterBuyingSuccess(paginationResult));
+            })
+            .catch((err: any) => {
+                console.log(err);
+                dispatch(actFetchWaterBuyingFailure(err));
+            });
+    }
+}
+
+export const actFetchWaterBuyingNotExistOnBlockchainFilterByDateRequest = (paginationInput: PaginationInput) => {
+    return (dispatch: any) => {
+        return callApi(`api/water/buying?PageSize=${paginationInput.pageSize}&PageIndex=${paginationInput.pageIndex - 1}&SearchTerm=${paginationInput.searchTerm}&OrderBy=${paginationInput.orderBy}`, 'GET', null)
             .then((res: any) => {
                 const paginationResult = new PaginationResult<WaterBuying>(
                     res.data.data.totalCount,

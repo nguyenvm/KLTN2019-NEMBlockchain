@@ -13,8 +13,12 @@ namespace NEMBlockchain.Service
         Task<PaginationSet<WaterConsumtionTotalDto>> GetWaterConsumptionsNotExistOnBlockchainTotalByDate(PaginationInputBase input);
         Task<WaterConsumptionDetailDto[]> GetWaterConsumptionDetail(string userId, string logTime);
         Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingList(PaginationInputBase input);
+        Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListNotExistOnBlockchain(PaginationInputBase input);
         Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListByDate(PaginationInputBase input);
+        Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListNotExistOnBlockchainByDate(PaginationInputBase input);
         Task<PaginationSet<WaterSellingDto>> GetWaterSellingList(PaginationInputBase input);
+        Task<PaginationSet<WaterSellingDto>> GetWaterSellingListNotExistOnBlockchain(PaginationInputBase input);
         Task<PaginationSet<WaterSellingDto>> GetWaterSellingListByDate(PaginationInputBase input);
+        Task<PaginationSet<WaterSellingDto>> GetWaterSellingListNotExistOnBlockchainByDate(PaginationInputBase input);
     }
 }

@@ -261,6 +261,46 @@ namespace NEMBlockchain.Service
             };
         }
 
+        public async Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListNotExistOnBlockchain(PaginationInputBase input)
+        {
+            var waterBuyingList = dbWater
+                .WaterBuyingViewModels
+                .FromSql("Pro_GetWaterBuyingList");
+
+            var listWaterBuying = mapper.Map<List<WaterBuyingDto>>(waterBuyingList.ToList());
+
+            List<WaterBuyingDto> listWaterNotExistOnBlockchain = new List<WaterBuyingDto>();
+
+            for (int i = 0; i < listWaterBuying.Count; i++)
+            {
+                var waterBuyingBlockchain = await dbBlockchain
+                                                .WaterBuyingBlockChains
+                                                .FirstOrDefaultAsync(w => w.Id == listWaterBuying[i].BuyerId && w.BuyTime == DateTime.Parse(listWaterBuying[i].BuyTime));
+
+                if (waterBuyingBlockchain == null)
+                {
+                    listWaterBuying[i].isExistedOnNem = false;
+                    listWaterNotExistOnBlockchain.Add(listWaterBuying[i]);
+                }
+            }
+
+
+            int totalCount = listWaterNotExistOnBlockchain.Count;
+
+            var items = listWaterNotExistOnBlockchain
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArray();
+
+            return new PaginationSet<WaterBuyingDto>
+            {
+                Items = items,
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
         public async Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListByDate(PaginationInputBase input)
         {
             string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
@@ -298,6 +338,49 @@ namespace NEMBlockchain.Service
             //    .ToArrayAsync();
 
             var items = listWaterBuying
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArray();
+
+            return new PaginationSet<WaterBuyingDto>
+            {
+                Items = items,
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PaginationSet<WaterBuyingDto>> GetWaterBuyingListNotExistOnBlockchainByDate(PaginationInputBase input)
+        {
+            string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
+
+            var param = new SqlParameter("@BuyTime", searchTerm);
+
+            var waterBuyingList = dbWater
+                .WaterBuyingViewModels
+                .FromSql("Pro_GetWaterBuyingListByDate @BuyTime", param);
+
+            var listWaterBuying = mapper.Map<List<WaterBuyingDto>>(waterBuyingList.ToList());
+
+            List<WaterBuyingDto> listWaterNotExistOnBlockchain = new List<WaterBuyingDto>();
+
+            for (int i = 0; i < listWaterBuying.Count; i++)
+            {
+                var waterBuyingBlockchain = await dbBlockchain
+                                                .WaterBuyingBlockChains
+                                                .FirstOrDefaultAsync(w => w.Id == listWaterBuying[i].BuyerId && w.BuyTime == DateTime.Parse(listWaterBuying[i].BuyTime));
+
+                if (waterBuyingBlockchain == null)
+                {
+                    listWaterBuying[i].isExistedOnNem = false;
+                    listWaterNotExistOnBlockchain.Add(listWaterBuying[i]);
+                }
+            }
+
+            int totalCount = listWaterNotExistOnBlockchain.Count;
+
+            var items = listWaterNotExistOnBlockchain
                 .Skip(input.PageSize * input.PageIndex)
                 .Take(input.PageSize)
                 .ToArray();
@@ -357,6 +440,45 @@ namespace NEMBlockchain.Service
             };
         }
 
+        public async Task<PaginationSet<WaterSellingDto>> GetWaterSellingListNotExistOnBlockchain(PaginationInputBase input)
+        {
+            var waterSellingList = dbWater
+                .WaterSellingViewModels
+                .FromSql("Pro_GetWaterSellingList");
+
+            var listWaterSelling = mapper.Map<List<WaterSellingDto>>(waterSellingList.ToList());
+
+            List<WaterSellingDto> listWaterNotExistOnBlockchain = new List<WaterSellingDto>();
+
+            for (int i = 0; i < listWaterSelling.Count; i++)
+            {
+                var waterSellingBlockchain = await dbBlockchain
+                                                .WaterSellingBlockChains
+                                                .FirstOrDefaultAsync(w => w.Id == listWaterSelling[i].SellerId && w.SellTime == DateTime.Parse(listWaterSelling[i].SellTime));
+
+                if (waterSellingBlockchain == null)
+                {
+                    listWaterSelling[i].isExistedOnNem = false;
+                    listWaterNotExistOnBlockchain.Add(listWaterSelling[i]);
+                }
+            }
+
+            int totalCount = listWaterNotExistOnBlockchain.Count;
+
+            var items = listWaterNotExistOnBlockchain
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArray();
+
+            return new PaginationSet<WaterSellingDto>
+            {
+                Items = items,
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
         public async Task<PaginationSet<WaterSellingDto>> GetWaterSellingListByDate(PaginationInputBase input)
         {
             string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
@@ -394,6 +516,49 @@ namespace NEMBlockchain.Service
             //    .ToArrayAsync();
 
             var items = listWaterSelling
+                .Skip(input.PageSize * input.PageIndex)
+                .Take(input.PageSize)
+                .ToArray();
+
+            return new PaginationSet<WaterSellingDto>
+            {
+                Items = items,
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PaginationSet<WaterSellingDto>> GetWaterSellingListNotExistOnBlockchainByDate(PaginationInputBase input)
+        {
+            string searchTerm = string.IsNullOrEmpty(input.SearchTerm) ? "" : input.SearchTerm;
+
+            var param = new SqlParameter("@SellTime", searchTerm);
+
+            var waterSellingList = dbWater
+                .WaterSellingViewModels
+                .FromSql("Pro_GetWaterSellingListByDate @SellTime", param);
+
+            var listWaterSelling = mapper.Map<List<WaterSellingDto>>(waterSellingList.ToList());
+
+            List<WaterSellingDto> listWaterNotExistOnBlockchain = new List<WaterSellingDto>();
+
+            for (int i = 0; i < listWaterSelling.Count; i++)
+            {
+                var waterSellingBlockchain = await dbBlockchain
+                                                .WaterSellingBlockChains
+                                                .FirstOrDefaultAsync(w => w.Id == listWaterSelling[i].SellerId && w.SellTime == DateTime.Parse(listWaterSelling[i].SellTime));
+
+                if (waterSellingBlockchain == null)
+                {
+                    listWaterSelling[i].isExistedOnNem = false;
+                    listWaterNotExistOnBlockchain.Add(listWaterSelling[i]);
+                }
+            }
+
+            int totalCount = listWaterNotExistOnBlockchain.Count;
+
+            var items = listWaterNotExistOnBlockchain
                 .Skip(input.PageSize * input.PageIndex)
                 .Take(input.PageSize)
                 .ToArray();

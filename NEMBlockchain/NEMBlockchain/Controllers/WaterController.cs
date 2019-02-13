@@ -65,37 +65,59 @@ namespace NEMBlockchain.Controllers
         [HttpGet("buying")]
         public async Task<IActionResult> GetWaterBuyingList([FromQuery]PaginationInputBase input)
         {
-            if (string.IsNullOrEmpty(input.SearchTerm))
+            if (string.IsNullOrEmpty(input.SearchTerm) && string.IsNullOrEmpty(input.OrderBy))
             {
                 var waterBuyingDtos = await waterService.GetWaterBuyingList(input);
 
                 return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterBuyingContract>>(waterBuyingDtos)));
             }
-            else
+            else if (!string.IsNullOrEmpty(input.SearchTerm) && string.IsNullOrEmpty(input.OrderBy))
             {
                 var waterBuyingDtos = await waterService.GetWaterBuyingListByDate(input);
 
                 return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterBuyingContract>>(waterBuyingDtos)));
             }
+            else if (!string.IsNullOrEmpty(input.SearchTerm) && input.OrderBy == "Filter")
+            {
+                var waterBuyingDtos = await waterService.GetWaterBuyingListNotExistOnBlockchainByDate(input);
 
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterBuyingContract>>(waterBuyingDtos)));
+            }
+            else
+            {
+                var waterBuyingDtos = await waterService.GetWaterBuyingListNotExistOnBlockchain(input);
+
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterBuyingContract>>(waterBuyingDtos)));
+            }
         }
 
         [HttpGet("selling")]
         public async Task<IActionResult> GetWaterSellingList([FromQuery]PaginationInputBase input)
         {
-            if (string.IsNullOrEmpty(input.SearchTerm))
+            if (string.IsNullOrEmpty(input.SearchTerm) && string.IsNullOrEmpty(input.OrderBy))
             {
                 var waterSellingDtos = await waterService.GetWaterSellingList(input);
 
                 return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterSellingContract>>(waterSellingDtos)));
             }
-            else
+            else if (!string.IsNullOrEmpty(input.SearchTerm) && string.IsNullOrEmpty(input.OrderBy))
             {
                 var waterSellingDtos = await waterService.GetWaterSellingListByDate(input);
 
                 return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterSellingContract>>(waterSellingDtos)));
             }
+            else if (!string.IsNullOrEmpty(input.SearchTerm) && input.OrderBy == "Filter")
+            {
+                var waterSellingDtos = await waterService.GetWaterSellingListNotExistOnBlockchainByDate(input);
 
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterSellingContract>>(waterSellingDtos)));
+            }
+            else
+            {
+                var waterSellingDtos = await waterService.GetWaterSellingListNotExistOnBlockchain(input);
+
+                return new OkObjectResult(new ResponseAsObject(mapper.Map<PaginationSet<WaterSellingContract>>(waterSellingDtos)));
+            }
         }
     }
 }

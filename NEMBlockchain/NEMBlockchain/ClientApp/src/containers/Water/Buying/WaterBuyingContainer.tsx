@@ -28,7 +28,8 @@ class WaterBuyingContainer extends Component<any, any> {
             currentPage: 1,
             isSearch: false,
             date: '',
-            listBuying: []
+            listBuying: [],
+            isFilter: false
         }
 
         this.childWaterBuyingComponent = React.createRef();
@@ -58,6 +59,7 @@ class WaterBuyingContainer extends Component<any, any> {
                     listBuying={this.state.listBuying}
                     checkedAll={this.checkedAll.bind(this)}
                     ref={this.childWaterBuyingComponent}
+                    onFilter={this.onFilter.bind(this)}
                 >
                     {items && this.showWaterBuying(items)}
                 </WaterBuyingComponent>
@@ -157,25 +159,102 @@ class WaterBuyingContainer extends Component<any, any> {
         }
     }
 
+    async onFilter(e: any) {
+        if (e.target.checked) {
+            await this.setState({ isFilter: true, currentPage: 1, listBuying: [] });
+
+            if (this.state.isFilter && this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    this.state.date,
+                    'Filter'
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuyingNotExistOnBlockchainFilterByDate(paginationInput);
+            } else if (this.state.isFilter && !this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    '',
+                    'Filter'
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuyingNotExistOnBlockchain(paginationInput);
+            }
+
+        } else {
+            await this.setState({ isFilter: false, currentPage: 1, listBuying: [] });
+
+            if (!this.state.isFilter && this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    this.state.date,
+                    ''
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuyingByDate(paginationInput);
+
+            } else if (!this.state.isFilter && !this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    '',
+                    ''
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuying(paginationInput);
+            }
+        }
+    }
+
     async onPageChanged(index: number, date: string) {
 
-        this.setState({ currentPage: index, date: date, listBuying: [] });
+        await this.setState({ currentPage: index, date: date, listBuying: [] });
 
-        if (!this.state.isSearch) {
+        if (!this.state.isSearch && !this.state.isFilter) {
             const paginationInput = new PaginationInput(
                 index,
                 Constants.DEFAULT_ITEMS_PER_PAGE
             );
 
+            await this.props.resetWaterBuyingBlockchain();
             await this.props.fetchWaterBuying(paginationInput);
-        } else {
+
+        } else if (this.state.isSearch && !this.state.isFilter) {
             const paginationInput = new PaginationInput(
                 index,
                 Constants.DEFAULT_ITEMS_PER_PAGE,
                 date
             );
 
+            await this.props.resetWaterBuyingBlockchain();
             await this.props.fetchWaterBuyingByDate(paginationInput);
+        } else if (this.state.isSearch && this.state.isFilter) {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                date,
+                'Filter'
+            );
+
+            await this.props.resetWaterBuyingBlockchain();
+            await this.props.fetchWaterBuyingNotExistOnBlockchainFilterByDate(paginationInput);
+        } else {
+            const paginationInput = new PaginationInput(
+                index,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                '',
+                'Filter'
+            );
+
+            await this.props.resetWaterBuyingBlockchain();
+            await this.props.fetchWaterBuyingNotExistOnBlockchain(paginationInput);
         }
 
         if (this.childWaterBuyingComponent) {
@@ -224,11 +303,57 @@ class WaterBuyingContainer extends Component<any, any> {
         }
     }
 
-    onSearch(date: string) {
+    async onSearch(date: string) {
         if (date) {
-            this.setState({ isSearch: true, currentPage: 1, date: date });
+            await this.setState({ isSearch: true, currentPage: 1, date: date });
+
+            if (this.state.isFilter && this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    this.state.date,
+                    'Filter'
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuyingNotExistOnBlockchainFilterByDate(paginationInput);
+            } else if (!this.state.isFilter && this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    this.state.date,
+                    ''
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuyingByDate(paginationInput);
+            }
+
         } else {
-            this.setState({ isSearch: false, currentPage: 1, date: '' });
+            await this.setState({ isSearch: false, currentPage: 1, date: '' });
+
+            if (this.state.isFilter && !this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    '',
+                    'Filter'
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuyingNotExistOnBlockchain(paginationInput);
+
+            } else if (!this.state.isFilter && !this.state.isSearch) {
+                const paginationInput = new PaginationInput(
+                    1,
+                    Constants.DEFAULT_ITEMS_PER_PAGE,
+                    '',
+                    ''
+                );
+
+                await this.props.resetWaterBuyingBlockchain();
+                await this.props.fetchWaterBuying(paginationInput);
+            }
         }
     }
 
@@ -345,14 +470,24 @@ class WaterBuyingContainer extends Component<any, any> {
 
         await this.props.addWaterBuyingBlockchain(waterBuyingBlockchain);
 
-        if (!this.state.isSearch) {
+        if (!this.state.isSearch && !this.state.isFilter) {
             const paginationInput = new PaginationInput(
                 this.state.currentPage,
                 Constants.DEFAULT_ITEMS_PER_PAGE
             );
 
             await this.props.fetchWaterBuying(paginationInput);
-        } else {
+
+            let index = await this.findWaterInItems(this.childWaterBuyingItems, waterBuying);
+            await this.childWaterBuyingItems[index].unChecked(index, true);
+
+            this.onChangedListBuying(waterBuying, false);
+
+            if (this.childWaterBuyingComponent) {
+                this.childWaterBuyingComponent.current.refs.checkboxAll.checked = false;
+            }
+
+        } else if (this.state.isSearch && !this.state.isFilter) {
             const paginationInput = new PaginationInput(
                 this.state.currentPage,
                 Constants.DEFAULT_ITEMS_PER_PAGE,
@@ -360,15 +495,55 @@ class WaterBuyingContainer extends Component<any, any> {
             );
 
             await this.props.fetchWaterBuyingByDate(paginationInput);
-        }
 
-        let index = await this.findWaterInItems(this.childWaterBuyingItems, waterBuying);
-        await this.childWaterBuyingItems[index].unChecked(index, true);
+            let index = await this.findWaterInItems(this.childWaterBuyingItems, waterBuying);
+            await this.childWaterBuyingItems[index].unChecked(index, true);
 
-        this.onChangedListBuying(waterBuying, false);
+            this.onChangedListBuying(waterBuying, false);
 
-        if (this.childWaterBuyingComponent) {
-            this.childWaterBuyingComponent.current.refs.checkboxAll.checked = false;
+            if (this.childWaterBuyingComponent) {
+                this.childWaterBuyingComponent.current.refs.checkboxAll.checked = false;
+            }
+
+        } else if (this.state.isSearch && this.state.isFilter) {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                this.state.date,
+                'Filter'
+            );
+
+            for (let index = 0; index < this.props.water.paginationResult.items.length; index++) {
+                await this.childWaterBuyingItems[index].unChecked(index, true);
+            }
+
+            this.onChangedListBuying(waterBuying, false);
+
+            if (this.childWaterBuyingComponent) {
+                this.childWaterBuyingComponent.current.refs.checkboxAll.checked = false;
+            }
+
+            await this.props.fetchWaterBuyingNotExistOnBlockchainFilterByDate(paginationInput);
+
+        } else {
+            const paginationInput = new PaginationInput(
+                this.state.currentPage,
+                Constants.DEFAULT_ITEMS_PER_PAGE,
+                '',
+                'Filter'
+            );
+
+            for (let index = 0; index < this.props.water.paginationResult.items.length; index++) {
+                await this.childWaterBuyingItems[index].unChecked(index, true);
+            }
+            
+            this.onChangedListBuying(waterBuying, false);
+
+            if (this.childWaterBuyingComponent) {
+                this.childWaterBuyingComponent.current.refs.checkboxAll.checked = false;
+            }
+
+            await this.props.fetchWaterBuyingNotExistOnBlockchain(paginationInput);
         }
     }
 
@@ -399,6 +574,8 @@ const mapDispatchToProps = (dispatch: any, props: any) => {
     return bindActionCreators({
         fetchWaterBuying: Actions.actFetchWaterBuyingRequest,
         fetchWaterBuyingByDate: Actions.actFetchWaterBuyingByDateRequest,
+        fetchWaterBuyingNotExistOnBlockchain: Actions.actFetchWaterBuyingNotExistOnBlockchainRequest,
+        fetchWaterBuyingNotExistOnBlockchainFilterByDate: Actions.actFetchWaterBuyingNotExistOnBlockchainFilterByDateRequest,
         openModal: Actions.actShowModal,
         closeModal: Actions.actHideModal,
         setDataModal: Actions.actSetDataModal,
