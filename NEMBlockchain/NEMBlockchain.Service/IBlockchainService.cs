@@ -1,4 +1,5 @@
-﻿using NEMBlockchain.Service.Dtos;
+﻿using NEMBlockchain.Data.AutoFlowDB_Blockchain_DataContext;
+using NEMBlockchain.Service.Dtos;
 using System;
 using System.Threading.Tasks;
 

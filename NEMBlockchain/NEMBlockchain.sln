@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEMBlockchain.Service", "NE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEMBlockchain.Common", "NEMBlockchain.Common\NEMBlockchain.Common.csproj", "{9DB82CC5-FF84-4481-A200-262E1B2F7E12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEMBlockchain.Contract", "NEMBlockchain.Contract\NEMBlockchain.Contract.csproj", "{891C610A-2708-407D-A421-412627EE7110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEMBlockchain.Contract", "NEMBlockchain.Contract\NEMBlockchain.Contract.csproj", "{891C610A-2708-407D-A421-412627EE7110}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEMBlockchain.UnitTest", "NEMBlockchain.UnitTest\NEMBlockchain.UnitTest.csproj", "{82D9EB27-27F7-4947-B613-B9956ADC728E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEMBlockchain.MSTest", "NEMBlockchain.MSTest\NEMBlockchain.MSTest.csproj", "{2B5EABE8-263B-4400-9BF1-AEFAF3EDBDFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{891C610A-2708-407D-A421-412627EE7110}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{891C610A-2708-407D-A421-412627EE7110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{891C610A-2708-407D-A421-412627EE7110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82D9EB27-27F7-4947-B613-B9956ADC728E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82D9EB27-27F7-4947-B613-B9956ADC728E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82D9EB27-27F7-4947-B613-B9956ADC728E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82D9EB27-27F7-4947-B613-B9956ADC728E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B5EABE8-263B-4400-9BF1-AEFAF3EDBDFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5EABE8-263B-4400-9BF1-AEFAF3EDBDFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5EABE8-263B-4400-9BF1-AEFAF3EDBDFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5EABE8-263B-4400-9BF1-AEFAF3EDBDFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.pdb
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\nunit.engine.netstandard.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\Mono.Cecil.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.deps.json
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.runtimeconfig.json
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.runtimeconfig.dev.json
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\obj\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.csprojAssemblyReference.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\obj\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.csproj.CoreCompileInputs.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\obj\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.AssemblyInfoInputs.cache
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\obj\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.AssemblyInfo.cs
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\bin\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.pdb
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\obj\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.dll
+D:\Bin.UIT\GitHub\KLTN2019-NEMBlockchain\NEMBlockchain\NEMBlockchain.UnitTest\obj\Debug\netcoreapp2.1\NEMBlockchain.UnitTest.pdb

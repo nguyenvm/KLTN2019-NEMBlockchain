@@ -59,6 +59,7 @@ namespace NEMBlockchain.Service
 
             return mapper.Map<UserBlockchainDto>(userBlockchain);
         }
+
         public async Task<WaterBlockchainDto> InsertWaterBlockchain(WaterBlockchainDto waterBlockchainDto)
         {
             using (var transaction = dbBlockchain.Database.BeginTransaction())
